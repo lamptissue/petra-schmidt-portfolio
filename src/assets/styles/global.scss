@@ -1,0 +1,95 @@
+@import "./reset.scss";
+@import url("https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+* {
+	box-sizing: border-box;
+}
+
+:root {
+	--menu-main: #f3f1e9;
+}
+
+body {
+	font-family: "poppins";
+}
+
+h1,
+.text-h1 {
+	font-size: 72px;
+}
+h2,
+.text-h2 {
+	font-size: 56px;
+}
+h3,
+.text-h3 {
+	font-size: 48px;
+}
+h4 {
+	font-size: 40px;
+}
+h5 {
+	font-size: 32px;
+}
+h6 {
+	font-size: 24px;
+}
+
+p {
+	font-family: "PT Serif", serif;
+	font-weight: 300;
+	font-style: normal;
+	font-size: 18px;
+}
+
+main {
+	display: flex;
+	flex: none;
+	overflow: auto;
+	width: 100vw;
+	height: 100vh;
+	flex-flow: column nowrap;
+	overflow-x: hidden;
+	scroll-snap-type: y mandatory;
+}
+
+main > section {
+	text-align: center;
+	scroll-snap-align: start;
+	flex: none;
+	height: 100%;
+	width: 100%;
+}
+
+// main > section:nth-child(even) {
+// 	background-color: #87ea87;
+// }
+// main > section:nth-child(odd) {
+// 	background-color: #87ccea;
+// }
+
+.projectModal {
+	width: 50%;
+	height: 50%;
+	background-color: yellow;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.left-arrow,
+.right-arrow {
+	position: relative;
+	z-index: 100;
+}
+
+.left-arrow {
+	top: 0;
+	left: 0;
+}
+
+.left-arrow {
+	top: 0;
+	right: 0;
+}
