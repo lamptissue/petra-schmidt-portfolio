@@ -4,9 +4,10 @@
 	position: relative;
 
 	h1 {
-		text-align: center;
-		padding-top: 50px;
-		position: relative;
+		margin-top: 50px;
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%);
 		cursor: pointer;
 		&:hover {
 			color: red;
