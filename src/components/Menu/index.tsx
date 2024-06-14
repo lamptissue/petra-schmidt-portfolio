@@ -55,7 +55,7 @@ export default function Menu({
 		}
 	};
 
-	const test = blok.map((item) => ({
+	const test = blok.map((item: any) => ({
 		image: item.backgroundImage.filename,
 		project: item.projectTitle,
 	}));
@@ -72,7 +72,7 @@ export default function Menu({
 	const sortedGroupedProjects = Object.entries(groupedProjects).reverse() as [string, Project[]][];
 
 	const handleTest = (projectId: string) => {
-		const match = test.find((testItem) => testItem.project === projectId);
+		const match = test.find((testItem: any) => testItem.project === projectId);
 		if (match) {
 			setPoop(match.image);
 		}
