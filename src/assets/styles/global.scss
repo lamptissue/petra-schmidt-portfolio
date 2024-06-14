@@ -80,7 +80,7 @@ main > section {
 
 .left-arrow,
 .right-arrow {
-	position: relative;
+	position: absolute;
 	z-index: 100;
 }
 
@@ -89,7 +89,7 @@ main > section {
 	left: 0;
 }
 
-.left-arrow {
+.right-arrow {
 	top: 0;
 	right: 0;
 }

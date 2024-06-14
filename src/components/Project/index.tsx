@@ -1,49 +1,55 @@
-import { storyblokEditable, StoryblokComponent } from "@storyblok/react";
+import { StoryblokComponent } from "@storyblok/react";
 import { useRef, useState } from "react";
 import "./styles.scss";
 
-export default function Project({ blok }: { blok: any }) {
+export default function Project({ blok, setIsHeaderVisible }: { blok: any; setIsHeaderVisible: any }) {
 	const projectContainer = useRef<HTMLDivElement>(null);
 	const [currentSlide, setCurrentSlide] = useState(1);
-	const header = document.getElementById("header");
 
 	const handleOpenModal = () => {
 		projectContainer.current?.classList.add("project-modal__container--open");
 		document.body.style.overflowY = "hidden";
-		header!.style.display = "none";
+		setIsHeaderVisible(false);
 	};
 
 	const handleCloseModal = () => {
 		projectContainer.current?.classList.remove("project-modal__container--open");
 		document.body.style.overflowY = "auto";
-		header!.style.display = "block";
+		setIsHeaderVisible(true);
 	};
 
 	const handleNextSlide = () => {
-		if (blok.modalDetail && currentSlide < blok.modalDetail.length - 1) {
+		if (currentSlide > blok.modalDetail.length - 1) {
+			setCurrentSlide(1);
+		} else {
 			setCurrentSlide(currentSlide + 1);
 		}
 	};
 
 	const handlePreviousSlide = () => {
-		if (currentSlide > 0) {
+		if (currentSlide > 1) {
 			setCurrentSlide(currentSlide - 1);
+		} else {
+			setCurrentSlide(blok.modalDetail.length);
 		}
 	};
 
 	return (
-		<section className='project__container' {...storyblokEditable(blok)}>
-			<img loading='lazy' src={blok.backgroundImage.filename} className='project__image' />
-			<h1 className='text-h2' onClick={handleOpenModal}>
+		<section className='project__container'>
+			<img
+				loading='lazy'
+				src={`${blok.backgroundImage.filename}/m/filters:quality(50)`}
+				className='project__image'
+				alt=''
+			/>
+			<h1 className='text-h2' onClick={handleOpenModal} id={blok.projectTitle}>
 				{blok.projectTitle}
 			</h1>
 
 			<div className='project-modal__container' ref={projectContainer}>
 				<div className='project-modal__background'></div>
-
 				<div className='project-modal__sidebar'>
 					<span>{blok.projectTitle}</span>
-
 					<span>{blok.title}</span>
 					{blok.modalDetail && (
 						<span>
@@ -59,13 +65,9 @@ export default function Project({ blok }: { blok: any }) {
 				</div>
 				<div className='project-modal__main-content'>
 					{blok.modalDetail && blok.modalDetail.length > 0 && (
-						<StoryblokComponent blok={blok.modalDetail[currentSlide]} />
+						<StoryblokComponent blok={blok.modalDetail[currentSlide - 1]} />
 					)}
-					{/* {blok.modalDetail
-						? blok.modalDetail.map((blok: any) => <StoryblokComponent blok={blok} key={blok._uid} />)
-						: null} */}
 				</div>
-
 				<a className='project-modal__cross' onClick={handleCloseModal}></a>
 			</div>
 		</section>

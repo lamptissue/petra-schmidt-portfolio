@@ -1,6 +1,12 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import "./styles.scss";
+
+interface Project {
+	year: number;
+	projectTitle: string;
+	_uid?: string;
+}
 
 export default function Menu({
 	isMenuOpen,
@@ -15,6 +21,8 @@ export default function Menu({
 }) {
 	const mainNavigation = useRef<HTMLDivElement>(null);
 	const blurredBackground = useRef<HTMLDivElement>(null);
+
+	const [poop, setPoop] = useState("");
 
 	useEffect(() => {
 		if (isMenuOpen) {
@@ -36,15 +44,39 @@ export default function Menu({
 		}
 	}, [isMenuOpen]);
 
-	// Group projects by year
+	const handleClick = (projectId: string) => {
+		setIsMenuOpen(false); // Close the menu
+		const projectElement = document.getElementById(projectId);
+		setPoop("");
+		if (projectElement) {
+			setTimeout(() => {
+				projectElement.scrollIntoView({ behavior: "smooth" });
+			}, 500);
+		}
+	};
+
+	const test = blok.map((item) => ({
+		image: item.backgroundImage.filename,
+		project: item.projectTitle,
+	}));
+
 	const groupedProjects = blok.reduce((acc: any, project: any) => {
 		const { year } = project;
 		if (!acc[year]) {
 			acc[year] = [];
 		}
-		acc[year].push(project);
+		acc[year].push({ projectTitle: project.projectTitle, image: project.backgroundImage.filename, ...project });
 		return acc;
 	}, {});
+
+	const sortedGroupedProjects = Object.entries(groupedProjects).reverse() as [string, Project[]][];
+
+	const handleTest = (projectId: string) => {
+		const match = test.find((testItem) => testItem.project === projectId);
+		if (match) {
+			setPoop(match.image);
+		}
+	};
 
 	return (
 		<>
@@ -55,24 +87,36 @@ export default function Menu({
 					</span>
 				</div>
 				<div className='main-navigation__nav'>
-					<table>
-						<tbody>
-							{Object.keys(groupedProjects).map((year) => (
-								<tr key={year}>
-									<td>{year}</td>
-									<td>
-										<ul>
-											{groupedProjects[year].map((project: any) => (
-												<li key={project.projectTitle}>{project.projectTitle}</li>
-											))}
-										</ul>
-									</td>
-								</tr>
-							))}
-						</tbody>
-					</table>
+					{sortedGroupedProjects.map(([year, projects]) => (
+						<>
+							<div key={year} className='main-navigation__nav--year'>
+								<h6>{year}</h6>
+							</div>
+							<div className='main-navigation__nav--project-break'>
+								<ul>
+									{projects.map((item: any) => (
+										<li key={item._uid}>
+											<span
+												onClick={() => handleClick(item.projectTitle)}
+												onMouseEnter={() => handleTest(item.projectTitle)}
+												onMouseLeave={() => setPoop("")}>
+												{item.projectTitle}
+											</span>
+										</li>
+									))}
+								</ul>
+							</div>
+						</>
+					))}
 				</div>
 			</div>
+			{poop && (
+				<div className='preview__container'>
+					<div className='preview__image'>
+						<img src={`${poop}/m//filters:quality(10)`} loading='lazy' />
+					</div>
+				</div>
+			)}
 			<div
 				className='main-navigation__blurred-background'
 				ref={blurredBackground}
