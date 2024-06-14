@@ -36,8 +36,13 @@ export default function Project({ blok, setIsHeaderVisible }: { blok: any; setIs
 
 	return (
 		<section className='project__container'>
-			<img loading='lazy' src={blok.backgroundImage.filename} className='project__image' alt='' />
-			<h1 className='text-h2' onClick={handleOpenModal}>
+			<img
+				loading='lazy'
+				src={`${blok.backgroundImage.filename}/m/filters:quality(50)`}
+				className='project__image'
+				alt=''
+			/>
+			<h1 className='text-h2' onClick={handleOpenModal} id={blok.projectTitle}>
 				{blok.projectTitle}
 			</h1>
 

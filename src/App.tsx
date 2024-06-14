@@ -43,8 +43,6 @@ function App() {
 		.filter((item: any) => item.component === "project")
 		.sort((a: any, b: any) => b.year - a.year);
 
-	console.log(projectBlok);
-
 	return (
 		<>
 			<Menu isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} handleContact={handleContact} blok={projectBlok} />

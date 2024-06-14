@@ -4,24 +4,30 @@
 	position: relative;
 
 	h1 {
-		margin-top: 50px;
+		margin-top: 40px;
 		position: absolute;
 		left: 50%;
 		transform: translateX(-50%);
 		cursor: pointer;
+		text-align: center;
+		color: white;
+		text-shadow: 1px 1px 15px black;
+		// mix-blend-mode: exclusion;
 		&:hover {
-			color: red;
+			border-bottom: 3px solid white;
 		}
 	}
-	img {
-		position: absolute;
-		top: 0;
-		left: 0;
-		height: 100%;
-		width: 100%;
-		object-fit: contain;
-		z-index: 1;
-	}
+}
+
+.project__image {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	object-fit: cover;
+	object-position: center;
+	z-index: 1;
 }
 
 .project-modal__container {
