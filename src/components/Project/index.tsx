@@ -1,10 +1,15 @@
 import { StoryblokComponent } from "@storyblok/react";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/opacity.css";
 import "./styles.scss";
 
 export default function Project({ blok, setIsHeaderVisible }: { blok: any; setIsHeaderVisible: any }) {
 	const projectContainer = useRef<HTMLDivElement>(null);
 	const [currentSlide, setCurrentSlide] = useState(1);
+	const [isPortrait, setIsPortrait] = useState(false);
+
+	const imageSrc = blok.backgroundImage.filename;
 
 	const handleOpenModal = () => {
 		projectContainer.current?.classList.add("project-modal__container--open");
@@ -34,14 +39,32 @@ export default function Project({ blok, setIsHeaderVisible }: { blok: any; setIs
 		}
 	};
 
+	const checkLandscape = (image: any) => {
+		const img = new Image();
+		img.src = image;
+
+		img.onload = function (this: any) {
+			if (this.width < this.height) {
+				setIsPortrait(true);
+			} else {
+				setIsPortrait(false);
+			}
+		};
+	};
+
+	useEffect(() => {
+		checkLandscape(blok.backgroundImage.filename);
+	}, [blok.backgroundImage.filename]);
+
 	return (
 		<section className='project__container'>
-			<img
-				loading='lazy'
-				src={`${blok.backgroundImage.filename}/m/filters:quality(50)`}
-				className='project__image'
+			<LazyLoadImage
+				effect='opacity'
+				src={imageSrc}
+				className={isPortrait ? "project__image--portrait" : "project__image--landscape"}
 				alt=''
 			/>
+
 			<h1 className='text-h2' onClick={handleOpenModal} id={blok.projectTitle}>
 				{blok.projectTitle}
 			</h1>
