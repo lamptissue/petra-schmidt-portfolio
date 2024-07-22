@@ -4,24 +4,60 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/opacity.css";
 import "./styles.scss";
 
-export default function Project({ blok, setIsHeaderVisible }: { blok: any; setIsHeaderVisible: any }) {
-	const projectContainer = useRef<HTMLDivElement>(null);
+export default function Project({
+	blok,
+	setIsHeaderVisible,
+	backgroundColours,
+	setActiveItem,
+}: {
+	blok: any;
+	setIsHeaderVisible: any;
+	backgroundColours: any;
+	setActiveItem: any;
+}) {
 	const [currentSlide, setCurrentSlide] = useState(1);
 	const [isPortrait, setIsPortrait] = useState(false);
+	const [portraitBackground, setPortraitBackground] = useState();
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [windowSide, setWindowSide] = useState("");
+	const [isCursorOverCross, setIsCursorOverCross] = useState(false);
+	const [isIntersecting, setIsIntersecting] = useState(false);
+	const ref = useRef(null);
+
+	const cursor = useRef<HTMLDivElement>(null);
 
 	const imageSrc = blok.backgroundImage.filename;
 
 	const handleOpenModal = () => {
-		projectContainer.current?.classList.add("project-modal__container--open");
+		setIsModalOpen(true);
 		document.body.style.overflowY = "hidden";
 		setIsHeaderVisible(false);
 	};
 
 	const handleCloseModal = () => {
-		projectContainer.current?.classList.remove("project-modal__container--open");
+		setIsModalOpen(false);
 		document.body.style.overflowY = "auto";
 		setIsHeaderVisible(true);
 	};
+
+	const handleMouseArrow = (event: any) => {
+		if (event.clientX > window.innerWidth / 2) {
+			setWindowSide("right");
+		} else {
+			setWindowSide("left");
+		}
+		if (cursor.current) {
+			cursor.current.style.top = event.clientY + "px";
+			cursor.current.style.left = event.clientX + "px";
+		}
+	};
+
+	useEffect(() => {
+		document.addEventListener("mousemove", handleMouseArrow);
+		return () => {
+			document.removeEventListener("mousemove", handleMouseArrow);
+		};
+	}, []);
 
 	const handleNextSlide = () => {
 		if (currentSlide > blok.modalDetail.length - 1) {
@@ -38,6 +74,11 @@ export default function Project({ blok, setIsHeaderVisible }: { blok: any; setIs
 			setCurrentSlide(blok.modalDetail.length);
 		}
 	};
+
+	useEffect(() => {
+		const randomNumber = Math.floor(Math.random() * backgroundColours.length);
+		setPortraitBackground(backgroundColours[randomNumber]);
+	}, []);
 
 	const checkLandscape = (image: any) => {
 		const img = new Image();
@@ -56,8 +97,36 @@ export default function Project({ blok, setIsHeaderVisible }: { blok: any; setIs
 		checkLandscape(blok.backgroundImage.filename);
 	}, [blok.backgroundImage.filename]);
 
+	console.log(isIntersecting);
+	const callbackFunction = (entries: any) => {
+		const [entry] = entries;
+		setIsIntersecting(entry.isIntersecting);
+		if (entry.isIntersecting) {
+			setActiveItem(blok.projectTitle);
+		}
+	};
+	const options = {
+		root: null,
+		rootMargin: "0px",
+		threshold: 1.0,
+	};
+
+	useEffect(() => {
+		const observer = new IntersectionObserver(callbackFunction, options);
+		if (ref.current) observer.observe(ref.current);
+
+		return () => {
+			if (ref.current) observer.unobserve(ref.current);
+		};
+	}, [ref, options]);
+
 	return (
-		<section className='project__container'>
+		<section
+			ref={ref}
+			className='project__container'
+			data-section
+			style={isPortrait ? { background: portraitBackground } : {}}
+			id={blok.projectTitle}>
 			<LazyLoadImage
 				effect='opacity'
 				src={imageSrc}
@@ -65,12 +134,19 @@ export default function Project({ blok, setIsHeaderVisible }: { blok: any; setIs
 				alt=''
 			/>
 
-			<h1 className='text-h2' onClick={handleOpenModal} id={blok.projectTitle}>
+			<h1
+				className={`text-h2 ${blok.modalDetail && blok.modalDetail.length >= 1 ? "hov-test" : ""} `}
+				onClick={blok.modalDetail && blok.modalDetail.length >= 1 ? handleOpenModal : undefined}
+				id={blok.projectTitle}>
 				{blok.projectTitle}
 			</h1>
-
-			<div className='project-modal__container' ref={projectContainer}>
+			{/* Modal */}
+			<div
+				className={`project-modal__container ${isModalOpen ? "project-modal__container--open" : ""}`}
+				onMouseMove={(event) => handleMouseArrow(event)}>
 				<div className='project-modal__background'></div>
+				<div className='left-arrow__container' onClick={handlePreviousSlide}></div>
+				<div className='right-arrow__container' onClick={handleNextSlide}></div>
 				<div className='project-modal__sidebar'>
 					<span>{blok.projectTitle}</span>
 					<span>{blok.title}</span>
@@ -80,18 +156,26 @@ export default function Project({ blok, setIsHeaderVisible }: { blok: any; setIs
 						</span>
 					)}
 				</div>
-				<div className='left-arrow'>
-					<button onClick={handlePreviousSlide}>CLICK ME TO GO LEFT</button>
-				</div>
-				<div className='right-arrow'>
-					<button onClick={handleNextSlide}>CLICK ME TO GO RIGHT</button>
-				</div>
+
 				<div className='project-modal__main-content'>
 					{blok.modalDetail && blok.modalDetail.length > 0 && (
 						<StoryblokComponent blok={blok.modalDetail[currentSlide - 1]} />
 					)}
+					{!isCursorOverCross && (
+						<div className={`cursor ${windowSide === "right" ? "cursor-flipped" : ""}`} ref={cursor}>
+							<svg width='51' height='9' fill='none' xmlns='http://www.w3.org/2000/svg'>
+								<path d='M4.242 0 0 4.243l4.242 4.242V0Z' fill='#fff'></path>
+								<path d='M2.242 4.243h48' stroke='#fff'></path>
+							</svg>
+						</div>
+					)}
 				</div>
-				<a className='project-modal__cross' onClick={handleCloseModal}></a>
+				<div
+					onMouseEnter={() => setIsCursorOverCross(true)}
+					onMouseLeave={() => setIsCursorOverCross(false)}
+					className='cross-test'>
+					<a className='project-modal__cross' onClick={handleCloseModal}></a>
+				</div>
 			</div>
 		</section>
 	);

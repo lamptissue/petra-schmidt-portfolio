@@ -1,11 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 
 import "./styles.scss";
 
 interface Project {
 	year: number;
 	projectTitle: string;
-	_uid?: string;
+	id: string;
 }
 
 export default function Menu({
@@ -13,41 +13,20 @@ export default function Menu({
 	setIsMenuOpen,
 	handleContact,
 	blok,
+	activeItem,
 }: {
 	isMenuOpen: any;
 	setIsMenuOpen: any;
 	handleContact: any;
 	blok: any;
+	activeItem: any;
 }) {
-	const mainNavigation = useRef<HTMLDivElement>(null);
-	const blurredBackground = useRef<HTMLDivElement>(null);
-
-	const [poop, setPoop] = useState("");
-
-	useEffect(() => {
-		if (isMenuOpen) {
-			mainNavigation.current?.classList.add("open");
-			if (blurredBackground.current) {
-				blurredBackground.current.style.display = "block";
-				setTimeout(() => {
-					blurredBackground.current!.classList.add("blur");
-				}, 100);
-			}
-		} else {
-			mainNavigation.current?.classList.remove("open");
-			if (blurredBackground.current) {
-				blurredBackground.current.classList.remove("blur");
-				setTimeout(() => {
-					blurredBackground.current!.style.display = "none";
-				}, 1000);
-			}
-		}
-	}, [isMenuOpen]);
+	const [previewImage, setPreviewImage] = useState("");
 
 	const handleClick = (projectId: string) => {
-		setIsMenuOpen(false); // Close the menu
+		setIsMenuOpen(false);
 		const projectElement = document.getElementById(projectId);
-		setPoop("");
+		setPreviewImage("");
 		if (projectElement) {
 			setTimeout(() => {
 				projectElement.scrollIntoView({ behavior: "smooth" });
@@ -65,7 +44,12 @@ export default function Menu({
 		if (!acc[year]) {
 			acc[year] = [];
 		}
-		acc[year].push({ projectTitle: project.projectTitle, image: project.backgroundImage.filename, ...project });
+		acc[year].push({
+			projectTitle: project.projectTitle,
+			image: project.backgroundImage.filename,
+			id: project._uid,
+			// ...project,
+		});
 		return acc;
 	}, {});
 
@@ -74,13 +58,13 @@ export default function Menu({
 	const handleTest = (projectId: string) => {
 		const match = test.find((testItem: any) => testItem.project === projectId);
 		if (match) {
-			setPoop(match.image);
+			setPreviewImage(match.image);
 		}
 	};
 
 	return (
 		<>
-			<div className='main-navigation' ref={mainNavigation}>
+			<div className={`main-navigation ${isMenuOpen ? " open" : ""}`}>
 				<div className='main-navigation__contact--container'>
 					<span className='main-navigation__contact' onClick={handleContact}>
 						Contact
@@ -95,11 +79,12 @@ export default function Menu({
 							<div className='main-navigation__nav--project-break'>
 								<ul>
 									{projects.map((item: any) => (
-										<li key={item._uid}>
+										<li key={item.id}>
 											<span
 												onClick={() => handleClick(item.projectTitle)}
 												onMouseEnter={() => handleTest(item.projectTitle)}
-												onMouseLeave={() => setPoop("")}>
+												onMouseLeave={() => setPreviewImage("")}
+												className={activeItem === item.projectTitle ? "active" : ""}>
 												{item.projectTitle}
 											</span>
 										</li>
@@ -110,16 +95,16 @@ export default function Menu({
 					))}
 				</div>
 			</div>
-			{poop && (
+			{previewImage && (
 				<div className='preview__container'>
 					<div className='preview__image'>
-						<img src={`${poop}/m//filters:quality(10)`} loading='lazy' />
+						<img src={`${previewImage}/m/filters:quality(10)`} loading='lazy' />
 					</div>
 				</div>
 			)}
+
 			<div
-				className='main-navigation__blurred-background'
-				ref={blurredBackground}
+				className={`main-navigation__blurred-background ${isMenuOpen ? "blur" : ""}`}
 				onClick={() => setIsMenuOpen(false)}></div>
 		</>
 	);
