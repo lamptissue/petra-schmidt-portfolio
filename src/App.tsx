@@ -1,17 +1,36 @@
 import { useStoryblok } from "@storyblok/react";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-import Header from "./components/Header";
-import Menu from "./components/Menu";
 import Contact from "./components/Contact";
-import Project from "./components/Project";
+import Header from "./components/Header";
 import LandingPage from "./components/LandingPage";
+import Menu from "./components/Menu";
+import Project from "./components/Project";
 
 function App() {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const [isContactOpen, setIsContactOpen] = useState(false);
-	const [isHeaderVisible, setIsHeaderVisible] = useState(true); // State to control header visibility
+	const [isHeaderVisible, setIsHeaderVisible] = useState(true);
+	const [backgroundColours, setBackgroundColour] = useState<string[]>([]);
+	const [activeItem, setActiveItem] = useState("");
+
+	const [headersize, setHeaderSize] = useState(72);
+
+	useEffect(() => {
+		const landingPageColours = [
+			["pink", "cyan", "yellow"],
+			["#E6E6FA", "#98FF98", "#FFDAB9"],
+			["#7DF9FF", "#FF69B4", "#FF4500"],
+			["#228B22", "#FFDB58", "#CB4154"],
+		];
+
+		const getRandomIndex = (array: any) => {
+			return Math.floor(Math.random() * array.length);
+		};
+
+		setBackgroundColour(landingPageColours[getRandomIndex(landingPageColours)]);
+	}, []);
 
 	let slug = window.location.pathname === "/" ? "home" : window.location.pathname.replace("/", "");
 
@@ -20,6 +39,17 @@ function App() {
 		return <div>Loading...</div>;
 	}
 
+	const handletest = (e: any) => {
+		if (e.target.scrollTop === 0) {
+			setActiveItem("");
+			setHeaderSize(72);
+		}
+
+		if (e.target.scrollTop >= window.innerHeight - 200) {
+			setHeaderSize(32);
+		}
+	};
+
 	const handleMenu = () => {
 		if (isContactOpen) {
 			setIsContactOpen(false);
@@ -27,6 +57,8 @@ function App() {
 				setIsMenuOpen((prevState) => !prevState);
 			}, 500);
 		} else {
+			setHeaderSize(72);
+
 			setIsMenuOpen((prevState) => !prevState);
 		}
 	};
@@ -45,13 +77,27 @@ function App() {
 
 	return (
 		<>
-			<Menu isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} handleContact={handleContact} blok={projectBlok} />
+			<Menu
+				isMenuOpen={isMenuOpen}
+				setIsMenuOpen={setIsMenuOpen}
+				handleContact={handleContact}
+				blok={projectBlok}
+				activeItem={activeItem}
+			/>
 			<Contact isContactOpen={isContactOpen} blok={contactBlok} />
-			<main>
-				{isHeaderVisible && <Header handleMenu={handleMenu} />}
-				<LandingPage blok={landingBlok} />
+			<main onScroll={(e) => handletest(e)}>
+				{isHeaderVisible && <Header handleMenu={handleMenu} headersize={headersize} />}
+				<LandingPage blok={landingBlok} backgroundColours={backgroundColours} />
 				{projectBlok.map((item: any) => {
-					return <Project key={item._uid} blok={item} setIsHeaderVisible={setIsHeaderVisible} />;
+					return (
+						<Project
+							key={item._uid}
+							blok={item}
+							setIsHeaderVisible={setIsHeaderVisible}
+							backgroundColours={backgroundColours}
+							setActiveItem={setActiveItem}
+						/>
+					);
 				})}
 			</main>
 		</>

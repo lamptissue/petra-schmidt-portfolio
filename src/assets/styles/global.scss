@@ -17,6 +17,11 @@ h1,
 .text-h1 {
 	font-size: 72px;
 }
+.smallboy h1 {
+	color: red;
+	font-size: 32px !important;
+}
+
 h2,
 .text-h2 {
 	font-size: 56px;
@@ -61,14 +66,8 @@ main > section {
 	width: 100%;
 }
 
-// main > section:nth-child(even) {
-// 	background-color: #87ea87;
-// }
-// main > section:nth-child(odd) {
-// 	background-color: #87ccea;
-// }
-
 .projectModal {
+	border-radius: 2px;
 	width: 50%;
 	height: 50%;
 	background-color: yellow;
@@ -76,20 +75,9 @@ main > section {
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
+	pointer-events: auto;
 }
-
-.left-arrow,
-.right-arrow {
-	position: absolute;
-	z-index: 100;
-}
-
-.left-arrow {
-	top: 0;
-	left: 0;
-}
-
-.right-arrow {
-	top: 0;
-	right: 0;
+.activeStyle {
+	font-weight: "bold";
+	color: "red";
 }
