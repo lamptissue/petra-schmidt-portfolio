@@ -97,6 +97,7 @@ export default function Project({
 		checkLandscape(blok.backgroundImage.filename);
 	}, [blok.backgroundImage.filename]);
 
+	console.log(isIntersecting);
 	const callbackFunction = (entries: any) => {
 		const [entry] = entries;
 		setIsIntersecting(entry.isIntersecting);
