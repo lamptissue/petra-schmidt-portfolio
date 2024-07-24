@@ -34,7 +34,7 @@ export default function Menu({
 		}
 	};
 
-	const test = blok.map((item: any) => ({
+	const projectDetails = blok.map((item: any) => ({
 		image: item.backgroundImage.filename,
 		project: item.projectTitle,
 	}));
@@ -55,8 +55,8 @@ export default function Menu({
 
 	const sortedGroupedProjects = Object.entries(groupedProjects).reverse() as [string, Project[]][];
 
-	const handleTest = (projectId: string) => {
-		const match = test.find((testItem: any) => testItem.project === projectId);
+	const handleSetProjectPreview = (projectId: string) => {
+		const match = projectDetails.find((projectDetail: any) => projectDetail.project === projectId);
 		if (match) {
 			setPreviewImage(match.image);
 		}
@@ -64,7 +64,7 @@ export default function Menu({
 
 	return (
 		<>
-			<div className={`main-navigation ${isMenuOpen ? " open" : ""}`}>
+			<div className={`main-navigation ${isMenuOpen ? "open" : ""}`}>
 				<div className='main-navigation__contact--container'>
 					<span className='main-navigation__contact' onClick={handleContact}>
 						Contact
@@ -82,7 +82,7 @@ export default function Menu({
 										<li key={item.id}>
 											<span
 												onClick={() => handleClick(item.projectTitle)}
-												onMouseEnter={() => handleTest(item.projectTitle)}
+												onMouseEnter={() => handleSetProjectPreview(item.projectTitle)}
 												onMouseLeave={() => setPreviewImage("")}
 												className={activeItem === item.projectTitle ? "active" : ""}>
 												{item.projectTitle}
@@ -98,7 +98,7 @@ export default function Menu({
 			{previewImage && (
 				<div className='preview__container'>
 					<div className='preview__image'>
-						<img src={`${previewImage}/m/filters:quality(10)`} loading='lazy' />
+						<img src={`${previewImage}/m/filters:quality(40)`} loading='lazy' />
 					</div>
 				</div>
 			)}

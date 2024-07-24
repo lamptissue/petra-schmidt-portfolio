@@ -5,7 +5,7 @@ import "./styles.scss";
 export default function ProjectModalImage({ blok }: { blok: any }) {
 	return (
 		<div {...storyblokEditable(blok)} className='projectModal'>
-			{blok.image}
+			<img src={blok.img} alt='' />
 		</div>
 	);
 }

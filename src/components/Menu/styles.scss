@@ -3,6 +3,7 @@
 	background-color: var(--menu-main);
 	height: 100vh;
 	position: fixed;
+	pointer-events: none;
 	z-index: 50;
 	top: 0;
 	left: 0;
@@ -25,6 +26,7 @@
 }
 .open {
 	transform: translateX(0);
+	pointer-events: auto;
 }
 
 .main-navigation__blurred-background {
@@ -49,7 +51,7 @@
 
 .main-navigation__contact--container {
 	width: 100%;
-	height: 25%;
+	height: 13rem;
 }
 
 .main-navigation__nav {
@@ -92,23 +94,18 @@
 .preview__container {
 	width: 50vw;
 	height: 100vh;
-	position: absolute;
+	position: fixed;
 	top: 0;
 	right: 0;
-	z-index: 60;
+	z-index: 35;
+	display: flex;
 }
 
 .preview__image {
-	width: 80%;
-	height: 50%;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	overflow: hidden;
-
+	margin: auto;
+	width: 70%;
 	img {
-		object-fit: cover;
+		object-fit: contain;
 		height: 100%;
 		width: 100%;
 	}

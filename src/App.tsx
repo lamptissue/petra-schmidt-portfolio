@@ -32,6 +32,14 @@ function App() {
 		setBackgroundColour(landingPageColours[getRandomIndex(landingPageColours)]);
 	}, []);
 
+	useEffect(() => {
+		if (activeItem === "" || isMenuOpen) {
+			setHeaderSize(72);
+		} else if (activeItem !== "" && !isMenuOpen) {
+			setHeaderSize(32);
+		}
+	}, [isMenuOpen, activeItem]);
+
 	let slug = window.location.pathname === "/" ? "home" : window.location.pathname.replace("/", "");
 
 	const story = useStoryblok(slug, { version: "draft" });
@@ -39,13 +47,11 @@ function App() {
 		return <div>Loading...</div>;
 	}
 
-	const handletest = (e: any) => {
-		if (e.target.scrollTop === 0) {
+	const handleHeaderSize = (e: any) => {
+		if (e.target.scrollTop === 0 || e.target.scrollTop <= window.innerHeight - 200) {
 			setActiveItem("");
 			setHeaderSize(72);
-		}
-
-		if (e.target.scrollTop >= window.innerHeight - 200) {
+		} else if (e.target.scrollTop >= window.innerHeight - 200) {
 			setHeaderSize(32);
 		}
 	};
@@ -57,8 +63,6 @@ function App() {
 				setIsMenuOpen((prevState) => !prevState);
 			}, 500);
 		} else {
-			setHeaderSize(72);
-
 			setIsMenuOpen((prevState) => !prevState);
 		}
 	};
@@ -85,7 +89,7 @@ function App() {
 				activeItem={activeItem}
 			/>
 			<Contact isContactOpen={isContactOpen} blok={contactBlok} />
-			<main onScroll={(e) => handletest(e)}>
+			<main onScroll={(e) => handleHeaderSize(e)}>
 				{isHeaderVisible && <Header handleMenu={handleMenu} headersize={headersize} />}
 				<LandingPage blok={landingBlok} backgroundColours={backgroundColours} />
 				{projectBlok.map((item: any) => {

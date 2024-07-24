@@ -20,8 +20,8 @@ export default function Project({
 	const [portraitBackground, setPortraitBackground] = useState();
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [windowSide, setWindowSide] = useState("");
-	const [isCursorOverCross, setIsCursorOverCross] = useState(false);
-	const [isIntersecting, setIsIntersecting] = useState(false);
+	const [hideArrowCursor, setHideArrowCursor] = useState(false);
+
 	const ref = useRef(null);
 
 	const cursor = useRef<HTMLDivElement>(null);
@@ -97,10 +97,8 @@ export default function Project({
 		checkLandscape(blok.backgroundImage.filename);
 	}, [blok.backgroundImage.filename]);
 
-	console.log(isIntersecting);
 	const callbackFunction = (entries: any) => {
 		const [entry] = entries;
-		setIsIntersecting(entry.isIntersecting);
 		if (entry.isIntersecting) {
 			setActiveItem(blok.projectTitle);
 		}
@@ -125,28 +123,40 @@ export default function Project({
 			ref={ref}
 			className='project__container'
 			data-section
-			style={isPortrait ? { background: portraitBackground } : {}}
+			style={{ background: isPortrait ? portraitBackground : "" }}
 			id={blok.projectTitle}>
-			<LazyLoadImage
-				effect='opacity'
-				src={imageSrc}
-				className={isPortrait ? "project__image--portrait" : "project__image--landscape"}
-				alt=''
-			/>
-
 			<h1
-				className={`text-h2 ${blok.modalDetail && blok.modalDetail.length >= 1 ? "hov-test" : ""} `}
+				className={`text-h2 ${blok.modalDetail && blok.modalDetail.length >= 1 ? "active-project-link" : ""} `}
 				onClick={blok.modalDetail && blok.modalDetail.length >= 1 ? handleOpenModal : undefined}
 				id={blok.projectTitle}>
 				{blok.projectTitle}
 			</h1>
+
+			<LazyLoadImage
+				effect='opacity'
+				src={imageSrc}
+				className={isPortrait ? "project__image--portrait" : "project__image--landscape"}
+				alt={blok.projectTitle}
+			/>
+
 			{/* Modal */}
+
 			<div
-				className={`project-modal__container ${isModalOpen ? "project-modal__container--open" : ""}`}
+				className='project-modal__container'
+				style={{ display: isModalOpen ? "flex" : "none" }}
 				onMouseMove={(event) => handleMouseArrow(event)}>
-				<div className='project-modal__background'></div>
-				<div className='left-arrow__container' onClick={handlePreviousSlide}></div>
-				<div className='right-arrow__container' onClick={handleNextSlide}></div>
+				<div
+					className='project-modal__main-content'
+					onMouseEnter={() => setHideArrowCursor(true)}
+					onMouseLeave={() => setHideArrowCursor(false)}>
+					{blok.modalDetail && blok.modalDetail.length > 0 && (
+						<StoryblokComponent blok={blok.modalDetail[currentSlide - 1]} />
+					)}
+				</div>
+
+				<div className='left-arrow arrow__container' onClick={handlePreviousSlide}></div>
+				<div className='right-arrow arrow__container' onClick={handleNextSlide}></div>
+
 				<div className='project-modal__sidebar'>
 					<span>{blok.projectTitle}</span>
 					<span>{blok.title}</span>
@@ -157,25 +167,20 @@ export default function Project({
 					)}
 				</div>
 
-				<div className='project-modal__main-content'>
-					{blok.modalDetail && blok.modalDetail.length > 0 && (
-						<StoryblokComponent blok={blok.modalDetail[currentSlide - 1]} />
-					)}
-					{!isCursorOverCross && (
-						<div className={`cursor ${windowSide === "right" ? "cursor-flipped" : ""}`} ref={cursor}>
-							<svg width='51' height='9' fill='none' xmlns='http://www.w3.org/2000/svg'>
-								<path d='M4.242 0 0 4.243l4.242 4.242V0Z' fill='#fff'></path>
-								<path d='M2.242 4.243h48' stroke='#fff'></path>
-							</svg>
-						</div>
-					)}
-				</div>
 				<div
-					onMouseEnter={() => setIsCursorOverCross(true)}
-					onMouseLeave={() => setIsCursorOverCross(false)}
-					className='cross-test'>
-					<a className='project-modal__cross' onClick={handleCloseModal}></a>
-				</div>
+					className='project-modal__cross'
+					onClick={handleCloseModal}
+					onMouseEnter={() => setHideArrowCursor(true)}
+					onMouseLeave={() => setHideArrowCursor(false)}></div>
+
+				{!hideArrowCursor && (
+					<div className={`cursor ${windowSide === "right" ? "cursor-flipped" : ""}`} ref={cursor}>
+						<svg width='51' height='9' fill='none' xmlns='http://www.w3.org/2000/svg'>
+							<path d='M4.242 0 0 4.243l4.242 4.242V0Z' fill='#fff'></path>
+							<path d='M2.242 4.243h48' stroke='#fff'></path>
+						</svg>
+					</div>
+				)}
 			</div>
 		</section>
 	);

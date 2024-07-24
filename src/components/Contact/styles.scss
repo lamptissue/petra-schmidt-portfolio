@@ -1,5 +1,6 @@
 .contact__container {
 	position: absolute;
+	pointer-events: none;
 	height: 100%;
 	top: 0;
 	right: 0;
@@ -11,12 +12,14 @@
 	transition: transform 1s ease;
 	transform: translateX(-200%);
 }
+
 .contact--open {
 	transform: translateX(0);
+	pointer-events: auto;
 }
 
 .contact__wrapper {
-	padding: 20px;
+	// padding: 30px;
 	height: 100%;
 	display: flex;
 	justify-content: center;
@@ -24,6 +27,7 @@
 	flex-direction: column;
 	width: 80%;
 	p {
+		font-family: "poppins";
 		padding: 20px;
 		text-align: center;
 		line-height: 1.6;
