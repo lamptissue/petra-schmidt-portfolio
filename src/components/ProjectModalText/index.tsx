@@ -4,7 +4,7 @@ import "./styles.scss";
 
 export default function ProjectModalText({ blok }: { blok: any }) {
 	return (
-		<div {...storyblokEditable(blok)} className='projectModal'>
+		<div {...storyblokEditable(blok)} className='test-text'>
 			{blok.text}
 		</div>
 	);

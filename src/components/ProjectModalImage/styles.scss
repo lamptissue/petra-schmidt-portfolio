@@ -1,0 +1,11 @@
+.project-modal__main-content {
+	margin: auto;
+	cursor: auto;
+	display: flex;
+	z-index: 10;
+
+	img {
+		max-height: 95vh;
+		max-width: 100%;
+	}
+}

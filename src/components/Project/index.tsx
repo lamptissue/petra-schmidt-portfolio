@@ -1,8 +1,9 @@
-import { StoryblokComponent } from "@storyblok/react";
+// import { StoryblokComponent } from "@storyblok/react";
 import { useRef, useState, useEffect } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/opacity.css";
 import "./styles.scss";
+// import ProjectModalImage from "../ProjectModalImage";
 
 export default function Project({
 	blok,
@@ -61,6 +62,7 @@ export default function Project({
 
 	const handleNextSlide = () => {
 		if (currentSlide > blok.modalDetail.length - 1) {
+			// if (currentSlide > blok.modalDetail.length - 1 || currentSlide > blok.modalDetail[0].image.length - 1) {
 			setCurrentSlide(1);
 		} else {
 			setCurrentSlide(currentSlide + 1);
@@ -118,6 +120,58 @@ export default function Project({
 		};
 	}, [ref, options]);
 
+	// if (blok.modalDetail && blok.modalDetail.length > 0) {
+	// 	if (blok.modalDetail[0].image.length > 0) {
+	// 		console.log("multiboiii");
+	// 	} else {
+	// 		console.log("just single bloks");
+	// 	}
+	// } else {
+	// 	console.log("No images found in modalDetail");
+	// }
+
+	// if (blok.modalDetail && blok.modalDetail.length > 0) {
+	// 	if (blok.modalDetail[0].component === "multiasset") {
+	// 		console.log("component");
+	// 	} else {
+	// 		console.log("ya wrong");
+	// 	}
+	// }
+	// const poo = blok.modalDetail && blok.modalDetail.filter((item) => item.component === "multiasset");
+
+	// Check modalDetail if it is empty
+	// check if there is a component named multi asset
+	// Create new array of information?
+
+	// const combinedArray = [];
+
+	// // Iterate over the modalDetail array and process each item
+	// if (blok.modalDetail) {
+	// 	blok.modalDetail.forEach((item) => {
+	// 		if (item.component === "projectModalImage") {
+	// 			combinedArray.push({
+	// 				type: "image",
+	// 				id: item.image.id,
+	// 				filename: item.image.filename,
+	// 			});
+	// 		} else if (item.component === "projectModalText") {
+	// 			combinedArray.push({
+	// 				type: "text",
+	// 				text: item.text,
+	// 			});
+	// 		} else if (item.component === "multiasset") {
+	// 			item.image.forEach((img) => {
+	// 				combinedArray.push({
+	// 					type: "image",
+	// 					id: img.id,
+	// 					filename: img.filename,
+	// 				});
+	// 			});
+	// 		}
+	// 	});
+	// }
+
+	// console.log("combinedArray", combinedArray);
 	return (
 		<section
 			ref={ref}
@@ -145,14 +199,27 @@ export default function Project({
 				className='project-modal__container'
 				style={{ display: isModalOpen ? "flex" : "none" }}
 				onMouseMove={(event) => handleMouseArrow(event)}>
-				<div
-					className='project-modal__main-content'
-					onMouseEnter={() => setHideArrowCursor(true)}
-					onMouseLeave={() => setHideArrowCursor(false)}>
-					{blok.modalDetail && blok.modalDetail.length > 0 && (
+				{/* {blok.modalDetail && blok.modalDetail.length > 0 && (
+					// <ProjectModalImage blok={blok.modalDetail[currentSlide - 1]} />
+					<StoryblokComponent
+						blok={blok.modalDetail[currentSlide - 1]}
+						// onMouseEnter={() => setHideArrowCursor(true)}
+						// onMouseLeave={() => setHideArrowCursor(false)}
+					/>
+				)} */}
+
+				{/* {blok.modalDetail &&
+					blok.modalDetail.length > 0 &&
+					(blok.modalDetail[0].image && blok.modalDetail[0].image.length > 0 ? (
+						// blok.modalDetail[0].image.map((item, index) => (
+						// 	<img key={index} src={item.filename[currentSlide - 1]} alt={item.alt || "Image"} />
+						// ))
+
+						<img src={blok.modalDetail[0].image[currentSlide].filename} />
+					) : (
 						<StoryblokComponent blok={blok.modalDetail[currentSlide - 1]} />
-					)}
-				</div>
+					))} */}
+				{/* {combinedArray.length > 0 && <p>hello</p>} */}
 
 				<div className='left-arrow arrow__container' onClick={handlePreviousSlide}></div>
 				<div className='right-arrow arrow__container' onClick={handleNextSlide}></div>
@@ -160,11 +227,18 @@ export default function Project({
 				<div className='project-modal__sidebar'>
 					<span>{blok.projectTitle}</span>
 					<span>{blok.title}</span>
-					{blok.modalDetail && (
-						<span>
-							{currentSlide}/{blok.modalDetail.length}
-						</span>
-					)}
+
+					{blok.modalDetail && blok.modalDetail.length > 0 ? (
+						blok.modalDetail[0].component === "multiasset" ? (
+							<span>
+								{currentSlide}/{blok.modalDetail[0].image.length}
+							</span>
+						) : (
+							<span>
+								{currentSlide}/{blok.modalDetail.length}
+							</span>
+						)
+					) : null}
 				</div>
 
 				<div
