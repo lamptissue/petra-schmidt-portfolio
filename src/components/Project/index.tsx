@@ -166,7 +166,6 @@ export default function Project({
 			/>
 
 			{/* Modal */}
-
 			<div
 				className='project-modal__container'
 				style={{ display: isModalOpen ? "flex" : "none" }}
