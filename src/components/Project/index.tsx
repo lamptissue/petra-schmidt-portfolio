@@ -22,7 +22,6 @@ export default function Project({
 	const [hideArrowCursor, setHideArrowCursor] = useState(false);
 
 	const ref = useRef(null);
-	// change
 	const cursor = useRef<HTMLDivElement>(null);
 
 	const imageSrc = blok.backgroundImage.filename;
@@ -144,6 +143,58 @@ export default function Project({
 		});
 	}
 
+	// TODO preload images/files in an array once the modal is clicked open
+
+	// const [assetsLoaded, setAssetsLoaded] = useState<boolean>(false);
+
+	// function preloadImage(src: string) {
+	// 	return new Promise((resolve, reject) => {
+	// 		const img = new Image();
+	// 		img.onload = function () {
+	// 			resolve(img);
+	// 		};
+	// 		img.onerror = img.onabort = function () {
+	// 			reject(src);
+	// 		};
+	// 		img.src = src;
+	// 	});
+	// }
+
+	// useEffect(() => {
+	// 	let isCancelled = false;
+
+	// 	async function effect() {
+	// 		if (isCancelled) {
+	// 			return;
+	// 		}
+
+	// 		const imagesPromiseList: Promise<any>[] = [];
+	// 		for (const i of combinedArray) {
+	// 			imagesPromiseList.push(preloadImage(i));
+	// 		}
+
+	// 		await Promise.all(imagesPromiseList);
+
+	// 		if (isCancelled) {
+	// 			return;
+	// 		}
+
+	// 		setAssetsLoaded(true);
+	// 	}
+
+	// 	effect();
+
+	// 	return () => {
+	// 		isCancelled = true;
+	// 	};
+	// }, []);
+
+	// if (!assetsLoaded) {
+	// 	console.log("Not loaded");
+	// } else {
+	// 	console.log(" loaded");
+	// }
+
 	return (
 		<section
 			ref={ref}
@@ -160,7 +211,7 @@ export default function Project({
 
 			<LazyLoadImage
 				effect='opacity'
-				src={imageSrc}
+				src={`${imageSrc}/m/`}
 				className={isPortrait ? "project__image--portrait" : "project__image--landscape"}
 				alt={blok.projectTitle}
 			/>
@@ -172,7 +223,7 @@ export default function Project({
 				onMouseMove={(event) => handleMouseArrow(event)}>
 				{combinedArray.length > 0 && combinedArray[currentSlide - 1].type === "image" ? (
 					<div className='combineTest'>
-						<img src={combinedArray[currentSlide - 1].filename} loading='lazy' />
+						<img src={`${combinedArray[currentSlide - 1].filename}/m/`} loading='lazy' />
 					</div>
 				) : (
 					combinedArray.length > 0 &&
@@ -205,9 +256,37 @@ export default function Project({
 
 				{!hideArrowCursor && (
 					<div className={`cursor ${windowSide === "right" ? "cursor-flipped" : ""}`} ref={cursor}>
-						<svg width='51' height='9' fill='none' xmlns='http://www.w3.org/2000/svg'>
-							<path d='M4.242 0 0 4.243l4.242 4.242V0Z' fill='#fff'></path>
-							<path d='M2.242 4.243h48' stroke='#fff'></path>
+						{/* <svg
+							xmlns='http://www.w3.org/2000/svg '
+							width='90'
+							height='40'
+							fill='none'
+							data-name='Layer 1'
+							viewBox='0 0 101.88 17.72'>
+							<path
+								fill='#fff'
+								d='M3.6 9.94h84.03c3.88 0 7.8.17 11.67 0h.17c1.93 0 1.93-3 0-3H15.44c-3.88 0-7.8-.17-11.67 0H3.6c-1.93 0-1.93 3 0 3Z'
+							/>
+							<path
+								fill='#fff'
+								d='m2.54 9.5 6.04 6.04.86.86c.56.56 1.57.6 2.12 0s.59-1.53 0-2.12L5.52 8.24l-.86-.86c-.56-.56-1.57-.6-2.12 0s-.59 1.53 0 2.12Z'
+							/>
+							<path
+								fill='#fff'
+								d='M9.43.42 3.4 6.46l-.86.86c-.56.56-.6 1.57 0 2.12s1.53.59 2.12 0L10.7 3.4l.86-.86c.56-.56.6-1.57 0-2.12s-1.53-.59-2.12 0Z'
+							/>
+						</svg> */}
+
+						<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 82.42 17.72' width='90' height='40' fill='none'>
+							<path d='M3.6 9.94h76.84c1.93 0 1.93-3 0-3H3.6c-1.93 0-1.93 3 0 3Z' fill='#fff' />
+							<path
+								d='m2.54 9.5 6.04 6.04.86.86c.56.56 1.57.6 2.12 0s.59-1.53 0-2.12L5.52 8.24l-.86-.86c-.56-.56-1.57-.6-2.12 0s-.59 1.53 0 2.12Z'
+								fill='#fff'
+							/>
+							<path
+								d='M9.43.42 3.39 6.46l-.86.86c-.56.56-.6 1.57 0 2.12s1.53.59 2.12 0l6.04-6.04.86-.86c.56-.56.6-1.57 0-2.12s-1.53-.59-2.12 0Z'
+								fill='#fff'
+							/>
 						</svg>
 					</div>
 				)}

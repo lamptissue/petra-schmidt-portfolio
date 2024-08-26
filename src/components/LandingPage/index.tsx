@@ -3,7 +3,7 @@ import "./styles.scss";
 
 const LandingPage = ({ blok, backgroundColours }: { blok: any; backgroundColours: any }) => {
 	return (
-		<section {...storyblokEditable(blok)} className='home-background'>
+		<section {...storyblokEditable(blok)} className='home-background' style={{ background: backgroundColours[3] }}>
 			<div className='introduction-paragraph'>
 				<h6>{blok.text}</h6>
 			</div>

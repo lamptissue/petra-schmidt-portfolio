@@ -10,8 +10,8 @@
 	.blur-container {
 		width: 100vw;
 		height: 100vh;
-		backdrop-filter: blur(300px);
 		-webkit-backdrop-filter: blur(300px);
+		backdrop-filter: blur(300px);
 		z-index: 20;
 		position: absolute;
 		top: 0;

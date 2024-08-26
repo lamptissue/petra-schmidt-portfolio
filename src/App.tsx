@@ -1,12 +1,11 @@
 import { useStoryblok } from "@storyblok/react";
-
-import { useEffect, useState } from "react";
-
+import { useEffect, useState, useRef } from "react";
 import Contact from "./components/Contact";
 import Header from "./components/Header";
 import LandingPage from "./components/LandingPage";
 import Menu from "./components/Menu";
 import Project from "./components/Project";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -14,15 +13,18 @@ function App() {
 	const [isHeaderVisible, setIsHeaderVisible] = useState(true);
 	const [backgroundColours, setBackgroundColour] = useState<string[]>([]);
 	const [activeItem, setActiveItem] = useState("");
-
 	const [headersize, setHeaderSize] = useState(72);
+	const [showScrollButton, setShowScrollButton] = useState(false);
+	const refScrollUp = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
 		const landingPageColours = [
-			["pink", "cyan", "yellow"],
-			["#E6E6FA", "#98FF98", "#FFDAB9"],
-			["#7DF9FF", "#FF69B4", "#FF4500"],
-			["#228B22", "#FFDB58", "#CB4154"],
+			["#B8A9C9", "#D5C3AA", "#C7D3D4", "#EDE6D8"],
+			["#A4C4C9", "#E3D5B4", "#B8C2A8", "#F4E1D2"],
+			["#CAD2C5", "#E6CCB2", "#DCE2E1", "#F4EBE7"],
+			["#A3B9B3", "#E1D3C4", "#CFD8D3", "#FAF3DD"],
+			["#BDC3B2", "#DED9C0", "#BFC5C3", "#FFF0E1"],
+			["#C5C6C7", "#DFDAC6", "#B1C2C9", "#F8E9D2"],
 		];
 
 		const getRandomIndex = (array: any) => {
@@ -44,15 +46,21 @@ function App() {
 
 	const story = useStoryblok(slug, { version: "draft" });
 	if (!story || !story.content || !story.content.body) {
-		return <div>Loading...</div>;
+		return;
 	}
 
-	const handleHeaderSize = (e: any) => {
+	const handlePageScroll = (e: any) => {
 		if (e.target.scrollTop === 0 || e.target.scrollTop <= window.innerHeight - 200) {
 			setActiveItem("");
 			setHeaderSize(72);
 		} else if (e.target.scrollTop >= window.innerHeight - 200) {
 			setHeaderSize(32);
+		}
+
+		if (e.target.scrollTop === 0 || e.target.scrollTop <= window.innerHeight * 2) {
+			setShowScrollButton(false);
+		} else if (e.target.scrollTop > 1000) {
+			setShowScrollButton(true);
 		}
 	};
 
@@ -79,6 +87,10 @@ function App() {
 		.filter((item: any) => item.component === "project")
 		.sort((a: any, b: any) => b.year - a.year);
 
+	const handleScrollUp = () => {
+		refScrollUp.current?.scrollIntoView({ behavior: "smooth" });
+	};
+
 	return (
 		<>
 			<Menu
@@ -89,8 +101,11 @@ function App() {
 				activeItem={activeItem}
 			/>
 			<Contact isContactOpen={isContactOpen} blok={contactBlok} />
-			<main onScroll={(e) => handleHeaderSize(e)}>
+
+			<ScrollToTop showScrollButton={showScrollButton} scrollUp={handleScrollUp} />
+			<main onScroll={(e) => handlePageScroll(e)}>
 				{isHeaderVisible && <Header handleMenu={handleMenu} headersize={headersize} />}
+				<div ref={refScrollUp}></div>
 				<LandingPage blok={landingBlok} backgroundColours={backgroundColours} />
 				{projectBlok.map((item: any) => {
 					return (
@@ -107,4 +122,5 @@ function App() {
 		</>
 	);
 }
+
 export default App;

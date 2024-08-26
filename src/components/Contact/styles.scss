@@ -19,24 +19,47 @@
 }
 
 .contact__wrapper {
-	// padding: 30px;
-	height: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-direction: column;
+	display: grid;
+	grid-template-rows: 1fr auto;
+
 	width: 80%;
+	height: 100%;
+	padding: 20px;
+
 	p {
-		font-family: "poppins";
-		padding: 20px;
-		text-align: center;
+		font-family: "Poppins";
 		line-height: 1.6;
+		text-align: center;
 	}
+}
+
+.text-block {
+	align-self: center;
+}
+.socials {
+	align-self: end;
+	display: flex;
+	position: relative;
+	flex-direction: column;
+	align-items: center;
+	padding-bottom: 24px;
 	a {
+		margin: 6px 0;
+		font-size: 1rem;
 		text-decoration: none;
 		color: black;
 		&:hover {
 			color: rgb(51, 51, 51);
 		}
 	}
+	&__links {
+		svg {
+			margin: 8px 8px;
+			&:hover {
+				opacity: 0.6;
+			}
+		}
+	}
 }
+
+// NEw
