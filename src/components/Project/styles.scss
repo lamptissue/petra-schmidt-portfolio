@@ -5,18 +5,23 @@
 	position: relative;
 	top: 0;
 	left: 0;
+
 	h1 {
-		margin-top: 20px;
-		position: absolute;
-		left: 50%;
-		font-size: 48px;
-		transform: translateX(-50%);
+		margin: 20px auto auto auto;
 		cursor: auto;
 		text-align: center;
 		color: white;
+		max-width: 60%;
 		text-shadow: 1px 1px 15px rgb(70, 70, 70);
 		line-height: 1.2;
 		z-index: 10;
+		@media (max-width: 768px) {
+			margin-right: 0;
+			margin-left: auto;
+			padding-right: 20px;
+			text-align: right;
+			max-width: 55%;
+		}
 	}
 }
 
@@ -51,7 +56,7 @@
 .project-modal__container {
 	z-index: 10;
 	-webkit-backdrop-filter: blur(10px);
-
+	padding-left: 70px;
 	backdrop-filter: blur(10px);
 	background-color: rgba(255, 255, 255, 0.1);
 	width: 100vw;
@@ -59,6 +64,10 @@
 	position: fixed;
 	top: 0;
 	left: 0;
+	@media (max-width: 768px) {
+		padding-bottom: 50px;
+		padding-left: 0;
+	}
 }
 
 .project-modal__sidebar {
@@ -67,19 +76,29 @@
 	left: 0;
 	top: 0;
 	width: 70px;
-
 	height: 100%;
 	padding: 20px;
-	background-color: var(--menu-main);
+	background-color: var(--default-color);
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	flex-direction: column;
 	span {
-		font-size: 18px;
 		text-align: center;
 		writing-mode: vertical-rl;
 		transform: rotate(-180deg);
+	}
+	@media (max-width: 768px) {
+		bottom: 0;
+		width: 100%;
+		height: 50px;
+		top: auto;
+		flex-direction: row;
+		padding: 10px;
+		span {
+			writing-mode: horizontal-tb;
+			transform: rotate(0);
+		}
 	}
 }
 
@@ -104,6 +123,7 @@
 		height: 20px;
 		width: 2px;
 		background-color: white;
+		box-shadow: 7px 1px 20px rgba(0, 0, 0, 0.2);
 	}
 	&:before {
 		transform: rotate(45deg);
@@ -147,20 +167,31 @@
 	z-index: 10;
 	width: 100%;
 	height: 100%;
+	padding: 20px;
 	top: 0;
 	left: 0;
 	pointer-events: none;
-	p {
-		margin: auto;
-		background: pink;
-		padding: 10px;
-		border-radius: 5px;
-		max-width: 80vw;
-	}
+
 	img {
 		margin: auto;
 		border-radius: 5px;
 		max-height: 95vh;
 		max-width: 100%;
+		@media (max-width: 768px) {
+			max-height: 80vh;
+		}
+	}
+	.text-area {
+		padding: 4rem;
+		border-radius: 5px;
+		max-width: 80vw;
+		max-height: 80vh;
+		min-height: 50vh;
+		overflow-y: auto;
+		margin: auto;
+		background-color: var(--default-color);
+		white-space: pre-line;
+		pointer-events: auto;
+		cursor: none;
 	}
 }

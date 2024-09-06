@@ -1,11 +1,15 @@
 .home-background {
 	height: 100vh;
 	width: 100vw;
-	background-color: orange;
+	// background-color: orange;
 	position: relative;
 	z-index: 10;
 	top: 0;
 	left: 0;
+	background-color: hsla(0, 100%, 50%, 0.69);
+	background-image: radial-gradient(at 6% 13%, hsla(28, 100%, 74%, 1) 0px, transparent 50%),
+		radial-gradient(at 80% 0%, hsla(189, 100%, 56%, 1) 0px, transparent 50%),
+		radial-gradient(at 83% 76%, hsla(355, 100%, 93%, 1) 0px, transparent 50%);
 
 	.blur-container {
 		width: 100vw;
@@ -16,31 +20,6 @@
 		position: absolute;
 		top: 0;
 		left: 0;
-	}
-	.box1,
-	.box2,
-	.box3 {
-		position: absolute;
-		width: 50vw;
-		height: 50vh;
-		z-index: 10;
-	}
-
-	.box1 {
-		top: 0;
-		left: 0;
-		background-color: pink;
-	}
-
-	.box2 {
-		top: 0;
-		right: 0;
-		background: cyan;
-	}
-	.box3 {
-		bottom: 0;
-		left: 0;
-		background-color: yellow;
 	}
 }
 

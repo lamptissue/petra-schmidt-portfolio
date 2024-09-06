@@ -13,7 +13,7 @@ const Contact = ({ blok, isContactOpen }: { blok: any; isContactOpen: any }) => 
 				<div className='text-block'>
 					<p>{blok.about}</p>
 				</div>
-				{/* Update so taht the main text is in the middle and socials is on the bottom, css grid?§ */}
+
 				<div className='socials'>
 					{blok.phone && <a href={`tel:${formattedNumber}`}>{blok.phone}</a>}
 

@@ -128,8 +128,8 @@ export default function Project({
 				});
 			} else if (item.component === "projectModalText") {
 				combinedArray.push({
+					...item,
 					type: "text",
-					text: item.text,
 				});
 			} else if (item.component === "multiasset") {
 				item.image.forEach((img: any) => {
@@ -203,7 +203,7 @@ export default function Project({
 			style={{ background: isPortrait ? portraitBackground : "" }}
 			id={blok.projectTitle}>
 			<h1
-				className={`text-h2 ${blok.modalDetail && blok.modalDetail.length >= 1 ? "active-project-link" : ""} `}
+				className={`text-h3 ${blok.modalDetail && blok.modalDetail.length >= 1 ? "active-project-link" : ""} `}
 				onClick={blok.modalDetail && blok.modalDetail.length >= 1 ? handleOpenModal : undefined}
 				id={blok.projectTitle}>
 				{blok.projectTitle}
@@ -229,7 +229,10 @@ export default function Project({
 					combinedArray.length > 0 &&
 					combinedArray[currentSlide - 1].type === "text" && (
 						<div className='combineTest'>
-							<p>{combinedArray[currentSlide - 1].text}</p>
+							<div className='text-area'>
+								<p> {combinedArray[currentSlide - 1].text.length}</p>
+								<p>{combinedArray[currentSlide - 1].text}</p>
+							</div>
 						</div>
 					)
 				)}
