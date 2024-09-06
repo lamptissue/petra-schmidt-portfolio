@@ -2,6 +2,7 @@ import { storyblokEditable } from "@storyblok/react";
 import "./styles.scss";
 
 const LandingPage = ({ blok, backgroundColours }: { blok: any; backgroundColours: any }) => {
+	console.log("background", backgroundColours);
 	return (
 		// <section
 		// 	{...storyblokEditable(blok)}
