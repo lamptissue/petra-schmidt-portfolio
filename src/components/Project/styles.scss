@@ -175,7 +175,8 @@
 	img {
 		margin: auto;
 		border-radius: 5px;
-		max-height: 95vh;
+		min-height: 50vh;
+		max-height: 80vh;
 		max-width: 100%;
 		@media (max-width: 768px) {
 			max-height: 80vh;
@@ -184,14 +185,30 @@
 	.text-area {
 		padding: 4rem;
 		border-radius: 5px;
-		max-width: 80vw;
-		max-height: 80vh;
-		min-height: 50vh;
+		// max-width: 80vw;
+		width: 80vw;
+		height: 80vh;
+		// min-width: 50vw;
+		// max-height: 80vh;
+		// min-height: 50vh;
 		overflow-y: auto;
 		margin: auto;
+
 		background-color: var(--default-color);
 		white-space: pre-line;
 		pointer-events: auto;
 		cursor: none;
+		// display: flex;
+		// align-items: center;
+		// justify-content: center;
+	}
+
+	.backgroundtest {
+		background-color: pink;
+	}
+
+	.coltest p {
+		column-count: 2;
+		column-gap: 20px;
 	}
 }

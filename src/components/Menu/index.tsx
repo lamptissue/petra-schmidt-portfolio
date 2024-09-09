@@ -13,24 +13,36 @@ export default function Menu({
 	setIsMenuOpen,
 	handleContact,
 	blok,
+	setIsContactOpen,
 	activeItem,
+	isContactOpen,
 }: {
 	isMenuOpen: any;
 	setIsMenuOpen: any;
 	handleContact: any;
 	blok: any;
+	setIsContactOpen: any;
 	activeItem: any;
+	isContactOpen: any;
 }) {
 	const [previewImage, setPreviewImage] = useState("");
 
 	const handleClick = (projectId: string) => {
-		setIsMenuOpen(false);
+		if (isContactOpen) {
+			setIsContactOpen(false);
+			setTimeout(() => {
+				setIsMenuOpen(false);
+			}, 400);
+		} else {
+			setIsMenuOpen(false);
+		}
+
 		const projectElement = document.getElementById(projectId);
 		setPreviewImage("");
 		if (projectElement) {
 			setTimeout(() => {
 				projectElement.scrollIntoView({ behavior: "smooth" });
-			}, 500);
+			}, 600);
 		}
 	};
 

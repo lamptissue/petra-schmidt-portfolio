@@ -1,5 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import { richTextResolver } from "@storyblok/richtext";
+
 import "react-lazy-load-image-component/src/effects/opacity.css";
 import "./styles.scss";
 
@@ -143,6 +145,19 @@ export default function Project({
 		});
 	}
 
+	if (blok.rich_text) {
+		combinedArray.push({
+			type: "richText",
+			data: blok.rich_text.content,
+		});
+	}
+
+	console.log("combined", combinedArray);
+
+	let richtextHtml =
+		blok.rich_text && blok.rich_text.content && Array.isArray(blok.rich_text.content)
+			? richTextResolver().render(blok.rich_text)
+			: null;
 	// TODO preload images/files in an array once the modal is clicked open
 
 	// const [assetsLoaded, setAssetsLoaded] = useState<boolean>(false);
@@ -225,16 +240,24 @@ export default function Project({
 					<div className='combineTest'>
 						<img src={`${combinedArray[currentSlide - 1].filename}/m/`} loading='lazy' />
 					</div>
-				) : (
-					combinedArray.length > 0 &&
-					combinedArray[currentSlide - 1].type === "text" && (
-						<div className='combineTest'>
-							<div className='text-area'>
-								<p> {combinedArray[currentSlide - 1].text.length}</p>
-								<p>{combinedArray[currentSlide - 1].text}</p>
-							</div>
+				) : combinedArray.length > 0 && combinedArray[currentSlide - 1].type === "text" ? (
+					<div className='combineTest'>
+						<div
+							className={`text-area ${
+								combinedArray[currentSlide - 1].text.length < 1000 ? "backgroundtest" : "coltest"
+							}`}>
+							<p>{combinedArray[currentSlide - 1].text}</p>
 						</div>
-					)
+					</div>
+				) : (
+					combinedArray[currentSlide - 1].type === "richText" &&
+					(richtextHtml ? (
+						<div className='combineTest'>
+							<div className='text-area rich-text-content' dangerouslySetInnerHTML={{ __html: richtextHtml }} />
+						</div>
+					) : (
+						<p>No rich text content available.</p>
+					))
 				)}
 
 				<div className='left-arrow arrow__container' onClick={handlePreviousSlide}></div>

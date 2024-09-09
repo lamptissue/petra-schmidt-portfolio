@@ -13,9 +13,26 @@ function App() {
 	const [isHeaderVisible, setIsHeaderVisible] = useState(true);
 	const [backgroundColours, setBackgroundColour] = useState<string[]>([]);
 	const [activeItem, setActiveItem] = useState("");
-	const [headersize, setHeaderSize] = useState(72);
+	const [bigSize, setBigSize] = useState(window.innerWidth < 768 ? "56" : "72");
+	const [smallSize, setSmallSize] = useState(window.innerWidth < 768 ? "24" : "32");
+
+	const [headersize, setHeaderSize] = useState(bigSize);
 	const [showScrollButton, setShowScrollButton] = useState(false);
 	const refScrollUp = useRef<HTMLDivElement>(null);
+
+	useEffect(() => {
+		const handleResize = () => {
+			setBigSize(window.innerWidth < 768 ? "56" : "72");
+			setSmallSize(window.innerWidth < 768 ? "24" : "32");
+		};
+		window.addEventListener("resize", handleResize);
+
+		handleResize();
+
+		return () => {
+			window.removeEventListener("resize", handleResize);
+		};
+	}, []);
 
 	useEffect(() => {
 		// const landingPageColours = [
@@ -75,19 +92,19 @@ function App() {
 			return Math.floor(Math.random() * array.length);
 		};
 
-		console.log("random it", getRandomIndex(landingPageColours));
+		// console.log("random it", getRandomIndex(landingPageColours));
 
 		setBackgroundColour(landingPageColours[getRandomIndex(landingPageColours)]);
-		console.log(backgroundColours);
+		// console.log(backgroundColours);
 	}, []);
 
 	useEffect(() => {
 		if (activeItem === "" || isMenuOpen) {
-			setHeaderSize(72);
+			setHeaderSize(bigSize);
 		} else if (activeItem !== "" && !isMenuOpen) {
-			setHeaderSize(32);
+			setHeaderSize(smallSize);
 		}
-	}, [isMenuOpen, activeItem]);
+	}, [isMenuOpen, activeItem, bigSize, smallSize]);
 
 	let slug = window.location.pathname === "/" ? "home" : window.location.pathname.replace("/", "");
 
@@ -99,9 +116,9 @@ function App() {
 	const handlePageScroll = (e: any) => {
 		if (e.target.scrollTop === 0 || e.target.scrollTop <= window.innerHeight - 200) {
 			setActiveItem("");
-			setHeaderSize(72);
+			setHeaderSize(bigSize);
 		} else if (e.target.scrollTop >= window.innerHeight - 200) {
-			setHeaderSize(32);
+			setHeaderSize(smallSize);
 		}
 
 		if (e.target.scrollTop === 0 || e.target.scrollTop <= window.innerHeight * 2) {
@@ -157,6 +174,8 @@ function App() {
 				handleContact={handleContact}
 				blok={projectBlok}
 				activeItem={activeItem}
+				setIsContactOpen={setIsContactOpen}
+				isContactOpen={isContactOpen}
 			/>
 			<Contact isContactOpen={isContactOpen} blok={contactBlok} />
 

@@ -33,6 +33,7 @@ h2,
 .text-h2 {
 	font-size: 3.5rem;
 }
+.rich-text-content h3,
 h3,
 .text-h3 {
 	font-size: 3rem;
@@ -40,12 +41,17 @@ h3,
 		font-size: 1.5rem;
 	}
 }
+.rich-text-content h4,
 h4 {
 	font-size: 2.5rem;
 }
+
+.rich-text-content h5,
 h5 {
 	font-size: 2rem;
 }
+
+.rich-text-content h6,
 h6 {
 	font-size: 1.5rem;
 	@media (max-width: 768px) {
@@ -65,6 +71,38 @@ p {
 	@media (max-width: 768px) {
 		font-size: 1rem;
 	}
+}
+
+/* Paragraph */
+.rich-text-content p {
+	margin-bottom: 1rem;
+}
+
+/* Links */
+.rich-text-content a {
+	color: #007bff;
+	text-decoration: none;
+}
+
+.rich-text-content a:hover {
+	text-decoration: underline;
+}
+
+/* Bold */
+.rich-text-content strong,
+.rich-text-content b {
+	font-weight: bold;
+}
+
+/* Italic */
+.rich-text-content em,
+.rich-text-content i {
+	font-style: italic;
+}
+
+/* Underlined */
+.rich-text-content u {
+	text-decoration: underline;
 }
 
 main {

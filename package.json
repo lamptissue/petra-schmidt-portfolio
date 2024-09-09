@@ -12,6 +12,7 @@
 	"dependencies": {
 		"@gsap/react": "^2.1.1",
 		"@storyblok/react": "^3.0.10",
+		"@storyblok/richtext": "^2.0.0",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
 		"react-lazy-load-image-component": "^1.6.0",
