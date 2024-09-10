@@ -7,6 +7,7 @@
 	z-index: 30;
 	width: 50vw;
 	background-color: #fcfcfc;
+
 	display: flex;
 	justify-content: center;
 	transition: transform 1s ease;
@@ -21,7 +22,6 @@
 .contact__wrapper {
 	display: grid;
 	grid-template-rows: 1fr auto;
-
 	width: 80%;
 	height: 100%;
 	padding: 20px;

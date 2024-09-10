@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 import "./styles.scss";
 
 interface Project {
@@ -10,39 +9,28 @@ interface Project {
 
 export default function Menu({
 	isMenuOpen,
-	setIsMenuOpen,
 	handleContact,
 	blok,
-	setIsContactOpen,
 	activeItem,
-	isContactOpen,
+	handleMenu,
 }: {
 	isMenuOpen: any;
-	setIsMenuOpen: any;
 	handleContact: any;
 	blok: any;
-	setIsContactOpen: any;
 	activeItem: any;
-	isContactOpen: any;
+	handleMenu: any;
 }) {
 	const [previewImage, setPreviewImage] = useState("");
 
 	const handleClick = (projectId: string) => {
-		if (isContactOpen) {
-			setIsContactOpen(false);
-			setTimeout(() => {
-				setIsMenuOpen(false);
-			}, 400);
-		} else {
-			setIsMenuOpen(false);
-		}
+		handleMenu();
 
 		const projectElement = document.getElementById(projectId);
 		setPreviewImage("");
 		if (projectElement) {
 			setTimeout(() => {
 				projectElement.scrollIntoView({ behavior: "smooth" });
-			}, 600);
+			}, 800);
 		}
 	};
 
@@ -50,7 +38,16 @@ export default function Menu({
 		image: item.backgroundImage.filename,
 		project: item.projectTitle,
 	}));
+	// get the year
+	// 	const result = []
+	// 	let lastYear = null
+	// 	const year = new Date(blok...).getFullYear()
 
+	// 	const displayYear = year !== lastYear
+
+	// 	postMessage.displayYear = displayYear
+	// result.push(post)
+	// 	lastYear = year
 	const groupedProjects = blok.reduce((acc: any, project: any) => {
 		const { year } = project;
 		if (!acc[year]) {
@@ -115,9 +112,7 @@ export default function Menu({
 				</div>
 			)}
 
-			<div
-				className={`main-navigation__blurred-background ${isMenuOpen ? "blur" : ""}`}
-				onClick={() => setIsMenuOpen(false)}></div>
+			<div className={`main-navigation__blurred-background ${isMenuOpen ? "blur" : ""}`} onClick={handleMenu}></div>
 		</>
 	);
 }

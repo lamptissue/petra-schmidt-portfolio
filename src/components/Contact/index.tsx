@@ -1,6 +1,6 @@
 import { storyblokEditable } from "@storyblok/react";
-
 import "./styles.scss";
+
 const Contact = ({ blok, isContactOpen }: { blok: any; isContactOpen: any }) => {
 	const phoneNumber = blok.phone && blok.phone;
 	let formattedNumber = phoneNumber.replace(/[^+\d]/g, "");

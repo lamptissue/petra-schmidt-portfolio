@@ -2,7 +2,6 @@ import "./styles.scss";
 
 export default function ScrollToTop({ showScrollButton, scrollUp }: { showScrollButton: any; scrollUp: any }) {
 	return (
-		// <div style={{ display: showScrollButton ? "block" : "none" }} className='scroll__container'>
 		<button onClick={scrollUp} className='scroll__it' style={{ display: showScrollButton ? "flex" : "none" }}>
 			<svg viewBox='0 0 12 16' fill='none' xmlns='http://www.w3.org/2000/svg'>
 				<path
@@ -13,6 +12,5 @@ export default function ScrollToTop({ showScrollButton, scrollUp }: { showScroll
 				/>
 			</svg>
 		</button>
-		// </div>
 	);
 }

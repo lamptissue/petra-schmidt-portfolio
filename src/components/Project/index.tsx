@@ -18,7 +18,7 @@ export default function Project({
 }) {
 	const [currentSlide, setCurrentSlide] = useState(1);
 	const [isPortrait, setIsPortrait] = useState(false);
-	const [portraitBackground, setPortraitBackground] = useState();
+	const [backgroundColour, setBackgroundColor] = useState();
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [windowSide, setWindowSide] = useState("");
 	const [hideArrowCursor, setHideArrowCursor] = useState(false);
@@ -28,15 +28,17 @@ export default function Project({
 
 	const imageSrc = blok.backgroundImage.filename;
 
+	const main = document.querySelector("main");
+
 	const handleOpenModal = () => {
 		setIsModalOpen(true);
-		document.body.style.overflowY = "hidden";
+		main!.style.overflow = "hidden";
 		setIsHeaderVisible(false);
 	};
 
 	const handleCloseModal = () => {
 		setIsModalOpen(false);
-		document.body.style.overflowY = "auto";
+		main!.style.overflow = "auto";
 		setIsHeaderVisible(true);
 	};
 
@@ -75,11 +77,6 @@ export default function Project({
 		}
 	};
 
-	useEffect(() => {
-		const randomNumber = Math.floor(Math.random() * backgroundColours.length);
-		setPortraitBackground(backgroundColours[randomNumber]);
-	}, []);
-
 	const checkLandscape = (image: any) => {
 		const img = new Image();
 		img.src = image;
@@ -92,6 +89,12 @@ export default function Project({
 			}
 		};
 	};
+
+	useEffect(() => {
+		const randomNumber = Math.floor(Math.random() * backgroundColours.length);
+
+		setBackgroundColor(isPortrait && backgroundColours[randomNumber]);
+	}, [isPortrait]);
 
 	useEffect(() => {
 		checkLandscape(blok.backgroundImage.filename);
@@ -152,12 +155,11 @@ export default function Project({
 		});
 	}
 
-	console.log("combined", combinedArray);
-
 	let richtextHtml =
 		blok.rich_text && blok.rich_text.content && Array.isArray(blok.rich_text.content)
 			? richTextResolver().render(blok.rich_text)
 			: null;
+
 	// TODO preload images/files in an array once the modal is clicked open
 
 	// const [assetsLoaded, setAssetsLoaded] = useState<boolean>(false);
@@ -210,12 +212,14 @@ export default function Project({
 	// 	console.log(" loaded");
 	// }
 
+	// console.log("backgroundColour", backgroundColour);
+
 	return (
 		<section
 			ref={ref}
 			className='project__container'
 			data-section
-			style={{ background: isPortrait ? portraitBackground : "" }}
+			style={{ background: `hsla(${backgroundColour}, 0.5)` }}
 			id={blok.projectTitle}>
 			<h1
 				className={`text-h3 ${blok.modalDetail && blok.modalDetail.length >= 1 ? "active-project-link" : ""} `}
@@ -236,30 +240,25 @@ export default function Project({
 				className='project-modal__container'
 				style={{ display: isModalOpen ? "flex" : "none" }}
 				onMouseMove={(event) => handleMouseArrow(event)}>
-				{combinedArray.length > 0 && combinedArray[currentSlide - 1].type === "image" ? (
-					<div className='combineTest'>
+				<div className='project-modal__content-container'>
+					{combinedArray.length > 0 && combinedArray[currentSlide - 1].type === "image" ? (
 						<img src={`${combinedArray[currentSlide - 1].filename}/m/`} loading='lazy' />
-					</div>
-				) : combinedArray.length > 0 && combinedArray[currentSlide - 1].type === "text" ? (
-					<div className='combineTest'>
+					) : combinedArray.length > 0 && combinedArray[currentSlide - 1].type === "text" ? (
 						<div
 							className={`text-area ${
 								combinedArray[currentSlide - 1].text.length < 1000 ? "backgroundtest" : "coltest"
 							}`}>
 							<p>{combinedArray[currentSlide - 1].text}</p>
 						</div>
-					</div>
-				) : (
-					combinedArray[currentSlide - 1].type === "richText" &&
-					(richtextHtml ? (
-						<div className='combineTest'>
-							<div className='text-area rich-text-content' dangerouslySetInnerHTML={{ __html: richtextHtml }} />
-						</div>
 					) : (
-						<p>No rich text content available.</p>
-					))
-				)}
-
+						combinedArray[currentSlide - 1].type === "richText" &&
+						(richtextHtml ? (
+							<div className='text-area rich-text-content' dangerouslySetInnerHTML={{ __html: richtextHtml }} />
+						) : (
+							""
+						))
+					)}
+				</div>
 				<div className='left-arrow arrow__container' onClick={handlePreviousSlide}></div>
 				<div className='right-arrow arrow__container' onClick={handleNextSlide}></div>
 
