@@ -182,7 +182,7 @@
 			max-height: 80vh;
 		}
 	}
-	.text-area {
+	.project-modal__text-area {
 		padding: 4rem;
 		border-radius: 5px;
 		// max-width: 80vw;
@@ -198,17 +198,18 @@
 		white-space: pre-line;
 		pointer-events: auto;
 		cursor: none;
-		// display: flex;
-		// align-items: center;
-		// justify-content: center;
 	}
 
-	.backgroundtest {
+	.project-modal__text-area--short-text {
 		background-color: pink;
 	}
-
-	.coltest p {
+	.project-modal__text-area--long-text {
+		display: flex;
+	}
+	.project-modal__text-area--long-text p {
 		column-count: 2;
-		column-gap: 20px;
+		column-gap: 3rem;
+		margin: auto;
+		line-height: 1.25;
 	}
 }

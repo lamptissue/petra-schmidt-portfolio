@@ -105,6 +105,14 @@ p {
 	text-decoration: underline;
 }
 
+.rich-text-content p,
+.rich-text-content h3,
+.rich-text-content h4,
+.rich-text-content h5,
+.rich-text-content h6 {
+	margin-bottom: 1rem;
+}
+
 main {
 	display: flex;
 	flex: none;

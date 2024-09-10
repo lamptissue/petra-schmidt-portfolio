@@ -132,9 +132,11 @@ export default function Project({
 					filename: item.image.filename,
 				});
 			} else if (item.component === "projectModalText") {
+				const textLength = item.text.length > 1000 ? "long" : "short";
 				combinedArray.push({
 					...item,
 					type: "text",
+					textLength,
 				});
 			} else if (item.component === "multiasset") {
 				item.image.forEach((img: any) => {
@@ -160,6 +162,12 @@ export default function Project({
 			? richTextResolver().render(blok.rich_text)
 			: null;
 
+	const test =
+		combinedArray.length > 0 &&
+		combinedArray[currentSlide - 1].type === "text" &&
+		combinedArray[currentSlide - 1].textLength === "short" &&
+		combinedArray[0].text.split("\n\n");
+	console.log("test", test ? test[0] : false);
 	// TODO preload images/files in an array once the modal is clicked open
 
 	// const [assetsLoaded, setAssetsLoaded] = useState<boolean>(false);
@@ -212,8 +220,6 @@ export default function Project({
 	// 	console.log(" loaded");
 	// }
 
-	// console.log("backgroundColour", backgroundColour);
-
 	return (
 		<section
 			ref={ref}
@@ -244,16 +250,28 @@ export default function Project({
 					{combinedArray.length > 0 && combinedArray[currentSlide - 1].type === "image" ? (
 						<img src={`${combinedArray[currentSlide - 1].filename}/m/`} loading='lazy' />
 					) : combinedArray.length > 0 && combinedArray[currentSlide - 1].type === "text" ? (
+						// <div
+						// 	className={`project-modal__text-area ${
+						// 		combinedArray[currentSlide - 1].text.length < 1000
+						// 			? "project-modal__text-area--short-text"
+						// 			: "project-modal__text-area--long-text"
+						// 	}`}>
+
 						<div
-							className={`text-area ${
-								combinedArray[currentSlide - 1].text.length < 1000 ? "backgroundtest" : "coltest"
+							className={`project-modal__text-area ${
+								combinedArray[currentSlide - 1].textLength === "short"
+									? "project-modal__text-area--short-text"
+									: "project-modal__text-area--long-text"
 							}`}>
 							<p>{combinedArray[currentSlide - 1].text}</p>
 						</div>
 					) : (
 						combinedArray[currentSlide - 1].type === "richText" &&
 						(richtextHtml ? (
-							<div className='text-area rich-text-content' dangerouslySetInnerHTML={{ __html: richtextHtml }} />
+							<div
+								className='project-modal__text-area rich-text-content'
+								dangerouslySetInnerHTML={{ __html: richtextHtml }}
+							/>
 						) : (
 							""
 						))
