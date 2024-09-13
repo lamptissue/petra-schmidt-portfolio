@@ -30,6 +30,7 @@ export default function Project({
 
 	const main = document.querySelector("main");
 
+	console.log("blok.rich_text", blok.rich_text);
 	const handleOpenModal = () => {
 		setIsModalOpen(true);
 		main!.style.overflow = "hidden";
@@ -150,7 +151,12 @@ export default function Project({
 		});
 	}
 
-	if (blok.rich_text) {
+	if (
+		blok.rich_text.content &&
+		blok.rich_text.content.some((node: any) => {
+			return node.content && node.content.some((innerNode: any) => innerNode.text && innerNode.text.trim() !== "");
+		})
+	) {
 		combinedArray.push({
 			type: "richText",
 			data: blok.rich_text.content,
@@ -162,12 +168,12 @@ export default function Project({
 			? richTextResolver().render(blok.rich_text)
 			: null;
 
-	const test =
-		combinedArray.length > 0 &&
-		combinedArray[currentSlide - 1].type === "text" &&
-		combinedArray[currentSlide - 1].textLength === "short" &&
-		combinedArray[0].text.split("\n\n");
-	console.log("test", test ? test[0] : false);
+	// const test =
+	// 	combinedArray.length > 0 &&
+	// 	combinedArray[currentSlide - 1].type === "text" &&
+	// 	combinedArray[currentSlide - 1].textLength === "short" &&
+	// 	combinedArray[0].text.split("\n\n");
+	// console.log("test", test ? test[0] : false);
 	// TODO preload images/files in an array once the modal is clicked open
 
 	// const [assetsLoaded, setAssetsLoaded] = useState<boolean>(false);
