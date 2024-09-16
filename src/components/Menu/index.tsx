@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, Fragment } from "react";
 import "./styles.scss";
 
 interface Project {
@@ -38,16 +38,7 @@ export default function Menu({
 		image: item.backgroundImage.filename,
 		project: item.projectTitle,
 	}));
-	// get the year
-	// 	const result = []
-	// 	let lastYear = null
-	// 	const year = new Date(blok...).getFullYear()
 
-	// 	const displayYear = year !== lastYear
-
-	// 	postMessage.displayYear = displayYear
-	// result.push(post)
-	// 	lastYear = year
 	const groupedProjects = blok.reduce((acc: any, project: any) => {
 		const { year } = project;
 		if (!acc[year]) {
@@ -57,7 +48,6 @@ export default function Menu({
 			projectTitle: project.projectTitle,
 			image: project.backgroundImage.filename,
 			id: project._uid,
-			// ...project,
 		});
 		return acc;
 	}, {});
@@ -81,7 +71,7 @@ export default function Menu({
 				</div>
 				<div className='main-navigation__nav'>
 					{sortedGroupedProjects.map(([year, projects]) => (
-						<>
+						<Fragment key={year}>
 							<div key={year} className='main-navigation__nav--year'>
 								<h6>{year}</h6>
 							</div>
@@ -100,7 +90,7 @@ export default function Menu({
 									))}
 								</ul>
 							</div>
-						</>
+						</Fragment>
 					))}
 				</div>
 			</div>

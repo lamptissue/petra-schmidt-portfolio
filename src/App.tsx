@@ -1,4 +1,5 @@
 import { useStoryblok } from "@storyblok/react";
+import { Helmet } from "react-helmet";
 import { useEffect, useState, useRef } from "react";
 import Contact from "./components/Contact";
 import Header from "./components/Header";
@@ -38,7 +39,7 @@ function App() {
 		const landingPageColours = [
 			["0, 100%, 84%", "153, 68%, 73%", "48, 67%, 68%", "0, 62%, 64%"],
 			["200, 60%, 85%", "135, 50%, 80%", "300, 45%, 75%", "45, 70%, 80%"],
-			["102, 24%, 45%", "45, 64%, 48%", "11, 44%, 75%", "12, 36%, 57%"],
+			["102, 24%, 45%", "45, 64%, 48%", "11, 44%, 75%", "12, 36%, 57%"], //update this colour
 			["81, 25%, 73%", "50, 56%, 81%", "284, 55%, 85%", "164, 35%, 64%"],
 			["49, 78%, 51%", "29, 89%, 64%", "45, 68%, 67%", "100, 39%, 68%"],
 		];
@@ -48,7 +49,6 @@ function App() {
 		};
 
 		setBackgroundColour(landingPageColours[getRandomIndex(landingPageColours)]);
-		// setBackgroundColour(landingPageColours[0]);
 	}, []);
 	``;
 
@@ -111,6 +111,19 @@ function App() {
 
 	return (
 		<>
+			<Helmet>
+				<title>{story.content.title}</title>
+				<meta name='description' content={story.content.description} />
+				<meta name='keywords' content={story.content?.tags} />
+				<meta name='author' content={story.content.author} />
+				<meta property='og:title' content={story.content.title} />
+				<meta property='og:description' content={story.content.description} />
+				<meta property='og:image' content={story.content.image.filename} />
+				<meta property='og:url' content={story.content.url} />
+				<meta name='twitter:title' content={story.content.title} />
+				<meta name='twitter:description' content={story.content.description} />
+				<meta name='twitter:image' content={story.content.image.filename} />
+			</Helmet>
 			<Menu
 				isMenuOpen={isMenuOpen}
 				handleContact={handleContact}
