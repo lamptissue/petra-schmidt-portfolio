@@ -118,7 +118,8 @@
 
 .preview__image {
 	margin: auto;
-	width: 70%;
+	max-width: 35vw;
+	aspect-ratio: 1/1;
 	img {
 		object-fit: contain;
 		height: 100%;
