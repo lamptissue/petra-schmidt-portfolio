@@ -37,6 +37,7 @@ export default function Project({
 	};
 
 	const handleCloseModal = () => {
+		setCurrentSlide(1);
 		setIsModalOpen(false);
 		main!.style.overflow = "auto";
 		setIsHeaderVisible(true);
@@ -163,8 +164,19 @@ export default function Project({
 						filename: img.filename,
 					});
 				});
+			} else if (item.component === "project_modal_video") {
+				const embedUrl = getEmbedUrl(item.video); // Function to convert to embed URL
+				combinedArray.push({
+					type: "video",
+					videoUrl: embedUrl,
+				});
 			}
 		});
+	}
+
+	function getEmbedUrl(url: any) {
+		const videoId = url.split("v=")[1] || url.split("/").pop();
+		return `https://www.youtube.com/embed/${videoId}`;
 	}
 
 	if (
@@ -191,7 +203,7 @@ export default function Project({
 	if (currentItem.type === "text") {
 		if (currentItem.textLength === "short") {
 			const paragraphs = currentItem.text.split("\n\n");
-			console.log("paragraphs", paragraphs);
+
 			textContent = (
 				<div className='project-modal__text-area project-modal__text-area--short-text'>
 					{paragraphs[0] && <p className='align-left'>{paragraphs[0]}</p>}
@@ -244,7 +256,19 @@ export default function Project({
 							dangerouslySetInnerHTML={{ __html: richtextHtml }}
 						/>
 					) : (
-						""
+						currentItem.type === "video" && (
+							<iframe
+								width='80%'
+								height='80%'
+								src={currentItem.videoUrl}
+								title='YouTube video player'
+								frameBorder='0'
+								allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+								referrerPolicy='strict-origin-when-cross-origin'
+								allowFullScreen
+								onMouseEnter={() => setHideArrowCursor(true)}
+								onMouseLeave={() => setHideArrowCursor(false)}></iframe>
+						)
 					)}
 				</div>
 				<div className='left-arrow arrow__container' onClick={handlePreviousSlide}></div>

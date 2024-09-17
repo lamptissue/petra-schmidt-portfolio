@@ -61,8 +61,6 @@ export default function Menu({
 		}
 	};
 
-	console.log("blok", blok);
-
 	return (
 		<>
 			<div className={`main-navigation ${isMenuOpen ? "open" : ""}`}>
