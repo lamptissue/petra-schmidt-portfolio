@@ -121,7 +121,7 @@ export default function Project({
 		const [entry] = entries;
 		if (entry.isIntersecting) {
 			setActiveItem(blok.projectTitle);
-			preloadImages(); // Start preloading images
+			preloadImages();
 		}
 	};
 	const options = {

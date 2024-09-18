@@ -58,7 +58,7 @@
 	-webkit-backdrop-filter: blur(10px);
 	padding-left: 70px;
 	backdrop-filter: blur(10px);
-	background-color: rgba(255, 255, 255, 0.1);
+	background-color: rgba(255, 255, 255, 0.2);
 	width: 100vw;
 	height: 100vh;
 	position: fixed;
@@ -184,41 +184,37 @@
 	.project-modal__text-area {
 		padding: 4rem;
 		border-radius: 5px;
-		width: 80vw;
-		height: 80vh;
+		max-width: 70vw;
+		max-height: 80vh;
 		overflow-y: auto;
 		margin: auto;
 		background-color: var(--default-color);
 		white-space: pre-line;
 		pointer-events: auto;
 		cursor: none;
+		padding: 100px;
+		display: flex;
+		line-height: 1.5;
 	}
 
 	.project-modal__text-area--short-text {
-		line-height: 1.5;
-		display: flex;
 		flex-direction: column;
-		justify-content: center;
-		padding: 100px;
+
 		p {
 			width: 60%;
 		}
 	}
-	.project-modal__text-area--long-text {
-		display: flex;
-		line-height: 1.5;
-	}
+
 	.project-modal__text-area--long-text p {
 		column-count: 2;
-		column-gap: 3rem;
-		margin: auto;
+		column-gap: 4rem;
 	}
 }
 
 .align-left {
 	text-align: left;
 	margin-right: auto;
-	margin-bottom: 150px;
+	margin-bottom: 100px;
 }
 
 .align-right {
