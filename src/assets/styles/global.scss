@@ -52,7 +52,8 @@ h5 {
 }
 
 .rich-text-content h6,
-h6 {
+h6,
+.text-h6 {
 	font-size: 1.5rem;
 	@media (max-width: 768px) {
 		font-size: 1.2rem;

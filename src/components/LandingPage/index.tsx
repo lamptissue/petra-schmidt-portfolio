@@ -15,7 +15,7 @@ const LandingPage = ({ blok, backgroundColours }: { blok: any; backgroundColours
 				`,
 			}}>
 			<div className='introduction-paragraph'>
-				<h6>{blok.text}</h6>
+				<h2 className='text-h6'>{blok.text}</h2>
 			</div>
 			<div className='blur-container'></div>
 			<p>{blok.title}</p>

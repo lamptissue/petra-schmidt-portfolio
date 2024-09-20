@@ -25,11 +25,16 @@
 	}
 	@media (max-width: 768px) {
 		width: 100vw;
+		transform: translate(0, 102%);
 	}
 }
 .open {
 	transform: translateX(0);
 	pointer-events: auto;
+	@media (max-width: 768px) {
+		width: 100vw;
+		transform: translate(0, 0%); //Check this
+	}
 }
 
 .main-navigation__blurred-background {

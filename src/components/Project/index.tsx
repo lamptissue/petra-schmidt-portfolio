@@ -165,7 +165,7 @@ export default function Project({
 					});
 				});
 			} else if (item.component === "project_modal_video") {
-				const embedUrl = getEmbedUrl(item.video); // Function to convert to embed URL
+				const embedUrl = getEmbedUrl(item.video);
 				combinedArray.push({
 					type: "video",
 					videoUrl: embedUrl,

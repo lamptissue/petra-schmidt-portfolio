@@ -1,5 +1,5 @@
 import { useStoryblok } from "@storyblok/react";
-import { Helmet } from "react-helmet";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 import { useEffect, useState, useRef } from "react";
 import Contact from "./components/Contact";
 import Header from "./components/Header";
@@ -39,7 +39,7 @@ function App() {
 		const landingPageColours = [
 			["0, 100%, 84%", "153, 68%, 73%", "48, 67%, 68%", "0, 62%, 64%"],
 			["200, 60%, 85%", "135, 50%, 80%", "300, 45%, 75%", "45, 70%, 80%"],
-			["102, 24%, 45%", "45, 64%, 48%", "11, 44%, 75%", "12, 36%, 57%"], //update this colour
+			["18, 100%, 70%", "83, 63%, 64%", "210, 59%, 83%", "100, 39%, 68%"],
 			["81, 25%, 73%", "50, 56%, 81%", "284, 55%, 85%", "164, 35%, 64%"],
 			["49, 78%, 51%", "29, 89%, 64%", "45, 68%, 67%", "100, 39%, 68%"],
 		];
@@ -111,47 +111,49 @@ function App() {
 
 	return (
 		<>
-			<Helmet>
-				<title>{story.content.title}</title>
-				<meta name='description' content={story.content.description} />
-				<meta name='keywords' content={story.content?.tags} />
-				<meta name='author' content={story.content.author} />
-				<meta property='og:title' content={story.content.title} />
-				<meta property='og:description' content={story.content.description} />
-				<meta property='og:image' content={story.content.image.filename} />
-				<meta property='og:url' content={story.content.url} />
-				<meta name='twitter:title' content={story.content.title} />
-				<meta name='twitter:description' content={story.content.description} />
-				<meta name='twitter:image' content={story.content.image.filename} />
-			</Helmet>
-			<Menu
-				isMenuOpen={isMenuOpen}
-				handleContact={handleContact}
-				blok={projectBlok}
-				activeItem={activeItem}
-				handleMenu={handleMenu}
-			/>
-			<Contact isContactOpen={isContactOpen} blok={contactBlok} />
+			<HelmetProvider>
+				<Helmet>
+					<title>{story.content.title}</title>
+					<meta name='description' content={story.content.description} />
+					<meta name='keywords' content={story.content?.tags} />
+					<meta name='author' content={story.content.author} />
+					<meta property='og:title' content={story.content.title} />
+					<meta property='og:description' content={story.content.description} />
+					<meta property='og:image' content={story.content.image.filename} />
+					<meta property='og:url' content={story.content.url} />
+					<meta name='twitter:title' content={story.content.title} />
+					<meta name='twitter:description' content={story.content.description} />
+					<meta name='twitter:image' content={story.content.image.filename} />
+				</Helmet>
+				<Menu
+					isMenuOpen={isMenuOpen}
+					handleContact={handleContact}
+					blok={projectBlok}
+					activeItem={activeItem}
+					handleMenu={handleMenu}
+				/>
+				<Contact isContactOpen={isContactOpen} blok={contactBlok} />
 
-			<main onScroll={(e) => handlePageScroll(e)}>
-				{isHeaderVisible && <Header handleMenu={handleMenu} headersize={headersize} />}
-				<div ref={refScrollUp}></div>
-				<LandingPage blok={landingBlok} backgroundColours={backgroundColours} />
-				{projectBlok.map((item: any) => {
-					return (
-						<Project
-							key={item._uid}
-							blok={item}
-							setIsHeaderVisible={setIsHeaderVisible}
-							backgroundColours={backgroundColours}
-							setActiveItem={setActiveItem}
-						/>
-					);
-				})}
-				{isHeaderVisible && !isMenuOpen && (
-					<ScrollToTop showScrollButton={showScrollButton} scrollUp={handleScrollUp} />
-				)}
-			</main>
+				<main onScroll={(e) => handlePageScroll(e)}>
+					{isHeaderVisible && <Header handleMenu={handleMenu} headersize={headersize} />}
+					<div ref={refScrollUp}></div>
+					<LandingPage blok={landingBlok} backgroundColours={backgroundColours} />
+					{projectBlok.map((item: any) => {
+						return (
+							<Project
+								key={item._uid}
+								blok={item}
+								setIsHeaderVisible={setIsHeaderVisible}
+								backgroundColours={backgroundColours}
+								setActiveItem={setActiveItem}
+							/>
+						);
+					})}
+					{isHeaderVisible && !isMenuOpen && (
+						<ScrollToTop showScrollButton={showScrollButton} scrollUp={handleScrollUp} />
+					)}
+				</main>
+			</HelmetProvider>
 		</>
 	);
 }
