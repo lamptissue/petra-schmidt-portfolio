@@ -20,11 +20,15 @@ function App() {
 	const [headersize, setHeaderSize] = useState(bigSize);
 	const [showScrollButton, setShowScrollButton] = useState(false);
 	const refScrollUp = useRef<HTMLDivElement>(null);
+	const prevWidth = useRef(window.innerWidth);
 
 	useEffect(() => {
 		const handleResize = () => {
-			setBigSize(window.innerWidth < 768 ? "56" : "72");
-			setSmallSize(window.innerWidth < 768 ? "24" : "32");
+			if (prevWidth.current !== window.innerWidth) {
+				prevWidth.current = window.innerWidth;
+				setBigSize(window.innerWidth < 768 ? "56" : "72");
+				setSmallSize(window.innerWidth < 768 ? "24" : "32");
+			}
 		};
 		window.addEventListener("resize", handleResize);
 
@@ -59,6 +63,12 @@ function App() {
 			setHeaderSize(smallSize);
 		}
 	}, [isMenuOpen, activeItem, bigSize, smallSize]);
+
+	const body = document.querySelector("body");
+
+	useEffect(() => {
+		isMenuOpen ? (body!.style.overflow = "hidden") : (body!.style.overflow = "auto");
+	}, [isMenuOpen]);
 
 	let slug = window.location.pathname === "/" ? "home" : window.location.pathname.replace("/", "");
 

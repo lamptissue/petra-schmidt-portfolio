@@ -3,20 +3,21 @@
 	pointer-events: none;
 	height: 100%;
 	top: 0;
-	right: 0;
+	left: 0;
 	z-index: 30;
 	width: 50vw;
 	background-color: #fcfcfc;
-
+	overflow: hidden;
 	display: flex;
 	justify-content: center;
 	transition: transform 1s ease;
-	transform: translateX(-200%);
+	transform: translateX(-100%);
 }
 
 .contact--open {
-	transform: translateX(0);
+	transform: translateX(100%);
 	pointer-events: auto;
+	overflow: auto;
 }
 
 .contact__wrapper {

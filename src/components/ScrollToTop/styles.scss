@@ -12,6 +12,9 @@
 	width: 30px;
 	height: 30px;
 	transition: background-color 0.2s ease-in;
+	@media (max-width: 768px) {
+		top: 20px;
+	}
 	&:hover {
 		background-color: rgb(235, 235, 235);
 	}

@@ -24,6 +24,10 @@ body {
 h1,
 .text-h1 {
 	font-size: 4.5rem;
+
+	@media (max-width: 1024px) {
+		font-size: 3.5rem;
+	}
 	@media (max-width: 768px) {
 		font-size: 1.5rem;
 	}
@@ -32,11 +36,17 @@ h1,
 h2,
 .text-h2 {
 	font-size: 3.5rem;
+	@media (max-width: 1024px) {
+		font-size: 3rem;
+	}
 }
 .rich-text-content h3,
 h3,
 .text-h3 {
 	font-size: 3rem;
+	@media (max-width: 1024px) {
+		font-size: 2.5rem;
+	}
 	@media (max-width: 768px) {
 		font-size: 1.5rem;
 	}
@@ -55,6 +65,9 @@ h5 {
 h6,
 .text-h6 {
 	font-size: 1.5rem;
+	@media (max-width: 1024px) {
+		font-size: 1.3rem;
+	}
 	@media (max-width: 768px) {
 		font-size: 1.2rem;
 	}
