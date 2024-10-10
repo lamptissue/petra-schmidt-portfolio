@@ -74,18 +74,25 @@
 			}
 		}
 
-		&:hover {
-			cursor: pointer;
-			color: white;
-			opacity: 1;
-			transform: translate(-2px, -2px);
-			// .active-project-link:hover {
-			// 	cursor: pointer;
-			// 	text-decoration: underline white 3px;
-			// 	text-underline-offset: 8px;
-			// }
-		}
+		// &:hover {
+		// 	cursor: pointer;
+		// 	color: white;
+		// 	opacity: 1;
+		// 	transform: translate(-2px, -2px);
+		// .active-project-link:hover {
+		// 	cursor: pointer;
+		// 	text-decoration: underline white 3px;
+		// 	text-underline-offset: 8px;
+		// }
+		// }
 	}
+}
+
+.active-project-link:hover {
+	cursor: pointer;
+	color: white;
+	opacity: 1;
+	transform: translate(-2px, -2px);
 }
 
 .project__title-shadow-portrait {

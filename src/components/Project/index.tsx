@@ -229,13 +229,13 @@ export default function Project({
 			<div
 				className={`project__title-wrapper ${
 					isPortrait ? "project__title-shadow-portrait" : "project__title-shadow-landscape"
-				}`}>
+				} ${blok.modalDetail && blok.modalDetail.length >= 1 && "active-project-link"}`}>
 				<div className='poo'>
 					<h1
-						className='text-h3 '
+						className='text-h3'
 						onClick={blok.modalDetail && blok.modalDetail.length >= 1 ? handleOpenModal : undefined}
 						id={blok.projectTitle}>
-						{blok.projectTitle}{" "}
+						{blok.projectTitle}
 					</h1>
 					{blok.modalDetail && blok.modalDetail.length >= 1 && (
 						<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 35 35'>
