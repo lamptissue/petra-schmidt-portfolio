@@ -1,35 +1,3 @@
-// .project__container {
-// 	height: 100vh;
-// 	width: 100vw;
-// 	display: flex;
-// 	position: relative;
-// 	top: 0;
-// 	left: 0;
-// 	.project__title-wrapper {
-// 		margin: 20px auto auto auto;
-// 		text-align: center;
-// 		max-width: 60%;
-// 		z-index: 10;
-// 		cursor: auto;
-// 		color: white;
-// 		line-height: 1.2;
-// 		@media (max-width: 768px) {
-// 			margin-right: 0;
-// 			margin-left: auto;
-// 			padding-right: 20px;
-// 			text-align: right;
-// 			max-width: 55%;
-// 		}
-
-// 		h1 {
-// 			text-align: center;
-// 			@media (max-width: 768px) {
-// 				text-align: right;
-// 			}
-// 		}
-// 	}
-// }
-
 .project__container {
 	height: 100vh;
 	width: 100vw;
@@ -37,6 +5,8 @@
 	position: relative;
 	top: 0;
 	left: 0;
+	overflow: hidden;
+
 	.project__title-wrapper {
 		margin: 32px 32px auto auto;
 		text-align: right;
@@ -73,19 +43,11 @@
 				font-size: 0.85rem;
 			}
 		}
-
-		// &:hover {
-		// 	cursor: pointer;
-		// 	color: white;
-		// 	opacity: 1;
-		// 	transform: translate(-2px, -2px);
-		// .active-project-link:hover {
-		// 	cursor: pointer;
-		// 	text-decoration: underline white 3px;
-		// 	text-underline-offset: 8px;
-		// }
-		// }
 	}
+}
+
+.background__click {
+	cursor: pointer;
 }
 
 .active-project-link:hover {
@@ -103,18 +65,6 @@
 	text-shadow: 1px 1px 15px rgba(71, 71, 71, 0.8);
 }
 
-.poo {
-	display: flex;
-	align-items: center;
-	justify-content: flex-end;
-	gap: 5px;
-	svg {
-		height: 35px;
-		@media (max-width: 768px) {
-			height: 20px;
-		}
-	}
-}
 .project__image--landscape {
 	position: absolute;
 	top: 0;
@@ -124,26 +74,29 @@
 	object-fit: cover;
 	object-position: center;
 	z-index: 1;
+
+	// @media (max-width: 768px) {
+	// 	width: auto;
+	// }
 }
 
-// .project__image--portrait {
-// 	position: absolute;
-// 	// height is 100% - current margin height - font height - bit extra
-// 	height: calc(100% - 150px);
-// 	margin-top: 110px;
-// 	z-index: 10;
-// 	left: 50%;
-// 	transform: translateX(-50%);
-// }
 .project__image--portrait {
 	position: absolute;
 	height: 100%;
-	// padding: 35px 0;
 	padding-top: 100px;
 	padding-bottom: 35px;
 	z-index: 10;
 	left: 50%;
 	transform: translateX(-50%);
+
+	@media (max-width: 768px) {
+		padding-top: 80px;
+		padding-bottom: 80px;
+		max-width: 80%;
+		height: auto;
+		top: 50%;
+		transform: translate(-50%, -50%);
+	}
 }
 
 .project-modal__container {
@@ -285,14 +238,13 @@
 		white-space: pre-line;
 		pointer-events: auto;
 		cursor: none;
-		padding: 80px;
+		padding: 50px 80px;
 		display: flex;
 		line-height: 1.5;
 	}
 
 	.project-modal__text-area--short-text {
 		flex-direction: column;
-
 		p {
 			width: 60%;
 		}

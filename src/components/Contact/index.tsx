@@ -1,7 +1,7 @@
 import { storyblokEditable } from "@storyblok/react";
 import "./styles.scss";
 
-const Contact = ({ blok, isContactOpen }: { blok: any; isContactOpen: any }) => {
+const Contact = ({ blok, isContactOpen, handleContact }: { blok: any; isContactOpen: any; handleContact: any }) => {
 	const phoneNumber = blok.phone && blok.phone;
 	let formattedNumber = phoneNumber.replace(/[^+\d]/g, "");
 
@@ -9,6 +9,7 @@ const Contact = ({ blok, isContactOpen }: { blok: any; isContactOpen: any }) => 
 
 	return (
 		<div className={`contact__container ${isContactOpen ? "contact--open" : ""}`} {...storyblokEditable(blok)}>
+			<div className='project-modal__cross-contact' onClick={handleContact}></div>
 			<div className='contact__wrapper'>
 				<div className='text-block'>
 					<p>{blok.about}</p>

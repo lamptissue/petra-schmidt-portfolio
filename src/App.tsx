@@ -95,9 +95,14 @@ function App() {
 	const handleMenu = () => {
 		if (isContactOpen) {
 			handleContact();
-			setTimeout(() => {
+
+			if (window.innerWidth < 768) {
 				setIsMenuOpen((prevState) => !prevState);
-			}, 500);
+			} else {
+				setTimeout(() => {
+					setIsMenuOpen((prevState) => !prevState);
+				}, 500);
+			}
 		} else {
 			setIsMenuOpen((prevState) => !prevState);
 		}
@@ -142,7 +147,7 @@ function App() {
 					activeItem={activeItem}
 					handleMenu={handleMenu}
 				/>
-				<Contact isContactOpen={isContactOpen} blok={contactBlok} />
+				<Contact isContactOpen={isContactOpen} blok={contactBlok} handleContact={handleContact} />
 
 				<main onScroll={(e) => handlePageScroll(e)}>
 					{isHeaderVisible && <Header handleMenu={handleMenu} headersize={headersize} />}

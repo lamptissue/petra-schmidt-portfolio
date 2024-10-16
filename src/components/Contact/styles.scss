@@ -12,12 +12,20 @@
 	justify-content: center;
 	transition: transform 1s ease;
 	transform: translateX(-100%);
+	@media (max-width: 768px) {
+		width: 100vw;
+		z-index: 1000;
+	}
 }
 
 .contact--open {
 	transform: translateX(100%);
 	pointer-events: auto;
 	overflow: auto;
+
+	@media (max-width: 768px) {
+		transform: translateX(0);
+	}
 }
 
 .contact__wrapper {
@@ -26,6 +34,11 @@
 	width: 80%;
 	height: 100%;
 	padding: 20px;
+
+	@media (max-width: 768px) {
+		padding: 0;
+		width: 90%;
+	}
 
 	p {
 		font-family: "Poppins";
@@ -44,6 +57,10 @@
 	flex-direction: column;
 	align-items: center;
 	padding-bottom: 24px;
+
+	@media (max-width: 768px) {
+		padding-bottom: 35px;
+	}
 	a {
 		margin: 6px 0;
 		font-size: 1rem;
@@ -59,6 +76,41 @@
 			&:hover {
 				opacity: 0.6;
 			}
+		}
+	}
+}
+
+@media (max-width: 768px) {
+	.project-modal__cross-contact {
+		position: absolute;
+		right: 20px;
+		top: 20px;
+		width: 20px;
+		height: 20px;
+		opacity: 0.7;
+		cursor: pointer;
+		z-index: 25;
+		padding: 40px;
+		margin: -40px;
+
+		&:hover {
+			opacity: 1;
+		}
+		&:before,
+		&:after {
+			position: absolute;
+			left: 15px;
+			content: " ";
+			height: 20px;
+			width: 2px;
+			background-color: black;
+			box-shadow: 7px 1px 20px rgba(0, 0, 0, 0.2);
+		}
+		&:before {
+			transform: rotate(45deg);
+		}
+		&:after {
+			transform: rotate(-45deg);
 		}
 	}
 }

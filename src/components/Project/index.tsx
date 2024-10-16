@@ -230,36 +230,25 @@ export default function Project({
 				className={`project__title-wrapper ${
 					isPortrait ? "project__title-shadow-portrait" : "project__title-shadow-landscape"
 				} ${blok.modalDetail && blok.modalDetail.length >= 1 && "active-project-link"}`}>
-				<div className='poo'>
-					<h1
-						className='text-h3'
-						onClick={blok.modalDetail && blok.modalDetail.length >= 1 ? handleOpenModal : undefined}
-						id={blok.projectTitle}>
-						{blok.projectTitle}
-					</h1>
-					{blok.modalDetail && blok.modalDetail.length >= 1 && (
-						<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 35 35'>
-							<path
-								fill='currentColor'
-								stroke='currentColor'
-								stroke-width='2'
-								d='m6.7 23.72 1.58 1.58L20.5 13.08l1.98-2.15-.24 3.09-.05 6.12h2.17l.16-12.65-12.66.15.02 2.19 6.13-.08 3.09-.22-2.18 1.97L6.7 23.72Z'
-							/>
-						</svg>
-					)}
-				</div>
-				{/* <span className='test'> */}
+				<h1
+					className='text-h3'
+					onClick={blok.modalDetail && blok.modalDetail.length >= 1 ? handleOpenModal : undefined}
+					id={blok.projectTitle}>
+					{blok.projectTitle}
+				</h1>
 				<span>{blok?.location}</span> <br />
 				<span>
 					{blok?.artist} - {blok?.year}
 				</span>
-				{/* </span> */}
 			</div>
 			<LazyLoadImage
 				effect='opacity'
 				src={`${imageSrc}/m/`}
-				className={isPortrait ? "project__image--portrait" : "project__image--landscape"}
+				className={`${blok.modalDetail && blok.modalDetail.length >= 1 ? "background__click" : ""} ${
+					isPortrait ? "project__image--portrait" : "project__image--landscape"
+				}`}
 				alt={blok.projectTitle}
+				onClick={blok.modalDetail && blok.modalDetail.length >= 1 ? handleOpenModal : undefined}
 			/>
 
 			{/* Modal */}
