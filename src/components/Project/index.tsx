@@ -224,7 +224,18 @@ export default function Project({
 			ref={ref}
 			className='project__container'
 			data-section
-			style={{ background: `hsla(${backgroundColour}, 0.5)` }}
+			// style={{ background: `hsla(${backgroundColour}, 0.5)` }}
+			style={{ background: "gray" }}
+			// style={{
+			// 	backgroundColor: `hsla(${backgroundColour}, 0.5)`,
+			// 	backgroundImage:
+			// 		`radial-gradient(at 0% 79%, hsla(240,100%,82%, 0.5) 0px, transparent 50%),` +
+			// 		`radial-gradient(at 8% 16%, hsla(343,100%,76%,0.5) 0px, transparent 50%)`,
+			// }}
+			// style={{
+			// 	backgroundColor: `hsla(${backgroundColour}, 0.5)`,
+			// 	backgroundImage: `radial-gradient(at 0% 79%, hsla(240,100%,82%, 0.5) 0px, transparent 50%)`,
+			// }}
 			id={blok.projectTitle}>
 			<div
 				className={`project__title-wrapper ${
@@ -282,8 +293,35 @@ export default function Project({
 						)
 					)}
 				</div>
-				<div className='left-arrow arrow__container' onClick={handlePreviousSlide}></div>
-				<div className='right-arrow arrow__container' onClick={handleNextSlide}></div>
+
+				<div className='left-arrow arrow__container' onClick={handlePreviousSlide}>
+					<svg
+						xmlns='http://www.w3.org/2000/svg'
+						width='24'
+						height='24'
+						viewBox='0 0 24 24'
+						fill='none'
+						stroke='#000'
+						strokeWidth='2'
+						strokeLinecap='round'
+						strokeLinejoin='round'>
+						<polyline points='6 9 12 15 18 9' />
+					</svg>
+				</div>
+				<div className='right-arrow arrow__container' onClick={handleNextSlide}>
+					<svg
+						xmlns='http://www.w3.org/2000/svg'
+						width='24'
+						height='24'
+						viewBox='0 0 24 24'
+						fill='none'
+						stroke='#000'
+						strokeWidth='2'
+						strokeLinecap='round'
+						strokeLinejoin='round'>
+						<polyline points='6 9 12 15 18 9' />
+					</svg>
+				</div>
 
 				<div className='project-modal__sidebar'>
 					<span>{blok.projectTitle}</span>

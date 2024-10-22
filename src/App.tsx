@@ -14,7 +14,7 @@ function App() {
 	const [isHeaderVisible, setIsHeaderVisible] = useState(true);
 	const [backgroundColours, setBackgroundColour] = useState<string[]>([]);
 	const [activeItem, setActiveItem] = useState("");
-	const [bigSize, setBigSize] = useState(window.innerWidth < 768 ? "56" : "72");
+	const [bigSize, setBigSize] = useState(window.innerWidth < 768 ? "48" : "72");
 	const [smallSize, setSmallSize] = useState(window.innerWidth < 768 ? "24" : "32");
 
 	const [headersize, setHeaderSize] = useState(bigSize);
@@ -26,7 +26,7 @@ function App() {
 		const handleResize = () => {
 			if (prevWidth.current !== window.innerWidth) {
 				prevWidth.current = window.innerWidth;
-				setBigSize(window.innerWidth < 768 ? "56" : "72");
+				setBigSize(window.innerWidth < 768 ? "48" : "72");
 				setSmallSize(window.innerWidth < 768 ? "24" : "32");
 			}
 		};
