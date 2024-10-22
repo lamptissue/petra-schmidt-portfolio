@@ -147,7 +147,12 @@ function App() {
 					activeItem={activeItem}
 					handleMenu={handleMenu}
 				/>
-				<Contact isContactOpen={isContactOpen} blok={contactBlok} handleContact={handleContact} />
+				<Contact
+					isContactOpen={isContactOpen}
+					backgroundColours={backgroundColours}
+					blok={contactBlok}
+					handleContact={handleContact}
+				/>
 
 				<main onScroll={(e) => handlePageScroll(e)}>
 					{isHeaderVisible && <Header handleMenu={handleMenu} headersize={headersize} />}

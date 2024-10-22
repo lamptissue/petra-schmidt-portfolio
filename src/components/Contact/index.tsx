@@ -1,14 +1,34 @@
 import { storyblokEditable } from "@storyblok/react";
 import "./styles.scss";
 
-const Contact = ({ blok, isContactOpen, handleContact }: { blok: any; isContactOpen: any; handleContact: any }) => {
+const Contact = ({
+	blok,
+	isContactOpen,
+	handleContact,
+	backgroundColours,
+}: {
+	blok: any;
+	isContactOpen: any;
+	handleContact: any;
+	backgroundColours: any;
+}) => {
 	const phoneNumber = blok.phone && blok.phone;
 	let formattedNumber = phoneNumber.replace(/[^+\d]/g, "");
 
 	formattedNumber = formattedNumber.replace(/\(0\)/, "");
 
 	return (
-		<div className={`contact__container ${isContactOpen ? "contact--open" : ""}`} {...storyblokEditable(blok)}>
+		<div
+			className={`contact__container ${isContactOpen ? "contact--open" : ""}`}
+			{...storyblokEditable(blok)}
+			style={{
+				backgroundColor: `hsla(${backgroundColours[0]})`,
+
+				backgroundImage: `
+				radial-gradient(at 6% 13%, hsl(${backgroundColours[1]}) 0px, transparent 50%),
+				radial-gradient(at 80% 0%, hsl(${backgroundColours[2]}) 0px, transparent 50%)
+			`,
+			}}>
 			<div className='project-modal__cross-contact' onClick={handleContact}></div>
 			<div className='contact__wrapper'>
 				<div className='text-block'>

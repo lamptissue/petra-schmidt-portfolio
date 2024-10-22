@@ -58,6 +58,7 @@
 }
 
 .project__title-shadow-portrait {
+	color: black;
 	text-shadow: 1px 1px 15px rgba(180, 180, 180, 0.2);
 }
 
@@ -211,11 +212,15 @@
 		display: none;
 	}
 	@media (max-width: 768px) {
+		cursor: auto;
 		svg {
-			position: absolute;
 			top: calc(50% - 50px);
 			display: block;
 			z-index: 999;
+			width: 30px;
+			height: 30px;
+			position: absolute;
+			background-color: red;
 		}
 	}
 }
@@ -322,3 +327,16 @@ iframe {
 		height: 50%;
 	}
 }
+
+// .rich-test {
+// 	display: flex;
+// 	gap: 80px;
+// 	height: 100%;
+// 	padding: 40px;
+// 	margin: auto;
+
+// 	img {
+// 		max-height: 80vh;
+// 		width: 50%;
+// 	}
+// }

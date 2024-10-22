@@ -18,7 +18,7 @@ export default function Project({
 }) {
 	const [currentSlide, setCurrentSlide] = useState(1);
 	const [isPortrait, setIsPortrait] = useState(false);
-	const [backgroundColour, setBackgroundColor] = useState();
+	// const [backgroundColour, setBackgroundColor] = useState();
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [windowSide, setWindowSide] = useState("");
 	const [hideArrowCursor, setHideArrowCursor] = useState(false);
@@ -91,11 +91,11 @@ export default function Project({
 		};
 	};
 
-	useEffect(() => {
-		const randomNumber = Math.floor(Math.random() * backgroundColours.length);
+	// useEffect(() => {
+	// 	const randomNumber = Math.floor(Math.random() * backgroundColours.length);
 
-		setBackgroundColor(isPortrait && backgroundColours[randomNumber]);
-	}, [isPortrait]);
+	// 	setBackgroundColor(isPortrait && backgroundColours[randomNumber]);
+	// }, [isPortrait]);
 
 	useEffect(() => {
 		checkLandscape(blok.backgroundImage.filename);
@@ -224,18 +224,10 @@ export default function Project({
 			ref={ref}
 			className='project__container'
 			data-section
-			// style={{ background: `hsla(${backgroundColour}, 0.5)` }}
-			style={{ background: "gray" }}
-			// style={{
-			// 	backgroundColor: `hsla(${backgroundColour}, 0.5)`,
-			// 	backgroundImage:
-			// 		`radial-gradient(at 0% 79%, hsla(240,100%,82%, 0.5) 0px, transparent 50%),` +
-			// 		`radial-gradient(at 8% 16%, hsla(343,100%,76%,0.5) 0px, transparent 50%)`,
-			// }}
-			// style={{
-			// 	backgroundColor: `hsla(${backgroundColour}, 0.5)`,
-			// 	backgroundImage: `radial-gradient(at 0% 79%, hsla(240,100%,82%, 0.5) 0px, transparent 50%)`,
-			// }}
+			style={{
+				backgroundColor: `hsla(${backgroundColours[0]}, 0.5)`,
+				backgroundImage: `radial-gradient(at 0% 79%, hsla(${backgroundColours[0]}, 0.5) 0px, transparent 50%)`,
+			}}
 			id={blok.projectTitle}>
 			<div
 				className={`project__title-wrapper ${
@@ -243,12 +235,13 @@ export default function Project({
 				} ${blok.modalDetail && blok.modalDetail.length >= 1 && "active-project-link"}`}>
 				<h1
 					className='text-h3'
+					style={{ color: `${isPortrait ? "black" : ""}` }}
 					onClick={blok.modalDetail && blok.modalDetail.length >= 1 ? handleOpenModal : undefined}
 					id={blok.projectTitle}>
 					{blok.projectTitle}
 				</h1>
-				<span>{blok?.location}</span> <br />
-				<span>
+				<span style={{ color: `${isPortrait ? "black" : ""}` }}>{blok?.location}</span> <br />
+				<span style={{ color: `${isPortrait ? "black" : ""}` }}>
 					{blok?.artist} - {blok?.year}
 				</span>
 			</div>
@@ -278,6 +271,13 @@ export default function Project({
 							dangerouslySetInnerHTML={{ __html: richtextHtml }}
 						/>
 					) : (
+						// <div className='rich-test'>
+						// 	<div
+						// 		className='project-modal__text-area rich-text-content'
+						// 		dangerouslySetInnerHTML={{ __html: richtextHtml }}
+						// 	/>
+						// 	<img src={`${imageSrc}/m/`} />
+						// </div>
 						currentItem.type === "video" && (
 							<iframe
 								width='80%'
@@ -305,7 +305,7 @@ export default function Project({
 						strokeWidth='2'
 						strokeLinecap='round'
 						strokeLinejoin='round'>
-						<polyline points='6 9 12 15 18 9' />
+						<polyline points='6 9 12 15 18 9' onClick={handlePreviousSlide} />
 					</svg>
 				</div>
 				<div className='right-arrow arrow__container' onClick={handleNextSlide}>
@@ -319,7 +319,7 @@ export default function Project({
 						strokeWidth='2'
 						strokeLinecap='round'
 						strokeLinejoin='round'>
-						<polyline points='6 9 12 15 18 9' />
+						<polyline points='6 9 12 15 18 9' onClick={handleNextSlide} />
 					</svg>
 				</div>
 
