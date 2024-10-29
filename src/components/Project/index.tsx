@@ -61,6 +61,11 @@ export default function Project({
 			document.removeEventListener("mousemove", handleMouseArrow);
 		};
 	}, []);
+	const body = document.querySelector("body");
+
+	useEffect(() => {
+		isModalOpen ? (body!.style.overflow = "hidden") : (body!.style.overflow = "auto");
+	}, [isModalOpen]);
 
 	const handleNextSlide = () => {
 		if (currentSlide > combinedArray.length - 1) {
@@ -226,7 +231,7 @@ export default function Project({
 			data-section
 			style={{
 				backgroundColor: `hsla(${backgroundColours[0]}, 0.5)`,
-				backgroundImage: `radial-gradient(at 0% 79%, hsla(${backgroundColours[0]}, 0.5) 0px, transparent 50%)`,
+				backgroundImage: `radial-gradient(at 0% 79%, hsla(${backgroundColours[1]}, 0.4) 0px, transparent 50%)`,
 			}}
 			id={blok.projectTitle}>
 			<div
@@ -280,8 +285,8 @@ export default function Project({
 						// </div>
 						currentItem.type === "video" && (
 							<iframe
-								width='80%'
-								height='80%'
+								// width='80%'
+								// height='80%'
 								src={currentItem.videoUrl}
 								title='YouTube video player'
 								frameBorder='0'
