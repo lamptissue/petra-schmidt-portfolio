@@ -12,6 +12,7 @@
 	justify-content: center;
 	transition: transform 1s ease;
 	transform: translateX(-100%);
+
 	@media (max-width: 768px) {
 		width: 100vw;
 		z-index: 1000;
@@ -35,8 +36,13 @@
 	height: 100%;
 	padding: 20px;
 
+	@media (max-width: 1024px) {
+		padding: 10px;
+		width: 85%;
+	}
+
 	@media (max-width: 768px) {
-		padding: 0;
+		padding: 50px 0 0 0;
 		width: 90%;
 	}
 
@@ -83,37 +89,33 @@
 	}
 }
 
-@media (max-width: 768px) {
-	.project-modal__cross-contact {
+.project-modal__cross-contact {
+	display: hidden;
+	@media (max-width: 768px) {
+		display: block;
 		position: absolute;
-		right: 20px;
-		top: 20px;
-		width: 20px;
-		height: 20px;
-		opacity: 0.7;
+		top: 10px;
+		right: 10px;
+		width: 40px;
+		height: 40px;
 		cursor: pointer;
 		z-index: 25;
-		padding: 40px;
-		margin: -40px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 
-		&:hover {
-			opacity: 1;
-		}
-		&:before,
-		&:after {
+		span {
 			position: absolute;
-			left: 15px;
-			content: " ";
-			height: 20px;
-			width: 2px;
+			width: 20px;
 			background-color: black;
-			box-shadow: 7px 1px 20px rgba(0, 0, 0, 0.2);
-		}
-		&:before {
-			transform: rotate(45deg);
-		}
-		&:after {
-			transform: rotate(-45deg);
+			border-radius: 5px;
+			height: 1px;
+			&:nth-child(1) {
+				transform: rotate(45deg);
+			}
+			&:nth-child(2) {
+				transform: rotate(-45deg);
+			}
 		}
 	}
 }

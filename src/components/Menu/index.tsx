@@ -24,7 +24,6 @@ export default function Menu({
 
 	const handleClick = (projectId: string) => {
 		handleMenu();
-
 		const projectElement = document.getElementById(projectId);
 		setPreviewImage("");
 		if (projectElement) {
@@ -69,35 +68,37 @@ export default function Menu({
 						Contact
 					</span>
 				</div>
-				<div className='main-navigation__nav'>
-					{sortedGroupedProjects.map(([year, projects]) => (
-						<Fragment key={year}>
-							<div key={year} className='main-navigation__nav--year'>
-								<h6>{year}</h6>
-							</div>
-							<div className='main-navigation__nav--project-break'>
-								<ul>
-									{projects.map((item: any) => (
-										<li key={item.id}>
-											<span
-												onClick={() => handleClick(item.projectTitle)}
-												onMouseEnter={() => handleSetProjectPreview(item.projectTitle)}
-												onMouseLeave={() => setPreviewImage("")}
-												className={activeItem === item.projectTitle ? "active" : ""}>
-												{item.projectTitle}
-											</span>
-										</li>
-									))}
-								</ul>
-							</div>
-						</Fragment>
-					))}
+				<div className='test_nav'>
+					<div className='main-navigation__nav'>
+						{sortedGroupedProjects.map(([year, projects]) => (
+							<Fragment key={year}>
+								<div key={year} className='main-navigation__nav--year'>
+									<h6>{year}</h6>
+								</div>
+								<div className='main-navigation__nav--project-break'>
+									<ul>
+										{projects.map((item: any) => (
+											<li key={item.id}>
+												<span
+													onClick={() => handleClick(item.projectTitle)}
+													onMouseEnter={() => handleSetProjectPreview(item.projectTitle)}
+													onMouseLeave={() => setPreviewImage("")}
+													className={activeItem === item.projectTitle ? "active" : ""}>
+													{item.projectTitle}
+												</span>
+											</li>
+										))}
+									</ul>
+								</div>
+							</Fragment>
+						))}
+					</div>
 				</div>
 			</div>
 			{previewImage && (
 				<div className='preview__container'>
 					<div className='preview__image'>
-						<img src={`${previewImage}/m/filters:quality(40)`} loading='lazy' />
+						<img src={`${previewImage}/m/filters:quality(20)`} loading='lazy' />
 					</div>
 				</div>
 			)}

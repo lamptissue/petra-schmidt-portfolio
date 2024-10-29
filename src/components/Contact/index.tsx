@@ -22,14 +22,16 @@ const Contact = ({
 			className={`contact__container ${isContactOpen ? "contact--open" : ""}`}
 			{...storyblokEditable(blok)}
 			style={{
-				backgroundColor: `hsla(${backgroundColours[0]})`,
+				backgroundColor: `hsl(${backgroundColours[0]})`,
 
 				backgroundImage: `
-				radial-gradient(at 6% 13%, hsl(${backgroundColours[1]}) 0px, transparent 50%),
-				radial-gradient(at 80% 0%, hsl(${backgroundColours[2]}) 0px, transparent 50%)
-			`,
+			radial-gradient(at 6% 13%, hsl(${backgroundColours[1]}) 0px, transparent 50%)
+		`,
 			}}>
-			<div className='project-modal__cross-contact' onClick={handleContact}></div>
+			<div className='project-modal__cross-contact' onClick={handleContact}>
+				<span></span>
+				<span></span>
+			</div>
 			<div className='contact__wrapper'>
 				<div className='text-block'>
 					<p>{blok.about}</p>

@@ -14,8 +14,8 @@ function App() {
 	const [isHeaderVisible, setIsHeaderVisible] = useState(true);
 	const [backgroundColours, setBackgroundColour] = useState<string[]>([]);
 	const [activeItem, setActiveItem] = useState("");
-	const [bigSize, setBigSize] = useState(window.innerWidth < 768 ? "48" : "72");
-	const [smallSize, setSmallSize] = useState(window.innerWidth < 768 ? "24" : "32");
+	const [bigSize, setBigSize] = useState(window.innerWidth < 870 ? "48" : "72");
+	const [smallSize, setSmallSize] = useState(window.innerWidth < 870 ? "24" : "32");
 
 	const [headersize, setHeaderSize] = useState(bigSize);
 	const [showScrollButton, setShowScrollButton] = useState(false);
@@ -26,8 +26,8 @@ function App() {
 		const handleResize = () => {
 			if (prevWidth.current !== window.innerWidth) {
 				prevWidth.current = window.innerWidth;
-				setBigSize(window.innerWidth < 768 ? "48" : "72");
-				setSmallSize(window.innerWidth < 768 ? "24" : "32");
+				setBigSize(window.innerWidth < 870 ? "48" : "72");
+				setSmallSize(window.innerWidth < 870 ? "24" : "32");
 			}
 		};
 		window.addEventListener("resize", handleResize);
@@ -96,7 +96,7 @@ function App() {
 		if (isContactOpen) {
 			handleContact();
 
-			if (window.innerWidth < 768) {
+			if (window.innerWidth < 870) {
 				setIsMenuOpen((prevState) => !prevState);
 			} else {
 				setTimeout(() => {

@@ -294,34 +294,8 @@ export default function Project({
 					)}
 				</div>
 
-				<div className='left-arrow arrow__container' onClick={handlePreviousSlide}>
-					<svg
-						xmlns='http://www.w3.org/2000/svg'
-						width='24'
-						height='24'
-						viewBox='0 0 24 24'
-						fill='none'
-						stroke='#000'
-						strokeWidth='2'
-						strokeLinecap='round'
-						strokeLinejoin='round'>
-						<polyline points='6 9 12 15 18 9' onClick={handlePreviousSlide} />
-					</svg>
-				</div>
-				<div className='right-arrow arrow__container' onClick={handleNextSlide}>
-					<svg
-						xmlns='http://www.w3.org/2000/svg'
-						width='24'
-						height='24'
-						viewBox='0 0 24 24'
-						fill='none'
-						stroke='#000'
-						strokeWidth='2'
-						strokeLinecap='round'
-						strokeLinejoin='round'>
-						<polyline points='6 9 12 15 18 9' onClick={handleNextSlide} />
-					</svg>
-				</div>
+				<div className='left-arrow arrow__container' onClick={handlePreviousSlide}></div>
+				<div className='right-arrow arrow__container' onClick={handleNextSlide}></div>
 
 				<div className='project-modal__sidebar'>
 					<span>{blok.projectTitle}</span>
@@ -338,7 +312,10 @@ export default function Project({
 					className='project-modal__cross'
 					onClick={handleCloseModal}
 					onMouseEnter={() => setHideArrowCursor(true)}
-					onMouseLeave={() => setHideArrowCursor(false)}></div>
+					onMouseLeave={() => setHideArrowCursor(false)}>
+					<span></span>
+					<span></span>
+				</div>
 
 				{!hideArrowCursor && (
 					<div className={`cursor ${windowSide === "right" ? "cursor-flipped" : ""}`} ref={cursor}>
