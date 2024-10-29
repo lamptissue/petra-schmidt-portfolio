@@ -18,7 +18,6 @@ export default function Project({
 }) {
 	const [currentSlide, setCurrentSlide] = useState(1);
 	const [isPortrait, setIsPortrait] = useState(false);
-	// const [backgroundColour, setBackgroundColor] = useState();
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [windowSide, setWindowSide] = useState("");
 	const [hideArrowCursor, setHideArrowCursor] = useState(false);
@@ -55,6 +54,7 @@ export default function Project({
 		}
 	};
 
+	console.log("blok", blok);
 	useEffect(() => {
 		document.addEventListener("mousemove", handleMouseArrow);
 		return () => {
@@ -153,6 +153,7 @@ export default function Project({
 					type: "image",
 					id: item.image.id,
 					filename: item.image.filename,
+					alt: item.image.alt,
 				});
 			} else if (item.component === "projectModalText") {
 				const textLength = item.text.length > 1000 ? "long" : "short";
@@ -231,7 +232,7 @@ export default function Project({
 			data-section
 			style={{
 				backgroundColor: `hsla(${backgroundColours[0]}, 0.5)`,
-				backgroundImage: `radial-gradient(at 0% 79%, hsla(${backgroundColours[1]}, 0.4) 0px, transparent 50%)`,
+				backgroundImage: `radial-gradient(at 0% 79%, hsla(${backgroundColours[1]}, 0.7) 0px, transparent 50%)`,
 			}}
 			id={blok.projectTitle}>
 			<div
@@ -267,7 +268,7 @@ export default function Project({
 				onMouseMove={(event) => handleMouseArrow(event)}>
 				<div className='project-modal__content-container'>
 					{combinedArray.length > 0 && currentItem.type === "image" ? (
-						<img src={`${currentItem.filename}/m/`} />
+						<img src={`${currentItem.filename}/m/`} loading='lazy' alt={currentItem.alt} />
 					) : currentItem.type === "text" ? (
 						textContent
 					) : currentItem.type === "richText" && richtextHtml ? (
@@ -276,17 +277,8 @@ export default function Project({
 							dangerouslySetInnerHTML={{ __html: richtextHtml }}
 						/>
 					) : (
-						// <div className='rich-test'>
-						// 	<div
-						// 		className='project-modal__text-area rich-text-content'
-						// 		dangerouslySetInnerHTML={{ __html: richtextHtml }}
-						// 	/>
-						// 	<img src={`${imageSrc}/m/`} />
-						// </div>
 						currentItem.type === "video" && (
 							<iframe
-								// width='80%'
-								// height='80%'
 								src={currentItem.videoUrl}
 								title='YouTube video player'
 								frameBorder='0'
@@ -299,14 +291,14 @@ export default function Project({
 					)}
 				</div>
 
-				<div className='left-arrow arrow__container' onClick={handlePreviousSlide}></div>
-				<div className='right-arrow arrow__container' onClick={handleNextSlide}></div>
+				<div className='left-arrow arrow__container' onClick={handlePreviousSlide} aria-label='Previous slide'></div>
+				<div className='right-arrow arrow__container' onClick={handleNextSlide} aria-label='Next slide'></div>
 
-				<div className='test left-boy' onClick={handlePreviousSlide}>
+				<div className='test left-boy' onClick={handlePreviousSlide} aria-label='Previous slide'>
 					<span className='chevron'></span>
 					<span className='chevron'></span>
 				</div>
-				<div className='test right-boy' onClick={handleNextSlide}>
+				<div className='test right-boy' onClick={handleNextSlide} aria-label='Next slide'>
 					<span className='chevron'></span>
 					<span className='chevron'></span>
 				</div>
@@ -324,6 +316,7 @@ export default function Project({
 
 				<div
 					className='project-modal__cross'
+					aria-label='close'
 					onClick={handleCloseModal}
 					onMouseEnter={() => setHideArrowCursor(true)}
 					onMouseLeave={() => setHideArrowCursor(false)}>
