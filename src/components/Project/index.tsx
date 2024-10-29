@@ -297,6 +297,15 @@ export default function Project({
 				<div className='left-arrow arrow__container' onClick={handlePreviousSlide}></div>
 				<div className='right-arrow arrow__container' onClick={handleNextSlide}></div>
 
+				<div className='test left-boy' onClick={handlePreviousSlide}>
+					<span className='chevron'></span>
+					<span className='chevron'></span>
+				</div>
+				<div className='test right-boy' onClick={handleNextSlide}>
+					<span className='chevron'></span>
+					<span className='chevron'></span>
+				</div>
+
 				<div className='project-modal__sidebar'>
 					<span>{blok.projectTitle}</span>
 					<span>{blok.title}</span>

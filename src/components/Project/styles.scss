@@ -75,10 +75,6 @@
 	object-fit: cover;
 	object-position: center;
 	z-index: 1;
-
-	// @media (max-width: 768px) {
-	// 	width: auto;
-	// }
 }
 
 .project__image--portrait {
@@ -103,10 +99,10 @@
 
 .project-modal__container {
 	z-index: 10;
+	backdrop-filter: blur(10px);
 	-webkit-backdrop-filter: blur(10px);
 	padding-left: 70px;
-	backdrop-filter: blur(10px);
-	background-color: rgba(255, 255, 255, 0.2);
+	background-color: rgba(255, 255, 255, 0.5);
 	width: 100vw;
 	height: 100vh;
 	position: fixed;
@@ -152,8 +148,8 @@
 
 .project-modal__cross {
 	position: absolute;
-	right: 20px;
-	top: 20px;
+	right: 0;
+	top: 0;
 	width: 50px;
 	height: 50px;
 	opacity: 0.7;
@@ -167,9 +163,12 @@
 		box-shadow: 7px 1px 20px rgba(0, 0, 0, 0.2);
 		position: absolute;
 		border-radius: 5px;
-		width: 30px;
+		width: 25px;
 		background-color: black;
-		height: 3px;
+		height: 2px;
+		@media (max-width: 768px) {
+			width: 15px;
+		}
 		&:nth-child(1) {
 			transform: rotate(45deg);
 		}
@@ -195,9 +194,13 @@
 	position: absolute;
 	top: 0;
 	cursor: none;
+	display: block;
 
+	// @media (max-width: 768px) {
+	// 	cursor: auto;
+	// }
 	@media (max-width: 768px) {
-		cursor: auto;
+		display: none;
 	}
 }
 
@@ -230,8 +233,9 @@
 	left: 0;
 	pointer-events: none;
 
-	@media (max-width: 640px) {
-		padding: 20px;
+	@media (max-width: 768px) {
+		overflow: hidden;
+		padding: 45px 15px 55px 15px;
 	}
 
 	img {
@@ -245,7 +249,7 @@
 	.project-modal__text-area {
 		max-width: 70vw;
 		width: 100%;
-		max-height: 80vh;
+		height: 100%;
 		overflow-y: auto;
 		margin: auto;
 		background-color: var(--default-color);
@@ -263,7 +267,7 @@
 		}
 
 		@media (max-width: 640px) {
-			padding: 20px;
+			padding: 20px 15px;
 		}
 	}
 
@@ -304,34 +308,35 @@ iframe {
 	}
 }
 
-// .rich-test {
-// 	display: flex;
-// 	gap: 80px;
-// 	height: 100%;
-// 	padding: 40px;
-// 	margin: auto;
-
-// 	img {
-// 		max-height: 80vh;
-// 		width: 50%;
-// 	}
-// }
-
 .test {
-	position: relative;
-	background-color: blue;
-	width: 50px;
-	height: 50px;
-	display: flex;
+	position: absolute;
+	background-color: rgba(0, 0, 0, 0.4);
+	bottom: 60px;
+	width: 35px;
+	height: 35px;
+	z-index: 20;
+	display: none;
 	justify-content: center;
 	align-items: center;
+	@media (max-width: 768px) {
+		display: flex;
+	}
 }
 
 .test .chevron {
 	position: absolute;
-	width: 25px;
+	width: 15px;
 	height: 3px;
-	background-color: black;
+	background-color: white;
+}
+
+.left-boy {
+	left: 5px;
+}
+
+.right-boy {
+	transform: rotate(180deg);
+	right: 5px;
 }
 
 .test .chevron:nth-child(1) {
@@ -344,11 +349,5 @@ iframe {
 .test .chevron:nth-child(2) {
 	transform-origin: left center;
 	transform: rotate(-35deg);
-
 	border-radius: 5px;
 }
-
-// <div class="test">
-// <span class="chevron"></span>
-// <span class="chevron"></span>
-// </div>
