@@ -14,10 +14,8 @@ function App() {
 	const [isHeaderVisible, setIsHeaderVisible] = useState(true);
 	const [backgroundColours, setBackgroundColour] = useState<string[]>([]);
 	const [activeItem, setActiveItem] = useState("");
-	const [bigSize, setBigSize] = useState(window.innerWidth < 870 ? "48" : "72");
-	const [smallSize, setSmallSize] = useState(window.innerWidth < 870 ? "24" : "32");
+	const [isLargeHeader, setIsLargeHeader] = useState(true);
 
-	const [headersize, setHeaderSize] = useState(bigSize);
 	const [showScrollButton, setShowScrollButton] = useState(false);
 	const refScrollUp = useRef<HTMLDivElement>(null);
 	const prevWidth = useRef(window.innerWidth);
@@ -26,8 +24,6 @@ function App() {
 		const handleResize = () => {
 			if (prevWidth.current !== window.innerWidth) {
 				prevWidth.current = window.innerWidth;
-				setBigSize(window.innerWidth < 870 ? "48" : "72");
-				setSmallSize(window.innerWidth < 870 ? "24" : "32");
 			}
 		};
 		window.addEventListener("resize", handleResize);
@@ -58,11 +54,11 @@ function App() {
 
 	useEffect(() => {
 		if (activeItem === "" || isMenuOpen) {
-			setHeaderSize(bigSize);
+			setIsLargeHeader(true);
 		} else if (activeItem !== "" && !isMenuOpen) {
-			setHeaderSize(smallSize);
+			setIsLargeHeader(false);
 		}
-	}, [isMenuOpen, activeItem, bigSize, smallSize]);
+	}, [isMenuOpen, activeItem]);
 
 	const body = document.querySelector("body");
 
@@ -80,9 +76,9 @@ function App() {
 	const handlePageScroll = (e: any) => {
 		if (e.target.scrollTop === 0 || e.target.scrollTop <= window.innerHeight - 200) {
 			setActiveItem("");
-			setHeaderSize(bigSize);
+			setIsLargeHeader(true);
 		} else if (e.target.scrollTop >= window.innerHeight - 200) {
-			setHeaderSize(smallSize);
+			setIsLargeHeader(false);
 		}
 
 		if (e.target.scrollTop === 0 || e.target.scrollTop <= window.innerHeight * 2) {
@@ -150,7 +146,7 @@ function App() {
 				<Contact isContactOpen={isContactOpen} blok={contactBlok} handleContact={handleContact} />
 
 				<main onScroll={(e) => handlePageScroll(e)}>
-					{isHeaderVisible && <Header handleMenu={handleMenu} headersize={headersize} />}
+					{isHeaderVisible && <Header handleMenu={handleMenu} isLargeHeader={isLargeHeader} />}
 					<div ref={refScrollUp}></div>
 					<LandingPage blok={landingBlok} backgroundColours={backgroundColours} />
 					{projectBlok.map((item: any) => {

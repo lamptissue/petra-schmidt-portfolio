@@ -148,9 +148,14 @@
 }
 
 .preview__image {
+	height: 100%;
+	width: 100%;
+	padding: 30px;
 	margin: auto;
-	max-width: 35vw;
+	max-width: 600px;
+	max-height: 600px;
 	aspect-ratio: 1/1;
+
 	img {
 		object-fit: contain;
 		height: 100%;

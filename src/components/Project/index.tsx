@@ -54,7 +54,6 @@ export default function Project({
 		}
 	};
 
-	console.log("blok", blok);
 	useEffect(() => {
 		document.addEventListener("mousemove", handleMouseArrow);
 		return () => {
@@ -95,12 +94,6 @@ export default function Project({
 			}
 		};
 	};
-
-	// useEffect(() => {
-	// 	const randomNumber = Math.floor(Math.random() * backgroundColours.length);
-
-	// 	setBackgroundColor(isPortrait && backgroundColours[randomNumber]);
-	// }, [isPortrait]);
 
 	useEffect(() => {
 		checkLandscape(blok.backgroundImage.filename);
@@ -212,8 +205,11 @@ export default function Project({
 
 			textContent = (
 				<div className='project-modal__text-area project-modal__text-area--short-text'>
-					{paragraphs[0] && <p className='align-left'>{paragraphs[0]}</p>}
-					{paragraphs[1] && <p className='align-right'>{paragraphs[1]}</p>}
+					{paragraphs.map((item: any, index: any) => (
+						<p key={index} className={`paragraph align-${index % 2 ? "right" : "left"}`}>
+							{item}
+						</p>
+					))}
 				</div>
 			);
 		} else {

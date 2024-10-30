@@ -9,7 +9,7 @@ const Contact = ({ blok, isContactOpen, handleContact }: { blok: any; isContactO
 
 	return (
 		<div className={`contact__container ${isContactOpen ? "contact--open" : ""}`} {...storyblokEditable(blok)}>
-			<div className='project-modal__cross-contact' onClick={handleContact}>
+			<div className='project-modal__cross-contact' onClick={handleContact} aria-label='close'>
 				<span></span>
 				<span></span>
 			</div>
