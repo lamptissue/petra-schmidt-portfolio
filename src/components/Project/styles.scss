@@ -10,14 +10,16 @@
 	.project__title-wrapper {
 		margin: 32px 32px auto auto;
 		text-align: right;
-		max-width: 70%;
+		max-width: 50%;
 		z-index: 10;
 		cursor: auto;
 		color: white;
 		opacity: 0.85;
-		line-height: 1.2;
+		line-height: 1.3;
 		transition: transform 0.1s ease-in-out;
-
+		@media (max-width: 1370px) {
+			max-width: 70%;
+		}
 		@media (max-width: 1024px) {
 			margin: 24px 24px auto auto;
 		}
