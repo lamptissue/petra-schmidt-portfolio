@@ -1,7 +1,7 @@
 import { storyblokEditable } from "@storyblok/react";
 import "./styles.scss";
 
-export default function LandingPage({ blok, backgroundColours }: { blok: any; backgroundColours: any }) {
+export default function LandingPage({ blok, backgroundColours }: { blok: any; backgroundColours: string[] }) {
 	return (
 		<section
 			{...storyblokEditable(blok)}

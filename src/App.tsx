@@ -9,31 +9,31 @@ import Project from "./components/Project";
 import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
-	const [isMenuOpen, setIsMenuOpen] = useState(false);
-	const [isContactOpen, setIsContactOpen] = useState(false);
-	const [isHeaderVisible, setIsHeaderVisible] = useState(true);
+	const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+	const [isContactOpen, setIsContactOpen] = useState<boolean>(false);
+	const [isHeaderVisible, setIsHeaderVisible] = useState<boolean>(true);
 	const [backgroundColours, setBackgroundColour] = useState<string[]>([]);
-	const [activeItem, setActiveItem] = useState("");
-	const [isLargeHeader, setIsLargeHeader] = useState(true);
-
-	const [showScrollButton, setShowScrollButton] = useState(false);
+	const [activeItem, setActiveItem] = useState<string>("");
+	const [isLargeHeader, setIsLargeHeader] = useState<boolean>(true);
+	const [showScrollButton, setShowScrollButton] = useState<boolean>(false);
 	const refScrollUp = useRef<HTMLDivElement>(null);
-	const prevWidth = useRef(window.innerWidth);
 
-	useEffect(() => {
-		const handleResize = () => {
-			if (prevWidth.current !== window.innerWidth) {
-				prevWidth.current = window.innerWidth;
-			}
-		};
-		window.addEventListener("resize", handleResize);
+	// const prevWidth = useRef(window.innerWidth);
 
-		handleResize();
+	// useEffect(() => {
+	// 	const handleResize = () => {
+	// 		if (prevWidth.current !== window.innerWidth) {
+	// 			prevWidth.current = window.innerWidth;
+	// 		}
+	// 	};
+	// 	window.addEventListener("resize", handleResize);
 
-		return () => {
-			window.removeEventListener("resize", handleResize);
-		};
-	}, []);
+	// 	handleResize();
+
+	// 	return () => {
+	// 		window.removeEventListener("resize", handleResize);
+	// 	};
+	// }, []);
 
 	useEffect(() => {
 		const landingPageColours = [
@@ -142,6 +142,7 @@ function App() {
 					blok={projectBlok}
 					activeItem={activeItem}
 					handleMenu={handleMenu}
+					isContactOpen={isContactOpen}
 				/>
 				<Contact isContactOpen={isContactOpen} blok={contactBlok} handleContact={handleContact} />
 

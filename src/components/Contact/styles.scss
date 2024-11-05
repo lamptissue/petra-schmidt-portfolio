@@ -6,8 +6,7 @@
 	left: 0;
 	z-index: 30;
 	width: 50vw;
-	// background-color: #fcfcfc;
-	background: #efefef;
+	background-color: #fcfcfc;
 	overflow: hidden;
 	display: flex;
 	justify-content: center;
@@ -89,7 +88,7 @@
 }
 
 .project-modal__cross-contact {
-	display: hidden;
+	display: none;
 	@media (max-width: 768px) {
 		display: block;
 		position: absolute;

@@ -13,12 +13,14 @@ export default function Menu({
 	blok,
 	activeItem,
 	handleMenu,
+	isContactOpen,
 }: {
-	isMenuOpen: any;
-	handleContact: any;
-	blok: any;
-	activeItem: any;
-	handleMenu: any;
+	isMenuOpen: boolean;
+	handleContact: () => void;
+	blok: Project[];
+	activeItem: string;
+	handleMenu: () => void;
+	isContactOpen: boolean;
 }) {
 	const [previewImage, setPreviewImage] = useState("");
 
@@ -95,8 +97,10 @@ export default function Menu({
 					</div>
 				</div>
 			</div>
+
 			{previewImage && (
 				<div className='preview__container'>
+					<div className={`preview__blur ${isContactOpen ? "open" : ""}`}></div>
 					<div className='preview__image'>
 						<img src={`${previewImage}/m/filters:quality(20)`} loading='lazy' />
 					</div>

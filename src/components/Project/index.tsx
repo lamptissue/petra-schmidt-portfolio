@@ -23,6 +23,7 @@ export default function Project({
 	const [hideArrowCursor, setHideArrowCursor] = useState(false);
 
 	const ref = useRef(null);
+
 	const cursor = useRef<HTMLDivElement>(null);
 
 	const imageSrc = blok.backgroundImage.filename;
