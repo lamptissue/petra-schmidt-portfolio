@@ -28,18 +28,18 @@ export default function Project({
 
 	const imageSrc = blok.backgroundImage.filename;
 
-	const main = document.querySelector("main");
-
 	const handleOpenModal = () => {
 		setIsModalOpen(true);
-		main!.style.overflow = "hidden";
+		document.body.style.position = "fixed";
+
 		setIsHeaderVisible(false);
 	};
 
 	const handleCloseModal = () => {
 		setCurrentSlide(1);
 		setIsModalOpen(false);
-		main!.style.overflow = "auto";
+		document.body.style.position = "";
+
 		setIsHeaderVisible(true);
 	};
 
