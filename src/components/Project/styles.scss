@@ -14,7 +14,6 @@
 		z-index: 10;
 		cursor: auto;
 		color: white;
-		opacity: 0.85;
 		line-height: 1.3;
 		transition: transform 0.1s ease-in-out;
 		@media (max-width: 1370px) {
@@ -55,7 +54,6 @@
 .active-project-link:hover {
 	cursor: pointer;
 	color: white;
-	opacity: 1;
 	transform: translate(-2px, -2px);
 }
 
