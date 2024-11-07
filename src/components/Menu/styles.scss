@@ -1,7 +1,7 @@
 .main-navigation {
 	width: 50vw;
 	background-color: var(--default-color);
-	height: 100vh;
+	height: 100svh;
 	position: fixed;
 	display: flex;
 	flex-direction: column;
@@ -138,7 +138,7 @@
 
 .preview__container {
 	width: 50vw;
-	height: 100vh;
+	height: 100svh;
 	position: fixed;
 	top: 0;
 	right: 0;

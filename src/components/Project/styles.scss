@@ -1,5 +1,5 @@
 .project__container {
-	height: 100vh;
+	height: 100svh;
 	width: 100vw;
 	display: flex;
 	position: relative;
@@ -105,7 +105,7 @@
 	padding-left: 70px;
 	background-color: rgba(255, 255, 255, 0.5);
 	width: 100vw;
-	height: 100vh;
+	height: 100svh;
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -190,7 +190,7 @@
 	right: 0;
 }
 .arrow__container {
-	height: 100vh;
+	height: 100svh;
 	width: 50%;
 	position: absolute;
 	top: 0;
