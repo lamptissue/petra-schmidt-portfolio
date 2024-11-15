@@ -1,0 +1,34 @@
+.project-modal__sidebar {
+	cursor: none;
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 70px;
+	height: 100%;
+	padding: 20px;
+	background-color: var(--default-color);
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-direction: column;
+	span {
+		text-align: center;
+		writing-mode: vertical-rl;
+		transform: rotate(-180deg);
+		@media (max-width: 768px) {
+			text-align: left;
+		}
+	}
+	@media (max-width: 768px) {
+		bottom: 0;
+		width: 100%;
+		height: 50px;
+		top: auto;
+		flex-direction: row;
+		padding: 10px;
+		span {
+			writing-mode: horizontal-tb;
+			transform: rotate(0);
+		}
+	}
+}

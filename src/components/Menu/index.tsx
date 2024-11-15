@@ -70,7 +70,7 @@ export default function Menu({
 						Contact
 					</span>
 				</div>
-				<div className='test_nav'>
+				<div className='main-navigation__nav--wrapper'>
 					<div className='main-navigation__nav'>
 						{sortedGroupedProjects.map(([year, projects]) => (
 							<Fragment key={year}>

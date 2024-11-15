@@ -1,9 +1,15 @@
 import { useRef, useState, useEffect } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import { richTextResolver } from "@storyblok/richtext";
+
+import Sidebar from "../Sidebar";
 
 import "react-lazy-load-image-component/src/effects/opacity.css";
 import "./styles.scss";
+import Chevron from "../Chevron";
+import Video from "../Video";
+import Text from "../Text";
+import Arrow from "../Arrow";
+import RichText from "../RichText";
 
 export default function Project({
 	blok,
@@ -191,11 +197,6 @@ export default function Project({
 		});
 	}
 
-	let richtextHtml =
-		blok.rich_text && blok.rich_text.content && Array.isArray(blok.rich_text.content)
-			? richTextResolver().render(blok.rich_text)
-			: null;
-
 	const currentItem = combinedArray[currentSlide - 1];
 
 	let textContent = null;
@@ -204,21 +205,13 @@ export default function Project({
 		if (currentItem.textLength === "short") {
 			const paragraphs = currentItem.text.split("\n\n");
 
-			textContent = (
-				<div className='project-modal__text-area project-modal__text-area--short-text'>
-					{paragraphs.map((item: any, index: any) => (
-						<p key={index} className={`paragraph align-${index % 2 ? "right" : "left"}`}>
-							{item}
-						</p>
-					))}
-				</div>
-			);
+			textContent = paragraphs.map((item: any, index: any) => (
+				<p key={index} className={`${index.length < 1 ? "paragraph" : ""} align-${index % 2 ? "right" : "left"}`}>
+					{item}
+				</p>
+			));
 		} else {
-			textContent = (
-				<div className='project-modal__text-area project-modal__text-area--long-text'>
-					<p>{currentItem.text}</p>
-				</div>
-			);
+			textContent = <p className='paragraph align-left'>{currentItem.text}</p>;
 		}
 	}
 
@@ -259,58 +252,12 @@ export default function Project({
 			/>
 
 			{/* Modal */}
+
 			<div
-				className='project-modal__container'
-				style={{ display: isModalOpen ? "flex" : "none" }}
+				className='project-modal__container '
+				style={{ display: isModalOpen ? "block" : "none" }}
 				onMouseMove={(event) => handleMouseArrow(event)}>
-				<div className='project-modal__content-container'>
-					{combinedArray.length > 0 && currentItem.type === "image" ? (
-						<img src={`${currentItem.filename}/m/`} loading='lazy' alt={currentItem.alt} />
-					) : currentItem.type === "text" ? (
-						textContent
-					) : currentItem.type === "richText" && richtextHtml ? (
-						<div
-							className='project-modal__text-area rich-text-content'
-							dangerouslySetInnerHTML={{ __html: richtextHtml }}
-						/>
-					) : (
-						currentItem.type === "video" && (
-							<iframe
-								src={currentItem.videoUrl}
-								title='YouTube video player'
-								frameBorder='0'
-								allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
-								referrerPolicy='strict-origin-when-cross-origin'
-								allowFullScreen
-								onMouseEnter={() => setHideArrowCursor(true)}
-								onMouseLeave={() => setHideArrowCursor(false)}></iframe>
-						)
-					)}
-				</div>
-
-				<div className='left-arrow arrow__container' onClick={handlePreviousSlide} aria-label='Previous slide'></div>
-				<div className='right-arrow arrow__container' onClick={handleNextSlide} aria-label='Next slide'></div>
-
-				<div className='test left-boy' onClick={handlePreviousSlide} aria-label='Previous slide'>
-					<span className='chevron'></span>
-					<span className='chevron'></span>
-				</div>
-				<div className='test right-boy' onClick={handleNextSlide} aria-label='Next slide'>
-					<span className='chevron'></span>
-					<span className='chevron'></span>
-				</div>
-
-				<div className='project-modal__sidebar'>
-					<span>{blok.projectTitle}</span>
-					<span>{blok.title}</span>
-
-					{blok.modalDetail && combinedArray.length > 0 && (
-						<span>
-							{currentSlide}/{combinedArray.length}
-						</span>
-					)}
-				</div>
-
+				<Sidebar blok={blok} combinedArray={combinedArray} currentSlide={currentSlide} />
 				<div
 					className='project-modal__cross'
 					aria-label='close'
@@ -320,20 +267,30 @@ export default function Project({
 					<span></span>
 					<span></span>
 				</div>
+				<div className='project-modal__content-container'>
+					{combinedArray.length > 0 && (
+						<>
+							{currentItem.type === "image" && (
+								<img src={`${currentItem.filename}/m/`} loading='lazy' alt={currentItem.alt} />
+							)}
+							{currentItem.type === "video" && (
+								<Video src={currentItem.videoUrl} setHideArrowCursor={setHideArrowCursor} />
+							)}
+							{currentItem.type === "text" && <Text textContent={textContent} />}
+							{currentItem.type === "richText" && <RichText blok={blok} />}
+						</>
+					)}
+				</div>
+
+				<div className='left-arrow arrow__container' onClick={handlePreviousSlide} aria-label='Previous slide'></div>
+				<div className='right-arrow arrow__container' onClick={handleNextSlide} aria-label='Next slide'></div>
+
+				<Chevron options={"left-boy"} onClick={handlePreviousSlide} aria-label='Previous slide' />
+				<Chevron options={"right-boy"} onClick={handleNextSlide} aria-label='Next slide' />
 
 				{!hideArrowCursor && (
 					<div className={`cursor ${windowSide === "right" ? "cursor-flipped" : ""}`} ref={cursor}>
-						<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 82.42 17.72' width='90' height='40' fill='none'>
-							<path d='M3.6 9.94h76.84c1.93 0 1.93-3 0-3H3.6c-1.93 0-1.93 3 0 3Z' fill='#fff' />
-							<path
-								d='m2.54 9.5 6.04 6.04.86.86c.56.56 1.57.6 2.12 0s.59-1.53 0-2.12L5.52 8.24l-.86-.86c-.56-.56-1.57-.6-2.12 0s-.59 1.53 0 2.12Z'
-								fill='#fff'
-							/>
-							<path
-								d='M9.43.42 3.39 6.46l-.86.86c-.56.56-.6 1.57 0 2.12s1.53.59 2.12 0l6.04-6.04.86-.86c.56-.56.6-1.57 0-2.12s-1.53-.59-2.12 0Z'
-								fill='#fff'
-							/>
-						</svg>
+						<Arrow />
 					</div>
 				)}
 			</div>
