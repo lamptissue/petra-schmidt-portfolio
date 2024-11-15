@@ -284,7 +284,7 @@
 
 	@media (max-width: 768px) {
 		width: 100%;
-		height: calc(100% - 50px);
+		height: calc(100% - 52px);
 		padding: 45px 20px 55px 20px;
 	}
 
@@ -292,8 +292,7 @@
 		margin: auto;
 		max-height: 100%;
 		max-width: 100%;
-		@media (max-width: 768px) {
-			max-height: 80vh;
-		}
+		height: 100%;
+		object-fit: contain;
 	}
 }
