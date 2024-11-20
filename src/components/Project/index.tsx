@@ -122,17 +122,21 @@ export default function Project({
 		}
 	};
 
+	useEffect(() => {
+		preloadImages();
+	}, []);
+
 	const callbackFunction = (entries: any) => {
 		const [entry] = entries;
 		if (entry.isIntersecting) {
 			setActiveItem(blok.projectTitle);
-			preloadImages();
+			// preloadImages();
 		}
 	};
 	const options = {
 		root: null,
 		rootMargin: "0px",
-		threshold: 1.0,
+		threshold: 0.5,
 	};
 
 	useEffect(() => {
