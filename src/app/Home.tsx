@@ -1,14 +1,13 @@
-import { useStoryblok } from "@storyblok/react";
-import { Helmet, HelmetProvider } from "react-helmet-async";
+"use client";
 import { useEffect, useState, useRef } from "react";
-import Contact from "./components/Contact";
-import Header from "./components/Header";
-import LandingPage from "./components/LandingPage";
-import Menu from "./components/Menu";
-import Project from "./components/Project";
-import ScrollToTop from "./components/ScrollToTop";
+import Contact from "@/components/Contact";
+import Header from "@/components/Header";
+import LandingPage from "@/components/LandingPage";
+import Menu from "@/components/Menu";
+import Project from "@/components/Project";
+import ScrollToTop from "@/components/ScrollToTop";
 
-function App() {
+export default function Home({ data }: { data: any }) {
 	const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 	const [isContactOpen, setIsContactOpen] = useState<boolean>(false);
 	const [isHeaderVisible, setIsHeaderVisible] = useState<boolean>(true);
@@ -50,7 +49,6 @@ function App() {
 
 		setBackgroundColour(landingPageColours[getRandomIndex(landingPageColours)]);
 	}, []);
-	``;
 
 	useEffect(() => {
 		if (activeItem === "" || isMenuOpen) {
@@ -65,13 +63,6 @@ function App() {
 	useEffect(() => {
 		isMenuOpen ? (body!.style.overflow = "hidden") : (body!.style.overflow = "auto");
 	}, [isMenuOpen]);
-
-	let slug = window.location.pathname === "/" ? "home" : window.location.pathname.replace("/", "");
-
-	const story = useStoryblok(slug, { version: "draft" });
-	if (!story || !story.content || !story.content.body) {
-		return;
-	}
 
 	const handlePageScroll = (e: any) => {
 		if (e.target.scrollTop === 0 || e.target.scrollTop <= window.innerHeight - 200) {
@@ -108,11 +99,11 @@ function App() {
 		setIsContactOpen((prevState) => !prevState);
 	};
 
-	const contactBlok = story.content.body.find((item: any) => item.component === "contact");
+	const contactBlok = data.content?.body.find((item: any) => item.component === "contact");
 
-	const landingBlok = story.content.body.find((item: any) => item.component === "landingPage");
+	const landingBlok = data.content?.body.find((item: any) => item.component === "landingPage");
 
-	const projectBlok = story.content.body
+	const projectBlok = data.content?.body
 		.filter((item: any) => item.component === "project")
 		.sort((a: any, b: any) => b.year - a.year);
 
@@ -122,8 +113,7 @@ function App() {
 
 	return (
 		<>
-			<HelmetProvider>
-				<Helmet>
+			{/* <Helmet>
 					<title>{story.content.title}</title>
 					<meta name='description' content={story.content.description} />
 					<meta name='keywords' content={story.content?.tags} />
@@ -135,39 +125,36 @@ function App() {
 					<meta name='twitter:title' content={story.content.title} />
 					<meta name='twitter:description' content={story.content.description} />
 					<meta name='twitter:image' content={story.content.image.filename} />
-				</Helmet>
-				<Menu
-					isMenuOpen={isMenuOpen}
-					handleContact={handleContact}
-					blok={projectBlok}
-					activeItem={activeItem}
-					handleMenu={handleMenu}
-					isContactOpen={isContactOpen}
-				/>
-				<Contact isContactOpen={isContactOpen} blok={contactBlok} handleContact={handleContact} />
+				</Helmet> */}
+			<Menu
+				isMenuOpen={isMenuOpen}
+				handleContact={handleContact}
+				blok={projectBlok}
+				activeItem={activeItem}
+				handleMenu={handleMenu}
+				isContactOpen={isContactOpen}
+			/>
+			<Contact isContactOpen={isContactOpen} blok={contactBlok} handleContact={handleContact} />
 
-				<main onScroll={(e) => handlePageScroll(e)}>
-					{isHeaderVisible && <Header handleMenu={handleMenu} isLargeHeader={isLargeHeader} />}
-					<div ref={refScrollUp}></div>
-					<LandingPage blok={landingBlok} backgroundColours={backgroundColours} />
-					{projectBlok.map((item: any) => {
-						return (
-							<Project
-								key={item._uid}
-								blok={item}
-								setIsHeaderVisible={setIsHeaderVisible}
-								backgroundColours={backgroundColours}
-								setActiveItem={setActiveItem}
-							/>
-						);
-					})}
-					{isHeaderVisible && !isMenuOpen && (
-						<ScrollToTop showScrollButton={showScrollButton} scrollUp={handleScrollUp} />
-					)}
-				</main>
-			</HelmetProvider>
+			<main onScroll={(e) => handlePageScroll(e)}>
+				{isHeaderVisible && <Header handleMenu={handleMenu} isLargeHeader={isLargeHeader} />}
+				<div ref={refScrollUp}></div>
+				<LandingPage blok={landingBlok} backgroundColours={backgroundColours} />
+				{projectBlok?.map((item: any) => {
+					return (
+						<Project
+							key={item._uid}
+							blok={item}
+							setIsHeaderVisible={setIsHeaderVisible}
+							backgroundColours={backgroundColours}
+							setActiveItem={setActiveItem}
+						/>
+					);
+				})}
+				{isHeaderVisible && !isMenuOpen && (
+					<ScrollToTop showScrollButton={showScrollButton} scrollUp={handleScrollUp} />
+				)}
+			</main>
 		</>
 	);
 }
-
-export default App;

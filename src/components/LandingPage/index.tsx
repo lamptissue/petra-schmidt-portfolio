@@ -15,10 +15,10 @@ export default function LandingPage({ blok, backgroundColours }: { blok: any; ba
 				`,
 			}}>
 			<div className='introduction-paragraph'>
-				<h2 className='text-h6'>{blok.text}</h2>
+				<h2 className='text-h6'>{blok?.text}</h2>
 			</div>
 			<div className='blur-container'></div>
-			<p>{blok.title}</p>
+			<p>{blok?.title}</p>
 		</section>
 	);
 }

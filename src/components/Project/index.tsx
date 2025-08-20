@@ -1,9 +1,10 @@
 import { useRef, useState, useEffect } from "react";
-import { LazyLoadImage } from "react-lazy-load-image-component";
+// import { LazyLoadImage } from "react-lazy-load-image-component";
 
 import Sidebar from "../Sidebar";
+// import Image from "next/image";
 
-import "react-lazy-load-image-component/src/effects/opacity.css";
+// import "react-lazy-load-image-component/src/effects/opacity.css";
 import "./styles.scss";
 import Chevron from "../Chevron";
 import Video from "../Video";
@@ -245,7 +246,18 @@ export default function Project({
 					{blok?.artist} - {blok?.year}
 				</span>
 			</div>
-			<LazyLoadImage
+
+			<img
+				src={`${imageSrc}/m/`}
+				className={`${blok.modalDetail && blok.modalDetail.length >= 1 ? "background__click" : ""} ${
+					isPortrait ? "project__image--portrait" : "project__image--landscape"
+				}`}
+				alt={blok.projectTitle}
+				onClick={blok.modalDetail && blok.modalDetail.length >= 1 ? handleOpenModal : undefined}
+				width={300}
+				height={300}
+			/>
+			{/* <LazyLoadImage
 				effect='opacity'
 				src={`${imageSrc}/m/`}
 				className={`${blok.modalDetail && blok.modalDetail.length >= 1 ? "background__click" : ""} ${
@@ -253,7 +265,7 @@ export default function Project({
 				}`}
 				alt={blok.projectTitle}
 				onClick={blok.modalDetail && blok.modalDetail.length >= 1 ? handleOpenModal : undefined}
-			/>
+			/> */}
 
 			{/* Modal */}
 

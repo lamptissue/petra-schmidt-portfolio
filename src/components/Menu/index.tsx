@@ -35,12 +35,12 @@ export default function Menu({
 		}
 	};
 
-	const projectDetails = blok.map((item: any) => ({
+	const projectDetails = blok?.map((item: any) => ({
 		image: item.backgroundImage.filename,
 		project: item.projectTitle,
 	}));
 
-	const groupedProjects = blok.reduce((acc: any, project: any) => {
+	const groupedProjects = blok?.reduce((acc: any, project: any) => {
 		const { year } = project;
 		if (!acc[year]) {
 			acc[year] = [];
@@ -53,7 +53,9 @@ export default function Menu({
 		return acc;
 	}, {});
 
-	const sortedGroupedProjects = Object.entries(groupedProjects).reverse() as [string, Project[]][];
+	const sortedGroupedProjects = groupedProjects
+		? (Object?.entries(groupedProjects)?.reverse() as [string, Project[]][])
+		: [];
 
 	const handleSetProjectPreview = (projectId: string) => {
 		const match = projectDetails.find((projectDetail: any) => projectDetail.project === projectId);
