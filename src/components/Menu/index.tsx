@@ -1,4 +1,6 @@
 import { useState, Fragment } from "react";
+import Image from "next/image";
+
 import "./styles.scss";
 
 interface Project {
@@ -8,19 +10,19 @@ interface Project {
 }
 
 export default function Menu({
+	data,
 	isMenuOpen,
-	handleContact,
-	blok,
-	activeItem,
 	handleMenu,
+	handleContact,
 	isContactOpen,
+	activeItem,
 }: {
-	isMenuOpen: boolean;
-	handleContact: () => void;
-	blok: Project[];
-	activeItem: string;
-	handleMenu: () => void;
-	isContactOpen: boolean;
+	data: any;
+	isMenuOpen: any;
+	handleMenu: any;
+	handleContact: any;
+	isContactOpen: any;
+	activeItem: any;
 }) {
 	const [previewImage, setPreviewImage] = useState("");
 
@@ -35,12 +37,7 @@ export default function Menu({
 		}
 	};
 
-	const projectDetails = blok?.map((item: any) => ({
-		image: item.backgroundImage.filename,
-		project: item.projectTitle,
-	}));
-
-	const groupedProjects = blok?.reduce((acc: any, project: any) => {
+	const groupedProjects = data?.reduce((acc: any, project: any) => {
 		const { year } = project;
 		if (!acc[year]) {
 			acc[year] = [];
@@ -56,13 +53,6 @@ export default function Menu({
 	const sortedGroupedProjects = groupedProjects
 		? (Object?.entries(groupedProjects)?.reverse() as [string, Project[]][])
 		: [];
-
-	const handleSetProjectPreview = (projectId: string) => {
-		const match = projectDetails.find((projectDetail: any) => projectDetail.project === projectId);
-		if (match) {
-			setPreviewImage(match.image);
-		}
-	};
 
 	return (
 		<>
@@ -82,14 +72,12 @@ export default function Menu({
 								<div className='main-navigation__nav--project-break'>
 									<ul>
 										{projects.map((item: any) => (
-											<li key={item.id}>
-												<span
-													onClick={() => handleClick(item.projectTitle)}
-													onMouseEnter={() => handleSetProjectPreview(item.projectTitle)}
-													onMouseLeave={() => setPreviewImage("")}
-													className={activeItem === item.projectTitle ? "active" : ""}>
-													{item.projectTitle}
-												</span>
+											<li
+												key={item.id}
+												onMouseEnter={() => setPreviewImage(item.projectTitle)}
+												onMouseLeave={() => setPreviewImage("")}
+												className={activeItem === item.projectTitle ? "active" : ""}>
+												<span onClick={() => handleClick(item.projectTitle)}>{item.projectTitle}</span>
 											</li>
 										))}
 									</ul>
@@ -100,14 +88,19 @@ export default function Menu({
 				</div>
 			</div>
 
-			{previewImage && (
-				<div className='preview__container'>
-					<div className={`preview__blur ${isContactOpen ? "open" : ""}`}></div>
-					<div className='preview__image'>
-						<img src={`${previewImage}/m/filters:quality(20)`} loading='lazy' />
+			<div className='preview__container'>
+				<div className={`preview__blur ${isContactOpen ? "open" : ""}`}></div>
+				{data.map((item: any) => (
+					<div className={`preview__image ${item.projectTitle === previewImage ? "test" : ""} `}>
+						<Image
+							width={600}
+							height={600}
+							alt=''
+							src={`${item.backgroundImage.filename}/m/600x0/filters:format(webp)`}
+						/>
 					</div>
-				</div>
-			)}
+				))}
+			</div>
 
 			<div className={`main-navigation__blurred-background ${isMenuOpen ? "blur" : ""}`} onClick={handleMenu}></div>
 		</>

@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
+
 import Contact from "@/components/Contact";
 import Header from "@/components/Header";
 import LandingPage from "@/components/LandingPage";
@@ -11,44 +12,15 @@ export default function Home({ data }: { data: any }) {
 	const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 	const [isContactOpen, setIsContactOpen] = useState<boolean>(false);
 	const [isHeaderVisible, setIsHeaderVisible] = useState<boolean>(true);
-	const [backgroundColours, setBackgroundColour] = useState<string[]>([]);
 	const [activeItem, setActiveItem] = useState<string>("");
 	const [isLargeHeader, setIsLargeHeader] = useState<boolean>(true);
 	const [showScrollButton, setShowScrollButton] = useState<boolean>(false);
+
 	const refScrollUp = useRef<HTMLDivElement>(null);
 
-	// const prevWidth = useRef(window.innerWidth);
-
-	// useEffect(() => {
-	// 	const handleResize = () => {
-	// 		if (prevWidth.current !== window.innerWidth) {
-	// 			prevWidth.current = window.innerWidth;
-	// 		}
-	// 	};
-	// 	window.addEventListener("resize", handleResize);
-
-	// 	handleResize();
-
-	// 	return () => {
-	// 		window.removeEventListener("resize", handleResize);
-	// 	};
-	// }, []);
-
-	useEffect(() => {
-		const landingPageColours = [
-			["0, 100%, 84%", "153, 68%, 73%", "48, 67%, 68%", "0, 62%, 64%"],
-			["200, 60%, 85%", "135, 50%, 80%", "300, 45%, 75%", "45, 70%, 80%"],
-			["18, 100%, 70%", "83, 63%, 64%", "210, 59%, 83%", "100, 39%, 68%"],
-			["81, 25%, 73%", "50, 56%, 81%", "284, 55%, 85%", "164, 35%, 64%"],
-			["49, 78%, 51%", "29, 89%, 64%", "45, 68%, 67%", "100, 39%, 68%"],
-		];
-
-		const getRandomIndex = (array: Array<any>) => {
-			return Math.floor(Math.random() * array.length);
-		};
-
-		setBackgroundColour(landingPageColours[getRandomIndex(landingPageColours)]);
-	}, []);
+	const handleScrollUp = () => {
+		refScrollUp.current?.scrollIntoView({ behavior: "smooth" });
+	};
 
 	useEffect(() => {
 		if (activeItem === "" || isMenuOpen) {
@@ -58,25 +30,15 @@ export default function Home({ data }: { data: any }) {
 		}
 	}, [isMenuOpen, activeItem]);
 
-	const body = document.querySelector("body");
-
-	useEffect(() => {
-		isMenuOpen ? (body!.style.overflow = "hidden") : (body!.style.overflow = "auto");
-	}, [isMenuOpen]);
-
 	const handlePageScroll = (e: any) => {
-		if (e.target.scrollTop === 0 || e.target.scrollTop <= window.innerHeight - 200) {
-			setActiveItem("");
+		if (e.target.scrollTop <= window.innerHeight - 200) {
 			setIsLargeHeader(true);
-		} else if (e.target.scrollTop >= window.innerHeight - 200) {
+			setActiveItem("");
+		} else {
 			setIsLargeHeader(false);
 		}
 
-		if (e.target.scrollTop === 0 || e.target.scrollTop <= window.innerHeight * 2) {
-			setShowScrollButton(false);
-		} else if (e.target.scrollTop > 1000) {
-			setShowScrollButton(true);
-		}
+		e.target.scrollTop <= window.innerHeight * 2 ? setShowScrollButton(false) : setShowScrollButton(true);
 	};
 
 	const handleMenu = () => {
@@ -86,74 +48,43 @@ export default function Home({ data }: { data: any }) {
 			if (window.innerWidth < 870) {
 				setIsMenuOpen((prevState) => !prevState);
 			} else {
-				setTimeout(() => {
-					setIsMenuOpen((prevState) => !prevState);
-				}, 500);
+				setTimeout(() => setIsMenuOpen((prevState) => !prevState), 500);
 			}
 		} else {
 			setIsMenuOpen((prevState) => !prevState);
 		}
 	};
 
-	const handleContact = () => {
-		setIsContactOpen((prevState) => !prevState);
-	};
-
-	const contactBlok = data.content?.body.find((item: any) => item.component === "contact");
+	const handleContact = () => setIsContactOpen((prevState) => !prevState);
 
 	const landingBlok = data.content?.body.find((item: any) => item.component === "landingPage");
+
+	const contactBlok = data.content?.body.find((item: any) => item.component === "contact");
 
 	const projectBlok = data.content?.body
 		.filter((item: any) => item.component === "project")
 		.sort((a: any, b: any) => b.year - a.year);
 
-	const handleScrollUp = () => {
-		refScrollUp.current?.scrollIntoView({ behavior: "smooth" });
-	};
-
 	return (
 		<>
-			{/* <Helmet>
-					<title>{story.content.title}</title>
-					<meta name='description' content={story.content.description} />
-					<meta name='keywords' content={story.content?.tags} />
-					<meta name='author' content={story.content.author} />
-					<meta property='og:title' content={story.content.title} />
-					<meta property='og:description' content={story.content.description} />
-					<meta property='og:image' content={story.content.image.filename} />
-					<meta property='og:url' content={story.content.url} />
-					<meta name='twitter:title' content={story.content.title} />
-					<meta name='twitter:description' content={story.content.description} />
-					<meta name='twitter:image' content={story.content.image.filename} />
-				</Helmet> */}
+			<Header onMenuClick={handleMenu} isLargeHeader={isLargeHeader} />
+
 			<Menu
 				isMenuOpen={isMenuOpen}
-				handleContact={handleContact}
-				blok={projectBlok}
-				activeItem={activeItem}
-				handleMenu={handleMenu}
 				isContactOpen={isContactOpen}
+				data={projectBlok}
+				handleMenu={handleMenu}
+				activeItem={activeItem}
+				handleContact={handleContact}
 			/>
-			<Contact isContactOpen={isContactOpen} blok={contactBlok} handleContact={handleContact} />
+			<Contact blok={contactBlok} isContactOpen={isContactOpen} handleContact={handleContact} />
 
 			<main onScroll={(e) => handlePageScroll(e)}>
-				{isHeaderVisible && <Header handleMenu={handleMenu} isLargeHeader={isLargeHeader} />}
-				<div ref={refScrollUp}></div>
-				<LandingPage blok={landingBlok} backgroundColours={backgroundColours} />
+				<LandingPage blok={landingBlok} />
 				{projectBlok?.map((item: any) => {
-					return (
-						<Project
-							key={item._uid}
-							blok={item}
-							setIsHeaderVisible={setIsHeaderVisible}
-							backgroundColours={backgroundColours}
-							setActiveItem={setActiveItem}
-						/>
-					);
+					return <Project key={item._uid} blok={item} />;
 				})}
-				{isHeaderVisible && !isMenuOpen && (
-					<ScrollToTop showScrollButton={showScrollButton} scrollUp={handleScrollUp} />
-				)}
+				<ScrollToTop showScrollButton={showScrollButton} scrollUp={handleScrollUp} />
 			</main>
 		</>
 	);

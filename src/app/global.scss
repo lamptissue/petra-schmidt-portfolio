@@ -1,23 +1,27 @@
 @use "./reset.scss";
 
-* {
-	box-sizing: border-box;
-}
-
 :root {
 	--default-color: #f3f1e9;
+	--background-color-1: hsl(0, 100%, 84%);
+	--background-color-2: hsl(153, 68%, 73%);
+	--background-color-3: hsl(48, 67%, 68%);
+	--background-color-4: hsl(0, 62%, 64%);
 }
 
-// $breakpoints: (
-// 	sm: 640px,
-// 	md: 768px,
-// 	lg: 1024px,
-// 	xl: 1280px,
-// 	2xl: 1536px,
-// );
 body {
-	font-family: "Poppins", sans-serif;
 	background-color: var(--default-color);
+}
+
+main {
+	scroll-snap-type: y mandatory;
+	overflow-y: auto;
+	width: 100vw;
+	height: 100svh;
+}
+
+main > section {
+	text-align: center;
+	scroll-snap-align: center;
 }
 
 h1,
@@ -39,6 +43,7 @@ h2,
 		font-size: 3rem;
 	}
 }
+
 .rich-text-content h3,
 h3,
 .text-h3 {
@@ -50,6 +55,7 @@ h3,
 		font-size: 1.5rem;
 	}
 }
+
 .rich-text-content h4,
 h4 {
 	font-size: 2.5rem;
@@ -82,7 +88,7 @@ p {
 		font-size: 1rem;
 	}
 }
-
+// TODO LOOK AT RICHTEXT STYLING
 /* Paragraph */
 .rich-text-content p {
 	margin-bottom: 1rem;
@@ -123,27 +129,8 @@ p {
 	margin-bottom: 1rem;
 }
 
-main {
-	display: flex;
-	flex: none;
-	overflow: auto;
-	width: 100vw;
-	height: 100svh;
-	flex-flow: column nowrap;
-	overflow-x: hidden;
-	scroll-snap-type: y mandatory;
-}
-
 .rich-text-content,
 .rich-text-content div {
-	width: 100%;
-}
-
-main > section {
-	text-align: center;
-	scroll-snap-align: start;
-	flex: none;
-	height: 100%;
 	width: 100%;
 }
 
