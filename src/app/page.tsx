@@ -33,7 +33,6 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function page() {
 	const { data } = await fetchData();
-
 	return <Home data={data.story} />;
 }
 

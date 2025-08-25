@@ -1,4 +1,6 @@
 import { useState, Fragment } from "react";
+import { getDimensions } from "@/lib/getDimension";
+
 import Image from "next/image";
 
 import "./styles.scss";
@@ -88,21 +90,32 @@ export default function Menu({
 				</div>
 			</div>
 
-			<div className='preview__container'>
-				<div className={`preview__blur ${isContactOpen ? "open" : ""}`}></div>
-				{data.map((item: any) => (
-					<div className={`preview__image ${item.projectTitle === previewImage ? "test" : ""} `}>
-						<Image
-							width={600}
-							height={600}
-							alt=''
-							src={`${item.backgroundImage.filename}/m/600x0/filters:format(webp)`}
-						/>
-					</div>
-				))}
-			</div>
+			{isMenuOpen && (
+				<div className='preview__container' onClick={handleMenu}>
+					{data.map((item: any) => {
+						const isPortrait = getDimensions(item.backgroundImage.filename);
+						return (
+							<div
+								className={`preview__image ${item.projectTitle === previewImage ? "active" : ""} ${
+									isPortrait ? "preview-portrait" : "preview-landscape"
+								}`}
+								key={item._uid}>
+								<Image
+									fill={true}
+									sizes='(max-width: 1200px) 50vw, 33vw'
+									style={{
+										objectFit: "cover",
+									}}
+									alt={item.backgroundImage.alt}
+									src={`${item.backgroundImage.filename}/m/filters:format(webp)`}
+								/>
+							</div>
+						);
+					})}
+				</div>
+			)}
 
-			<div className={`main-navigation__blurred-background ${isMenuOpen ? "blur" : ""}`} onClick={handleMenu}></div>
+			<div className={`main-navigation__blurred-background ${isMenuOpen ? "blur" : ""}`}></div>
 		</>
 	);
 }

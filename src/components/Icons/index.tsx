@@ -17,7 +17,7 @@ export function LinkedIn() {
 export function Cross() {
 	return (
 		<svg xmlns='http://www.w3.org/2000/svg' width='35' height='35' fill='none' viewBox='0 0 24 24'>
-			<path stroke='#000' strokeLinecap='round' strokeWidth='2' d='M20 20 4 4m16 0L4 20' />
+			<path stroke='inherit' strokeLinecap='round' strokeWidth='2' d='M20 20 4 4m16 0L4 20' />
 		</svg>
 	);
 }
@@ -26,6 +26,16 @@ export function ArrowUp() {
 	return (
 		<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 12 16'>
 			<path fill='currentColor' d='M5 0h2l4 5a1 1 0 0 1-1 1L7 3v13H5V3L2 6a1 1 0 0 1-1-1l4-5Z' />
+		</svg>
+	);
+}
+
+export function Arrow() {
+	return (
+		<svg xmlns='http://www.w3.org/2000/svg' width='90' height='40' fill='none' viewBox='0 0 82 18'>
+			<path fill='#fff' d='M4 10h76c2 0 2-3 0-3H4c-2 0-2 3 0 3Z' />
+			<path fill='#fff' d='m3 10 6 6h3v-2L6 8 5 7H3v3Z' />
+			<path fill='#fff' d='M9 0 3 6v3h2l6-6h1V0H9Z' />
 		</svg>
 	);
 }

@@ -26,10 +26,10 @@ export default function RootLayout({
 	const bgColor = landingPageColours[getRandomIndex(landingPageColours)];
 
 	const varbg: React.CSSProperties = {
-		["--background-color-1" as any]: `hsl(${bgColor[0]})`,
-		["--background-color-2" as any]: `hsl(${bgColor[1]})`,
-		["--background-color-3" as any]: `hsl(${bgColor[2]})`,
-		["--background-color-4" as any]: `hsl(${bgColor[3]})`,
+		["--background-color-1" as any]: bgColor[0],
+		["--background-color-2" as any]: bgColor[1],
+		["--background-color-3" as any]: bgColor[2],
+		["--background-color-4" as any]: bgColor[3],
 	};
 
 	return (

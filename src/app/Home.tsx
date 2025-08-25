@@ -80,9 +80,10 @@ export default function Home({ data }: { data: any }) {
 			<Contact blok={contactBlok} isContactOpen={isContactOpen} handleContact={handleContact} />
 
 			<main onScroll={(e) => handlePageScroll(e)}>
+				<div ref={refScrollUp}></div>
 				<LandingPage blok={landingBlok} />
 				{projectBlok?.map((item: any) => {
-					return <Project key={item._uid} blok={item} />;
+					return <Project key={item._uid} blok={item} setActiveItem={setActiveItem} />;
 				})}
 				<ScrollToTop showScrollButton={showScrollButton} scrollUp={handleScrollUp} />
 			</main>
