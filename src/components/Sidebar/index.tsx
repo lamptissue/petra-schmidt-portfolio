@@ -1,11 +1,23 @@
 import "./styles.scss";
 
-export default function Sidebar({ blok }: { blok: any }) {
+export default function Sidebar({
+	blok,
+	currentSlide,
+	combinedArray,
+}: {
+	blok: any;
+	currentSlide: any;
+	combinedArray: any;
+}) {
 	return (
 		<div className='project-modal__sidebar'>
 			<span>{blok.projectTitle}</span>
 
-			{blok.modalDetail.length > 0 && <span>1/{blok.modalDetail.length}</span>}
+			{blok.modalDetail && combinedArray.length > 0 && (
+				<span>
+					{currentSlide}/{combinedArray.length}
+				</span>
+			)}
 		</div>
 	);
 }

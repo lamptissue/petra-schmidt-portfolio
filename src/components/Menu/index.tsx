@@ -16,14 +16,12 @@ export default function Menu({
 	isMenuOpen,
 	handleMenu,
 	handleContact,
-	isContactOpen,
 	activeItem,
 }: {
 	data: any;
 	isMenuOpen: any;
 	handleMenu: any;
 	handleContact: any;
-	isContactOpen: any;
 	activeItem: any;
 }) {
 	const [previewImage, setPreviewImage] = useState("");
@@ -78,8 +76,8 @@ export default function Menu({
 												key={item.id}
 												onMouseEnter={() => setPreviewImage(item.projectTitle)}
 												onMouseLeave={() => setPreviewImage("")}
-												className={activeItem === item.projectTitle ? "active" : ""}>
-												<span onClick={() => handleClick(item.projectTitle)}>{item.projectTitle}</span>
+												onClick={() => handleClick(item.projectTitle)}>
+												<span className={activeItem === item.projectTitle ? "active" : ""}>{item.projectTitle}</span>
 											</li>
 										))}
 									</ul>
@@ -96,7 +94,7 @@ export default function Menu({
 						const isPortrait = getDimensions(item.backgroundImage.filename);
 						return (
 							<div
-								className={`preview__image ${item.projectTitle === previewImage ? "active" : ""} ${
+								className={`preview__image ${item.projectTitle === previewImage ? "active-preview" : ""} ${
 									isPortrait ? "preview-portrait" : "preview-landscape"
 								}`}
 								key={item._uid}>
