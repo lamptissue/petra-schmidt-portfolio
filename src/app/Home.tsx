@@ -1,6 +1,8 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
 
+import { useStoryblokState } from "@storyblok/react"; // <- important
+
 import Contact from "@/components/Contact";
 import Header from "@/components/Header";
 import LandingPage from "@/components/LandingPage";
@@ -11,10 +13,11 @@ import ScrollToTop from "@/components/ScrollToTop";
 export default function Home({ data }: { data: any }) {
 	const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 	const [isContactOpen, setIsContactOpen] = useState<boolean>(false);
-	const [isHeaderVisible, setIsHeaderVisible] = useState<boolean>(true);
 	const [activeItem, setActiveItem] = useState<string>("");
 	const [isLargeHeader, setIsLargeHeader] = useState<boolean>(true);
 	const [showScrollButton, setShowScrollButton] = useState<boolean>(false);
+
+	const liveStory = useStoryblokState<any>(data);
 
 	const refScrollUp = useRef<HTMLDivElement>(null);
 
@@ -57,11 +60,11 @@ export default function Home({ data }: { data: any }) {
 
 	const handleContact = () => setIsContactOpen((prevState) => !prevState);
 
-	const landingBlok = data.content?.body.find((item: any) => item.component === "landingPage");
+	const landingBlok = liveStory?.content?.body.find((item: any) => item.component === "landingPage");
 
-	const contactBlok = data.content?.body.find((item: any) => item.component === "contact");
+	const contactBlok = liveStory?.content?.body.find((item: any) => item.component === "contact");
 
-	const projectBlok = data.content?.body
+	const projectBlok = liveStory?.content?.body
 		.filter((item: any) => item.component === "project")
 		.sort((a: any, b: any) => b.year - a.year);
 
@@ -71,7 +74,6 @@ export default function Home({ data }: { data: any }) {
 
 			<Menu
 				isMenuOpen={isMenuOpen}
-				isContactOpen={isContactOpen}
 				data={projectBlok}
 				handleMenu={handleMenu}
 				activeItem={activeItem}

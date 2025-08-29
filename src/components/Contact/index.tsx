@@ -1,4 +1,4 @@
-// import { storyblokEditable } from "@storyblok/react";
+import { storyblokEditable } from "@storyblok/react";
 import "./styles.scss";
 import { Instagram, LinkedIn, Cross } from "../Icons";
 
@@ -9,9 +9,7 @@ const Contact = ({ blok, isContactOpen, handleContact }: { blok: any; isContactO
 	formattedNumber = formattedNumber?.replace(/\(0\)/, "");
 
 	return (
-		// <div className='contact__container ' {...storyblokEditable(blok)}>
-
-		<div className={`contact__container ${isContactOpen ? "contact__open" : ""}`}>
+		<div className={`contact__container ${isContactOpen ? "contact__open" : ""}`} {...storyblokEditable(blok)}>
 			<div className='contact__wrapper'>
 				<button onClick={handleContact} className='contact__cross' aria-label='close'>
 					<Cross />

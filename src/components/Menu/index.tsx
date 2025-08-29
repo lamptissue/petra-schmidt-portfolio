@@ -1,5 +1,8 @@
+"use client";
 import { useState, Fragment } from "react";
 import { getDimensions } from "@/lib/getDimension";
+
+import { storyblokEditable } from "@storyblok/react";
 
 import Image from "next/image";
 
@@ -56,7 +59,7 @@ export default function Menu({
 
 	return (
 		<>
-			<div className={`main-navigation ${isMenuOpen ? "open" : ""}`}>
+			<div {...storyblokEditable(data)} className={`main-navigation ${isMenuOpen ? "open" : ""}`}>
 				<div className='main-navigation__contact--container'>
 					<span className='main-navigation__contact' onClick={handleContact}>
 						Contact

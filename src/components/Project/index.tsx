@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import { useRef, useState, useEffect } from "react";
 import { getDimensions } from "@/lib/getDimension";
@@ -90,14 +91,20 @@ export default function Project({ blok, setActiveItem }: { blok: any; setActiveI
 					</span>
 				</div>
 
-				<Image
-					src={imageSrc}
-					alt={blok.projectTitle}
-					width={1600}
-					height={1067}
-					placeholder='blur'
-					blurDataURL={blur}
-				/>
+				<div className={`project__content--wrapper ${isPortrait && "test-portrait"}`}>
+					<Image
+						src={imageSrc}
+						alt={blok.projectTitle}
+						style={{
+							objectFit: `${isPortrait ? "contain" : "cover"}`,
+							objectPosition: "center",
+						}}
+						fill={true}
+						sizes={`(max-width: 991px) 100vw, ${isPortrait ? "45vw" : "100vw"}`}
+						placeholder='blur'
+						blurDataURL={blur}
+					/>
+				</div>
 			</section>
 			{isModalOpen && <ProjectModal handleModal={handleModal} blok={blok} />}
 		</>
@@ -112,7 +119,6 @@ export function ProjectModal({ handleModal, blok }: { handleModal: any; blok: an
 	const cursor = useRef<HTMLDivElement>(null);
 
 	const combinedArray: any = [];
-
 	if (blok.modalDetail) {
 		blok.modalDetail.forEach((item: any) => {
 			if (item.component === "projectModalImage") {
@@ -123,11 +129,9 @@ export function ProjectModal({ handleModal, blok }: { handleModal: any; blok: an
 					alt: item.image.alt,
 				});
 			} else if (item.component === "projectModalText") {
-				const textLength = item.text.length > 1000 ? "long" : "short";
 				combinedArray.push({
-					...item,
+					text: item.text,
 					type: "text",
-					textLength,
 				});
 			} else if (item.component === "multiasset") {
 				item.image.forEach((img: any) => {
@@ -139,12 +143,17 @@ export function ProjectModal({ handleModal, blok }: { handleModal: any; blok: an
 				});
 			} else if (item.component === "project_modal_video") {
 				const embedUrl = getEmbedUrl(item.video);
-				combinedArray.push({
-					type: "video",
-					videoUrl: embedUrl,
-				});
+				combinedArray.push({ type: "video", videoUrl: embedUrl });
 			}
 		});
+	}
+
+	const hasRichText = blok?.rich_text?.content?.some((node: any) =>
+		node?.content?.some((inner: any) => inner?.text?.trim() !== "")
+	);
+
+	if (hasRichText) {
+		combinedArray.push({ type: "richText" });
 	}
 
 	function getEmbedUrl(url: any) {
@@ -152,35 +161,7 @@ export function ProjectModal({ handleModal, blok }: { handleModal: any; blok: an
 		return `https://www.youtube.com/embed/${videoId}`;
 	}
 
-	if (
-		blok.rich_text.content &&
-		blok.rich_text.content.some((node: any) => {
-			return node.content && node.content.some((innerNode: any) => innerNode.text && innerNode.text.trim() !== "");
-		})
-	) {
-		combinedArray.push({
-			type: "richText",
-			data: blok.rich_text.content,
-		});
-	}
-
 	const currentItem = combinedArray[currentSlide - 1];
-
-	let textContent = null;
-
-	if (currentItem.type === "text") {
-		if (currentItem.textLength === "short") {
-			const paragraphs = currentItem.text.split("\n\n");
-
-			textContent = paragraphs.map((item: any, index: any) => (
-				<p key={index} className={`${index.length < 1 ? "paragraph" : ""} align-${index % 2 ? "right" : "left"}`}>
-					{item}
-				</p>
-			));
-		} else {
-			textContent = <p className='paragraph align-left'>{currentItem.text}</p>;
-		}
-	}
 
 	const handleNextSlide = () =>
 		currentSlide > combinedArray.length - 1 ? setCurrentSlide(1) : setCurrentSlide(currentSlide + 1);
@@ -225,7 +206,7 @@ export function ProjectModal({ handleModal, blok }: { handleModal: any; blok: an
 							<>
 								{currentItem.type === "image" && (
 									<Image
-										src={`${currentItem.filename}/m/`}
+										src={`${currentItem.filename}/m/fit-in/1600x0/filters:format(webp)`}
 										fill={true}
 										style={{
 											objectFit: "contain",
@@ -239,10 +220,7 @@ export function ProjectModal({ handleModal, blok }: { handleModal: any; blok: an
 								)}
 
 								{(currentItem.type === "text" || currentItem.type === "richText") && (
-									<Text
-										textContent={currentItem.type === "text" ? textContent : ""}
-										blok={currentItem.type === "richText" ? blok : ""}
-									/>
+									<Text textContent={currentItem.type === "text" ? currentItem.text : undefined} blok={blok} />
 								)}
 							</>
 						)}
