@@ -94,6 +94,10 @@ p {
 	margin-bottom: 1rem;
 }
 
+.rich-text-content p:last-child {
+	margin-bottom: 0;
+}
+
 /* Links */
 .rich-text-content a {
 	color: #007bff;

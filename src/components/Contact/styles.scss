@@ -21,6 +21,11 @@
 	height: calc(100% - 40px);
 	grid-template-rows: 1fr auto;
 	padding: 20px 45px;
+
+	@media (max-width: 768px) {
+		padding: 10px 20px;
+		height: 100%;
+	}
 }
 
 .contact__open {
@@ -85,10 +90,9 @@
 	@media (max-width: 768px) {
 		display: block;
 		position: fixed;
-		top: 10px;
-		right: 10px;
-		width: 35px;
-		height: 35px;
+		stroke: rgb(0, 0, 0);
+		top: 15px;
+		right: 15px;
 		cursor: pointer;
 		z-index: 40;
 	}

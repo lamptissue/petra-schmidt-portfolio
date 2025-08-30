@@ -8,16 +8,12 @@ export default function Text({ textContent, blok }: { textContent: any; blok: an
 			? richTextResolver().render(blok.rich_text)
 			: null;
 	return (
-		<>
+		<div className='text-wrapper'>
 			{textContent ? (
-				<div className='text-wrapper'>{textContent}</div>
+				<div>{textContent}</div>
 			) : (
-				blok?.rich_text && (
-					<div className='rich-wrapper'>
-						<div className='rich-text-content' dangerouslySetInnerHTML={{ __html: richtextHtml }} />
-					</div>
-				)
+				blok?.rich_text && <div className='rich-text-content' dangerouslySetInnerHTML={{ __html: richtextHtml }} />
 			)}
-		</>
+		</div>
 	);
 }

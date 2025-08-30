@@ -1,10 +1,4 @@
-.text-wrapper,
-.rich-wrapper {
-	background-color: var(--default-color);
-	width: 100%;
-	overflow-y: auto;
-	border-top: 18px solid var(--default-color);
-	border-bottom: 18px solid var(--default-color);
+.text-wrapper {
 	cursor: none;
 	pointer-events: auto;
 	white-space: pre-line;
@@ -12,11 +6,10 @@
 	padding: 0 35px;
 	font-size: 1.1rem;
 	pointer-events: none;
+	font-weight: 300;
 
 	@media (max-width: 768px) {
 		padding: 0 20px;
 		max-width: 100%;
-		border-top: 15px solid var(--default-color);
-		border-bottom: 15px solid var(--default-color);
 	}
 }

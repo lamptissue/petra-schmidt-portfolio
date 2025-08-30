@@ -1,45 +1,22 @@
 "use client";
-import Image from "next/image";
 import { useRef, useState, useEffect } from "react";
 import { getDimensions } from "@/lib/getDimension";
+import { useBlurBase } from "../hook/useBlurBase";
+import Image from "next/image";
 
-import Chevron from "../Chevron";
 import Video from "../Video";
 import Text from "../Text";
 import Sidebar from "../Sidebar";
-
-import { Cross, Arrow } from "../Icons";
+import { Cross, Arrow, Chevron } from "../Icons";
 
 import "./styles.scss";
 
 export default function Project({ blok, setActiveItem }: { blok: any; setActiveItem: any }) {
-	const TINY_PIXEL = "data:image/gif;base64,R0lGODlhAQABAAAAACw=";
-
-	const [blur, setBlur] = useState<string>(TINY_PIXEL);
-
 	const ref = useRef(null);
 
 	const imageSrc = `${blok.backgroundImage.filename}/m/`;
 
-	useEffect(() => {
-		let aborted = false;
-
-		// Ask Storyblok for a tiny version (16px wide, low quality, webp if possible)
-		const tinyUrl = `${imageSrc}16x0/filters:quality(20):format(webp)`;
-
-		(async () => {
-			try {
-				const res = await fetch(`/api/blur?url=${encodeURIComponent(tinyUrl)}`);
-				if (!res.ok) return;
-				const { base64 } = await res.json();
-				if (!aborted && typeof base64 === "string") setBlur(base64);
-			} catch {}
-		})();
-
-		return () => {
-			aborted = true;
-		};
-	}, [imageSrc]);
+	const blurImage = useBlurBase(blok.backgroundImage.filename);
 
 	const callbackFunction = (entries: any) => {
 		const [entry] = entries;
@@ -91,7 +68,7 @@ export default function Project({ blok, setActiveItem }: { blok: any; setActiveI
 					</span>
 				</div>
 
-				<div className={`project__content--wrapper ${isPortrait && "test-portrait"}`}>
+				<div className={`project__content--image-container ${isPortrait && "portrait-image"}`}>
 					<Image
 						src={imageSrc}
 						alt={blok.projectTitle}
@@ -100,9 +77,9 @@ export default function Project({ blok, setActiveItem }: { blok: any; setActiveI
 							objectPosition: "center",
 						}}
 						fill={true}
-						sizes={`(max-width: 991px) 100vw, ${isPortrait ? "45vw" : "100vw"}`}
+						sizes={`(max-width: 768px) ${isPortrait ? "45vw" : "100vw"}, ${isPortrait ? "45vw" : "100vw"}`}
 						placeholder='blur'
-						blurDataURL={blur}
+						blurDataURL={blurImage}
 					/>
 				</div>
 			</section>
@@ -115,6 +92,22 @@ export function ProjectModal({ handleModal, blok }: { handleModal: any; blok: an
 	const [currentSlide, setCurrentSlide] = useState(1);
 	const [hideArrowCursor, setHideArrowCursor] = useState(false);
 	const [windowSide, setWindowSide] = useState("");
+	const [isNarrowScreen, setIsNarrowScreen] = useState(false);
+
+	useEffect(() => {
+		const mediaWatcher = window.matchMedia("(max-width: 768px)");
+
+		const updateIsNarrowScreen = (e: any) => {
+			setIsNarrowScreen(e.matches);
+		};
+
+		mediaWatcher.addEventListener("change", updateIsNarrowScreen);
+
+		updateIsNarrowScreen(mediaWatcher);
+		return function cleanup() {
+			mediaWatcher.removeEventListener("change", updateIsNarrowScreen);
+		};
+	});
 
 	const cursor = useRef<HTMLDivElement>(null);
 
@@ -163,6 +156,8 @@ export function ProjectModal({ handleModal, blok }: { handleModal: any; blok: an
 
 	const currentItem = combinedArray[currentSlide - 1];
 
+	const blurImage = useBlurBase(currentItem.type === "image" ? currentItem.filename : undefined);
+
 	const handleNextSlide = () =>
 		currentSlide > combinedArray.length - 1 ? setCurrentSlide(1) : setCurrentSlide(currentSlide + 1);
 
@@ -198,38 +193,61 @@ export function ProjectModal({ handleModal, blok }: { handleModal: any; blok: an
 			<div className='project-modal__wrapper'>
 				<Sidebar blok={blok} combinedArray={combinedArray} currentSlide={currentSlide} />
 				<div className='project-modal__content--wrapper'>
-					<div className='left-arrow arrow__container' onClick={handlePreviousSlide} aria-label='Previous slide'></div>
-					<div className='right-arrow arrow__container' onClick={handleNextSlide} aria-label='Next slide'></div>
-
-					<div className='project-modal__content--container'>
-						{combinedArray.length > 0 && (
-							<>
-								{currentItem.type === "image" && (
-									<Image
-										src={`${currentItem.filename}/m/fit-in/1600x0/filters:format(webp)`}
-										fill={true}
-										style={{
-											objectFit: "contain",
-										}}
-										alt={currentItem.alt || ""}
-									/>
-								)}
-
-								{currentItem.type === "video" && (
-									<Video src={currentItem.videoUrl} setHideArrowCursor={setHideArrowCursor} />
-								)}
-
-								{(currentItem.type === "text" || currentItem.type === "richText") && (
+					{!isNarrowScreen && (
+						<>
+							<div
+								className='left-arrow arrow__container'
+								onClick={handlePreviousSlide}
+								aria-label='Previous slide'></div>
+							<div className='right-arrow arrow__container' onClick={handleNextSlide} aria-label='Next slide'></div>
+						</>
+					)}
+					{combinedArray.length > 0 && (
+						<>
+							{(currentItem.type === "image" || currentItem.type === "video") && (
+								<div className='project-modal__content--container'>
+									{currentItem.type === "image" && (
+										<Image
+											src={`${currentItem.filename}/m/fit-in/1600x0/filters:format(webp)`}
+											fill={true}
+											style={{
+												objectFit: "contain",
+											}}
+											alt={currentItem.alt || ""}
+											placeholder='blur'
+											blurDataURL={blurImage}
+										/>
+									)}
+									{currentItem.type === "video" && (
+										<Video src={currentItem.videoUrl} setHideArrowCursor={setHideArrowCursor} />
+									)}
+								</div>
+							)}
+							{(currentItem.type === "text" || currentItem.type === "richText") && (
+								<div className='text-container'>
 									<Text textContent={currentItem.type === "text" ? currentItem.text : undefined} blok={blok} />
-								)}
-							</>
-						)}
-					</div>
+								</div>
+							)}
+						</>
+					)}
 
-					<Chevron options={"left-boy"} onClick={handlePreviousSlide} aria-label='Previous slide' />
-					<Chevron options={"right-boy"} onClick={handleNextSlide} aria-label='Next slide' />
+					{isNarrowScreen && (
+						<>
+							<div onClick={handlePreviousSlide} className='chevron-container left-arrow '>
+								<div className='chevron'>
+									<Chevron />
+								</div>
+							</div>
 
-					{!hideArrowCursor && (
+							<div onClick={handleNextSlide} className='chevron-container right-arrow'>
+								<div className='chevron'>
+									<Chevron />
+								</div>
+							</div>
+						</>
+					)}
+
+					{!hideArrowCursor && !isNarrowScreen && (
 						<div className={`cursor ${windowSide === "right" ? "cursor-flipped" : ""}`} ref={cursor}>
 							<Arrow />
 						</div>

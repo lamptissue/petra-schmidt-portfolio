@@ -16,7 +16,7 @@ export function LinkedIn() {
 
 export function Cross() {
 	return (
-		<svg xmlns='http://www.w3.org/2000/svg' width='35' height='35' fill='none' viewBox='0 0 24 24'>
+		<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='none' viewBox='0 0 24 24'>
 			<path stroke='inherit' strokeLinecap='round' strokeWidth='2' d='M20 20 4 4m16 0L4 20' />
 		</svg>
 	);
@@ -36,6 +36,21 @@ export function Arrow() {
 			<path fill='#fff' d='M4 10h76c2 0 2-3 0-3H4c-2 0-2 3 0 3Z' />
 			<path fill='#fff' d='m3 10 6 6h3v-2L6 8 5 7H3v3Z' />
 			<path fill='#fff' d='M9 0 3 6v3h2l6-6h1V0H9Z' />
+		</svg>
+	);
+}
+
+export function Chevron() {
+	return (
+		<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 512 512'>
+			<path
+				fill='none'
+				stroke='#fff'
+				strokeLinecap='round'
+				strokeLinejoin='round'
+				strokeWidth='60'
+				d='M352 96 160 256l192 160'
+			/>
 		</svg>
 	);
 }
