@@ -181,7 +181,7 @@ export function ProjectModal({ handleModal, blok }: { handleModal: any; blok: an
 	}, []);
 
 	return (
-		<div className='project-modal__container '>
+		<div className='project-modal__container'>
 			<div
 				className='project-modal__cross'
 				aria-label='close'
@@ -192,67 +192,61 @@ export function ProjectModal({ handleModal, blok }: { handleModal: any; blok: an
 			</div>
 			<div className='project-modal__wrapper'>
 				<Sidebar blok={blok} combinedArray={combinedArray} currentSlide={currentSlide} />
-				<div className='project-modal__content--wrapper'>
-					{!isNarrowScreen && (
-						<>
-							<div
-								className='left-arrow arrow__container'
-								onClick={handlePreviousSlide}
-								aria-label='Previous slide'></div>
-							<div className='right-arrow arrow__container' onClick={handleNextSlide} aria-label='Next slide'></div>
-						</>
-					)}
-					{combinedArray.length > 0 && (
-						<>
-							{(currentItem.type === "image" || currentItem.type === "video") && (
-								<div className='project-modal__content--container'>
-									{currentItem.type === "image" && (
-										<Image
-											src={`${currentItem.filename}/m/fit-in/1600x0/filters:format(webp)`}
-											fill={true}
-											style={{
-												objectFit: "contain",
-											}}
-											alt={currentItem.alt || ""}
-											placeholder='blur'
-											blurDataURL={blurImage}
-										/>
-									)}
-									{currentItem.type === "video" && (
-										<Video src={currentItem.videoUrl} setHideArrowCursor={setHideArrowCursor} />
-									)}
-								</div>
+				{!isNarrowScreen && (
+					<>
+						<div
+							className='left-arrow arrow__container'
+							onClick={handlePreviousSlide}
+							aria-label='Previous slide'></div>
+						<div className='right-arrow arrow__container' onClick={handleNextSlide} aria-label='Next slide'></div>
+					</>
+				)}
+				{combinedArray.length > 0 && (
+					<>
+						<div className='project-modal__content--container'>
+							{currentItem.type === "image" && (
+								<Image
+									src={`${currentItem.filename}/m/fit-in/1600x0/filters:format(webp)`}
+									fill={true}
+									style={{
+										objectFit: "contain",
+									}}
+									alt={currentItem.alt || ""}
+									placeholder='blur'
+									blurDataURL={blurImage}
+								/>
 							)}
+							{currentItem.type === "video" && (
+								<Video src={currentItem.videoUrl} setHideArrowCursor={setHideArrowCursor} />
+							)}
+
 							{(currentItem.type === "text" || currentItem.type === "richText") && (
-								<div className='text-container'>
-									<Text textContent={currentItem.type === "text" ? currentItem.text : undefined} blok={blok} />
-								</div>
+								<Text textContent={currentItem.type === "text" ? currentItem.text : undefined} blok={blok} />
 							)}
-						</>
-					)}
-
-					{isNarrowScreen && (
-						<>
-							<div onClick={handlePreviousSlide} className='chevron-container left-arrow '>
-								<div className='chevron'>
-									<Chevron />
-								</div>
-							</div>
-
-							<div onClick={handleNextSlide} className='chevron-container right-arrow'>
-								<div className='chevron'>
-									<Chevron />
-								</div>
-							</div>
-						</>
-					)}
-
-					{!hideArrowCursor && !isNarrowScreen && (
-						<div className={`cursor ${windowSide === "right" ? "cursor-flipped" : ""}`} ref={cursor}>
-							<Arrow />
 						</div>
-					)}
-				</div>
+					</>
+				)}
+
+				{isNarrowScreen && (
+					<>
+						<div onClick={handlePreviousSlide} className='chevron-container left-arrow '>
+							<div className='chevron'>
+								<Chevron />
+							</div>
+						</div>
+
+						<div onClick={handleNextSlide} className='chevron-container right-arrow'>
+							<div className='chevron'>
+								<Chevron />
+							</div>
+						</div>
+					</>
+				)}
+				{!hideArrowCursor && !isNarrowScreen && (
+					<div className={`cursor ${windowSide === "right" ? "cursor-flipped" : ""}`} ref={cursor}>
+						<Arrow />
+					</div>
+				)}
 			</div>
 		</div>
 	);

@@ -2,8 +2,4 @@ iframe {
 	margin: auto;
 	pointer-events: auto;
 	aspect-ratio: 16 / 9;
-
-	@media (max-width: 768px) {
-		max-height: 100%;
-	}
 }

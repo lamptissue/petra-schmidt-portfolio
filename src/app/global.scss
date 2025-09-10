@@ -115,8 +115,8 @@ p {
 }
 
 /* Italic */
-.rich-text-content em,
-.rich-text-content i {
+.rich-text-content em span,
+.rich-text-content i span {
 	font-style: italic;
 }
 

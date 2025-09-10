@@ -7,7 +7,7 @@
 	pointer-events: auto;
 	cursor: pointer;
 	background-color: #cfcfcf;
-	z-index: 1000;
+	z-index: 80;
 	width: 30px;
 	height: 30px;
 	opacity: 0;
@@ -15,7 +15,7 @@
 	transition: background-color 0.2s ease-in, opacity 0.3s ease;
 	@media (max-width: 768px) {
 		top: 20px;
-		z-index: 90;
+		z-index: 45;
 	}
 	&:hover {
 		background-color: rgb(235, 235, 235);
