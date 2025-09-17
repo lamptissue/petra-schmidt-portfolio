@@ -1,6 +1,11 @@
 import "./styles.scss";
 
-export default function Header({ onMenuClick, isLargeHeader }: { onMenuClick: () => void; isLargeHeader: any }) {
+type HeaderProps = {
+	onMenuClick: () => void;
+	isLargeHeader: boolean;
+};
+
+export default function Header({ onMenuClick, isLargeHeader }: HeaderProps) {
 	return (
 		<header id='header' aria-label='menu' onClick={onMenuClick}>
 			<h1 className={`header-title ${isLargeHeader ? "header-title--large" : "header-title--small"}`}>
