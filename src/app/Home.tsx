@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
 
-import { useStoryblokState } from "@storyblok/react"; // <- important
+import { useStoryblokState } from "@storyblok/react";
 
 import Contact from "@/components/Contact";
 import Header from "@/components/Header";
@@ -9,6 +9,8 @@ import LandingPage from "@/components/LandingPage";
 import Menu from "@/components/Menu";
 import Project from "@/components/Project";
 import ScrollToTop from "@/components/ScrollToTop";
+
+import { useBodyOverflow } from "@/components/hooks/useBodyOverflow";
 
 export default function Home({ data }: { data: any }) {
 	const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
@@ -43,6 +45,8 @@ export default function Home({ data }: { data: any }) {
 
 		e.target.scrollTop <= window.innerHeight * 2 ? setShowScrollButton(false) : setShowScrollButton(true);
 	};
+
+	useBodyOverflow(isMenuOpen);
 
 	const handleMenu = () => {
 		if (isContactOpen) {

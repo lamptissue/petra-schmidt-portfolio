@@ -1,4 +1,4 @@
-export const getDimensions = (url: any) => {
+export const getDimensions = (url: string) => {
 	const assetUrl = url;
 	const dimensions = {
 		width: assetUrl.split("/")[5].split("x")[0],

@@ -20,17 +20,17 @@ export default function RootLayout({
 		["49, 78%, 51%", "29, 89%, 64%", "45, 68%, 67%", "100, 39%, 68%"],
 	];
 
-	const getRandomIndex = (array: Array<any>) => {
+	const getRandomIndex = (array: Array<string[]>) => {
 		return Math.floor(Math.random() * array.length);
 	};
 
 	const bgColor = landingPageColours[getRandomIndex(landingPageColours)];
 
 	const varbg: React.CSSProperties = {
-		["--background-color-1" as any]: bgColor[0],
-		["--background-color-2" as any]: bgColor[1],
-		["--background-color-3" as any]: bgColor[2],
-		["--background-color-4" as any]: bgColor[3],
+		["--background-color-1" as string]: bgColor[0],
+		["--background-color-2" as string]: bgColor[1],
+		["--background-color-3" as string]: bgColor[2],
+		["--background-color-4" as string]: bgColor[3],
 	};
 
 	return (

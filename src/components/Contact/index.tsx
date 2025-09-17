@@ -2,7 +2,7 @@ import { storyblokEditable } from "@storyblok/react";
 import "./styles.scss";
 import { Instagram, LinkedIn, Cross } from "../Icons";
 
-const Contact = ({ blok, isContactOpen, handleContact }: { blok: any; isContactOpen: any; handleContact: any }) => {
+const Contact = ({ blok, isContactOpen, handleContact }: { blok: any; isContactOpen: boolean; handleContact: any }) => {
 	const phoneNumber = blok?.phone && blok.phone;
 	let formattedNumber = phoneNumber?.replace(/[^+\d]/g, "");
 

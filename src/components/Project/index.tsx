@@ -1,8 +1,10 @@
 "use client";
 import { useRef, useState, useEffect } from "react";
-import { getDimensions } from "@/lib/getDimension";
-import { useBlurBase } from "../hook/useBlurBase";
 import Image from "next/image";
+
+import { getDimensions } from "@/lib/getDimension";
+import { useBlurBase } from "../hooks/useBlurBase";
+import { useBodyOverflow } from "../hooks/useBodyOverflow";
 
 import Video from "../Video";
 import Text from "../Text";
@@ -12,6 +14,8 @@ import { Cross, Arrow, Chevron } from "../Icons";
 import "./styles.scss";
 
 export default function Project({ blok, setActiveItem }: { blok: any; setActiveItem: any }) {
+	const [isModalOpen, setIsModalOpen] = useState(false);
+
 	const ref = useRef(null);
 
 	const imageSrc = `${blok.backgroundImage.filename}/m/`;
@@ -31,7 +35,6 @@ export default function Project({ blok, setActiveItem }: { blok: any; setActiveI
 	};
 
 	const isPortrait = getDimensions(imageSrc);
-	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	useEffect(() => {
 		const observer = new IntersectionObserver(callbackFunction, options);
@@ -41,6 +44,8 @@ export default function Project({ blok, setActiveItem }: { blok: any; setActiveI
 			if (ref.current) observer.unobserve(ref.current);
 		};
 	}, [ref, options]);
+
+	useBodyOverflow(isModalOpen);
 
 	const handleModal = () => setIsModalOpen((prevState) => !prevState);
 
@@ -90,7 +95,7 @@ export default function Project({ blok, setActiveItem }: { blok: any; setActiveI
 
 export function ProjectModal({ handleModal, blok }: { handleModal: any; blok: any }) {
 	const [currentSlide, setCurrentSlide] = useState(1);
-	const [hideArrowCursor, setHideArrowCursor] = useState(false);
+	const [hideArrowCursor, setHideArrowCursor] = useState<boolean>(false);
 	const [windowSide, setWindowSide] = useState("");
 	const [isNarrowScreen, setIsNarrowScreen] = useState(false);
 
