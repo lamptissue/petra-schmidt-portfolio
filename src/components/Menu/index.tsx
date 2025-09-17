@@ -1,4 +1,11 @@
+"use client";
 import { useState, Fragment } from "react";
+import { getDimensions } from "@/lib/getDimension";
+
+import { storyblokEditable } from "@storyblok/react";
+
+import Image from "next/image";
+
 import "./styles.scss";
 
 interface Project {
@@ -8,19 +15,17 @@ interface Project {
 }
 
 export default function Menu({
+	data,
 	isMenuOpen,
-	handleContact,
-	blok,
-	activeItem,
 	handleMenu,
-	isContactOpen,
+	handleContact,
+	activeItem,
 }: {
-	isMenuOpen: boolean;
-	handleContact: () => void;
-	blok: Project[];
-	activeItem: string;
-	handleMenu: () => void;
-	isContactOpen: boolean;
+	data: any;
+	isMenuOpen: any;
+	handleMenu: any;
+	handleContact: any;
+	activeItem: any;
 }) {
 	const [previewImage, setPreviewImage] = useState("");
 
@@ -35,12 +40,7 @@ export default function Menu({
 		}
 	};
 
-	const projectDetails = blok.map((item: any) => ({
-		image: item.backgroundImage.filename,
-		project: item.projectTitle,
-	}));
-
-	const groupedProjects = blok.reduce((acc: any, project: any) => {
+	const groupedProjects = data?.reduce((acc: any, project: any) => {
 		const { year } = project;
 		if (!acc[year]) {
 			acc[year] = [];
@@ -53,18 +53,13 @@ export default function Menu({
 		return acc;
 	}, {});
 
-	const sortedGroupedProjects = Object.entries(groupedProjects).reverse() as [string, Project[]][];
-
-	const handleSetProjectPreview = (projectId: string) => {
-		const match = projectDetails.find((projectDetail: any) => projectDetail.project === projectId);
-		if (match) {
-			setPreviewImage(match.image);
-		}
-	};
+	const sortedGroupedProjects = groupedProjects
+		? (Object?.entries(groupedProjects)?.reverse() as [string, Project[]][])
+		: [];
 
 	return (
 		<>
-			<div className={`main-navigation ${isMenuOpen ? "open" : ""}`}>
+			<div {...storyblokEditable(data)} className={`main-navigation ${isMenuOpen ? "open" : ""}`}>
 				<div className='main-navigation__contact--container'>
 					<span className='main-navigation__contact' onClick={handleContact}>
 						Contact
@@ -80,14 +75,12 @@ export default function Menu({
 								<div className='main-navigation__nav--project-break'>
 									<ul>
 										{projects.map((item: any) => (
-											<li key={item.id}>
-												<span
-													onClick={() => handleClick(item.projectTitle)}
-													onMouseEnter={() => handleSetProjectPreview(item.projectTitle)}
-													onMouseLeave={() => setPreviewImage("")}
-													className={activeItem === item.projectTitle ? "active" : ""}>
-													{item.projectTitle}
-												</span>
+											<li
+												key={item.id}
+												onMouseEnter={() => setPreviewImage(item.projectTitle)}
+												onMouseLeave={() => setPreviewImage("")}
+												onClick={() => handleClick(item.projectTitle)}>
+												<span className={activeItem === item.projectTitle ? "active" : ""}>{item.projectTitle}</span>
 											</li>
 										))}
 									</ul>
@@ -98,16 +91,32 @@ export default function Menu({
 				</div>
 			</div>
 
-			{previewImage && (
-				<div className='preview__container'>
-					<div className={`preview__blur ${isContactOpen ? "open" : ""}`}></div>
-					<div className='preview__image'>
-						<img src={`${previewImage}/m/filters:quality(20)`} loading='lazy' />
-					</div>
+			{isMenuOpen && (
+				<div className='preview__container' onClick={handleMenu}>
+					{data.map((item: any) => {
+						const isPortrait = getDimensions(item.backgroundImage.filename);
+						return (
+							<div
+								className={`preview__image ${item.projectTitle === previewImage ? "active-preview" : ""} ${
+									isPortrait ? "preview-portrait" : "preview-landscape"
+								}`}
+								key={item._uid}>
+								<Image
+									fill={true}
+									sizes='(max-width: 1200px) 50vw, 33vw'
+									style={{
+										objectFit: "cover",
+									}}
+									alt={item.backgroundImage.alt}
+									src={`${item.backgroundImage.filename}/m/filters:format(webp)`}
+								/>
+							</div>
+						);
+					})}
 				</div>
 			)}
 
-			<div className={`main-navigation__blurred-background ${isMenuOpen ? "blur" : ""}`} onClick={handleMenu}></div>
+			<div className={`main-navigation__blurred-background ${isMenuOpen ? "blur" : ""}`}></div>
 		</>
 	);
 }

@@ -1,24 +1,32 @@
-.scroll__it {
+.scroll__icon {
 	border-radius: 50%;
-	justify-content: center;
-	align-items: center;
+	display: flex;
 	position: fixed;
 	bottom: 20px;
 	right: 20px;
 	pointer-events: auto;
 	cursor: pointer;
 	background-color: #cfcfcf;
-	z-index: 1000;
+	z-index: 80;
 	width: 30px;
 	height: 30px;
-	transition: background-color 0.2s ease-in;
+	opacity: 0;
+	pointer-events: none;
+	transition: background-color 0.2s ease-in, opacity 0.3s ease;
 	@media (max-width: 768px) {
 		top: 20px;
+		z-index: 45;
 	}
 	&:hover {
 		background-color: rgb(235, 235, 235);
 	}
 	svg {
+		margin: auto;
 		width: 12px;
 	}
+}
+
+.show {
+	opacity: 100;
+	pointer-events: auto;
 }

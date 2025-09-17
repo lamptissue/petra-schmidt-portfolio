@@ -1,24 +1,27 @@
-@import "./reset.scss";
-@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-
-* {
-	box-sizing: border-box;
-}
+@use "./reset.scss";
 
 :root {
 	--default-color: #f3f1e9;
+	--background-color-1: 0, 100%, 84%;
+	--background-color-2: 153, 68%, 73%;
+	--background-color-3: 48, 67%, 68%;
+	--background-color-4: 0, 62%, 64%;
 }
 
-// $breakpoints: (
-// 	sm: 640px,
-// 	md: 768px,
-// 	lg: 1024px,
-// 	xl: 1280px,
-// 	2xl: 1536px,
-// );
 body {
-	font-family: "Poppins", sans-serif;
 	background-color: var(--default-color);
+}
+
+main {
+	scroll-snap-type: y mandatory;
+	overflow-y: auto;
+	width: 100vw;
+	height: 100svh;
+}
+
+main > section {
+	text-align: center;
+	scroll-snap-align: center;
 }
 
 h1,
@@ -40,6 +43,7 @@ h2,
 		font-size: 3rem;
 	}
 }
+
 .rich-text-content h3,
 h3,
 .text-h3 {
@@ -51,6 +55,7 @@ h3,
 		font-size: 1.5rem;
 	}
 }
+
 .rich-text-content h4,
 h4 {
 	font-size: 2.5rem;
@@ -83,10 +88,14 @@ p {
 		font-size: 1rem;
 	}
 }
-
+// TODO LOOK AT RICHTEXT STYLING
 /* Paragraph */
 .rich-text-content p {
 	margin-bottom: 1rem;
+}
+
+.rich-text-content p:last-child {
+	margin-bottom: 0;
 }
 
 /* Links */
@@ -106,8 +115,8 @@ p {
 }
 
 /* Italic */
-.rich-text-content em,
-.rich-text-content i {
+.rich-text-content em span,
+.rich-text-content i span {
 	font-style: italic;
 }
 
@@ -124,27 +133,8 @@ p {
 	margin-bottom: 1rem;
 }
 
-main {
-	display: flex;
-	flex: none;
-	overflow: auto;
-	width: 100vw;
-	height: 100svh;
-	flex-flow: column nowrap;
-	overflow-x: hidden;
-	scroll-snap-type: y mandatory;
-}
-
 .rich-text-content,
 .rich-text-content div {
-	width: 100%;
-}
-
-main > section {
-	text-align: center;
-	scroll-snap-align: start;
-	flex: none;
-	height: 100%;
 	width: 100%;
 }
 

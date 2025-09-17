@@ -12,7 +12,6 @@ export default function Sidebar({
 	return (
 		<div className='project-modal__sidebar'>
 			<span>{blok.projectTitle}</span>
-			<span>{blok.title}</span>
 
 			{blok.modalDetail && combinedArray.length > 0 && (
 				<span>
