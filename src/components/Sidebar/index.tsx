@@ -1,14 +1,12 @@
 import "./styles.scss";
 
-export default function Sidebar({
-	blok,
-	currentSlide,
-	combinedArray,
-}: {
-	blok: any;
-	currentSlide: any;
-	combinedArray: any;
-}) {
+type SidebarProps = {
+	blok: { projectTitle: string; modalDetail?: unknown[] };
+	currentSlide: number;
+	combinedArray: unknown[];
+};
+
+export default function Sidebar({ blok, currentSlide, combinedArray }: SidebarProps) {
 	return (
 		<div className='project-modal__sidebar'>
 			<span>{blok.projectTitle}</span>

@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useMemo } from "react";
 import Image from "next/image";
 
 import { getDimensions } from "@/lib/getDimension";
@@ -13,16 +13,39 @@ import { Cross, Arrow, Chevron } from "../Icons";
 
 import "./styles.scss";
 
-export default function Project({ blok, setActiveItem }: { blok: any; setActiveItem: any }) {
+type Asset = { filename: string; alt?: string; id?: string };
+type ModalImage = { component: "projectModalImage"; image: Asset };
+type ModalText = { component: "projectModalText"; text: string };
+type ModalMulti = { component: "multiasset"; image: Asset[] };
+type ModalVideo = { component: "project_modal_video"; video: string };
+type ModalItem = ModalImage | ModalText | ModalMulti | ModalVideo;
+
+type ProjectBlok = {
+	_uid: string;
+	projectTitle: string;
+	location?: string;
+	artist?: string;
+	year?: number;
+	backgroundImage: Asset;
+	modalDetail?: ModalItem[];
+	rich_text?: { [k: string]: unknown };
+};
+
+type ProjectProps = {
+	blok: ProjectBlok;
+	setActiveItem: (slug: string) => void;
+};
+
+export default function Project({ blok, setActiveItem }: ProjectProps) {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
-	const ref = useRef(null);
+	const ref = useRef<HTMLElement | null>(null);
 
 	const imageSrc = `${blok.backgroundImage.filename}/m/`;
-
 	const blurImage = useBlurBase(blok.backgroundImage.filename);
+	const isPortrait = getDimensions(imageSrc);
 
-	const callbackFunction = (entries: any) => {
+	const callbackFunction: IntersectionObserverCallback = (entries) => {
 		const [entry] = entries;
 		if (entry.isIntersecting) {
 			setActiveItem(blok.projectTitle);
@@ -33,8 +56,6 @@ export default function Project({ blok, setActiveItem }: { blok: any; setActiveI
 		rootMargin: "0px",
 		threshold: 0.5,
 	};
-
-	const isPortrait = getDimensions(imageSrc);
 
 	useEffect(() => {
 		const observer = new IntersectionObserver(callbackFunction, options);
@@ -48,6 +69,7 @@ export default function Project({ blok, setActiveItem }: { blok: any; setActiveI
 	useBodyOverflow(isModalOpen);
 
 	const handleModal = () => setIsModalOpen((prevState) => !prevState);
+	const hasModal = (blok.modalDetail?.length ?? 0) >= 1;
 
 	return (
 		<>
@@ -57,7 +79,7 @@ export default function Project({ blok, setActiveItem }: { blok: any; setActiveI
 				} ${blok.modalDetail && blok.modalDetail.length >= 1 ? "background__click" : ""} `}
 				data-section
 				id={blok.projectTitle}
-				onClick={blok.modalDetail && blok.modalDetail.length >= 1 && handleModal}
+				onClick={hasModal ? handleModal : undefined}
 				ref={ref}>
 				<div
 					className={`project__title-wrapper  ${
@@ -93,7 +115,13 @@ export default function Project({ blok, setActiveItem }: { blok: any; setActiveI
 	);
 }
 
-export function ProjectModal({ handleModal, blok }: { handleModal: any; blok: any }) {
+type ModalRenderable =
+	| { type: "image"; id?: string; filename: string; alt?: string }
+	| { type: "text"; text: string }
+	| { type: "video"; videoUrl: string }
+	| { type: "richText" };
+
+export function ProjectModal({ handleModal, blok }: { handleModal: () => void; blok: ProjectBlok }) {
 	const [currentSlide, setCurrentSlide] = useState(1);
 	const [hideArrowCursor, setHideArrowCursor] = useState<boolean>(false);
 	const [windowSide, setWindowSide] = useState("");
@@ -116,45 +144,88 @@ export function ProjectModal({ handleModal, blok }: { handleModal: any; blok: an
 
 	const cursor = useRef<HTMLDivElement>(null);
 
-	const combinedArray: any = [];
-	if (blok.modalDetail) {
-		blok.modalDetail.forEach((item: any) => {
-			if (item.component === "projectModalImage") {
-				combinedArray.push({
-					type: "image",
-					id: item.image.id,
-					filename: item.image.filename,
-					alt: item.image.alt,
-				});
-			} else if (item.component === "projectModalText") {
-				combinedArray.push({
-					text: item.text,
-					type: "text",
-				});
-			} else if (item.component === "multiasset") {
-				item.image.forEach((img: any) => {
-					combinedArray.push({
-						type: "image",
-						id: img.id,
-						filename: img.filename,
-					});
-				});
-			} else if (item.component === "project_modal_video") {
-				const embedUrl = getEmbedUrl(item.video);
-				combinedArray.push({ type: "video", videoUrl: embedUrl });
+	// const combinedArray: any = [];
+	// if (blok.modalDetail) {
+	// 	blok.modalDetail.forEach((item: any) => {
+	// 		if (item.component === "projectModalImage") {
+	// 			combinedArray.push({
+	// 				type: "image",
+	// 				id: item.image.id,
+	// 				filename: item.image.filename,
+	// 				alt: item.image.alt,
+	// 			});
+	// 		} else if (item.component === "projectModalText") {
+	// 			combinedArray.push({
+	// 				text: item.text,
+	// 				type: "text",
+	// 			});
+	// 		} else if (item.component === "multiasset") {
+	// 			item.image.forEach((img: any) => {
+	// 				combinedArray.push({
+	// 					type: "image",
+	// 					id: img.id,
+	// 					filename: img.filename,
+	// 				});
+	// 			});
+	// 		} else if (item.component === "project_modal_video") {
+	// 			const embedUrl = getEmbedUrl(item.video);
+	// 			combinedArray.push({ type: "video", videoUrl: embedUrl });
+	// 		}
+	// 	});
+	// }
+
+	// const hasRichText = blok?.rich_text?.content?.some((node: any) =>
+	// 	node?.content?.some((inner: any) => inner?.text?.trim() !== "")
+	// );
+
+	// if (hasRichText) {
+	// 	combinedArray.push({ type: "richText" });
+	// }
+
+	useEffect(() => {
+		const mql = window.matchMedia("(max-width: 768px)");
+
+		// set once from the current query list
+		setIsNarrowScreen(mql.matches);
+
+		// listen only for events
+		const handler = (e: MediaQueryListEvent) => {
+			setIsNarrowScreen(e.matches);
+		};
+
+		mql.addEventListener("change", handler);
+		return () => mql.removeEventListener("change", handler);
+	}, []);
+
+	const combinedArray: ModalRenderable[] = useMemo(() => {
+		const arr: ModalRenderable[] = [];
+
+		(blok.modalDetail ?? []).forEach((item) => {
+			switch (item.component) {
+				case "projectModalImage":
+					arr.push({ type: "image", id: item.image.id, filename: item.image.filename, alt: item.image.alt });
+					break;
+				case "projectModalText":
+					arr.push({ type: "text", text: item.text });
+					break;
+				case "multiasset":
+					item.image.forEach((img) => arr.push({ type: "image", id: img.id, filename: img.filename, alt: img.alt }));
+					break;
+				case "project_modal_video":
+					arr.push({ type: "video", videoUrl: getEmbedUrl(item.video) });
+					break;
 			}
 		});
-	}
 
-	const hasRichText = blok?.rich_text?.content?.some((node: any) =>
-		node?.content?.some((inner: any) => inner?.text?.trim() !== "")
-	);
+		// detect if there is any content in rich_text
+		const hasRichText =
+			!!blok?.rich_text && typeof blok.rich_text === "object" && JSON.stringify(blok.rich_text).length > 20; // cheap check to avoid empty nodes
 
-	if (hasRichText) {
-		combinedArray.push({ type: "richText" });
-	}
+		if (hasRichText) arr.push({ type: "richText" });
+		return arr;
+	}, [blok.modalDetail, blok.rich_text]);
 
-	function getEmbedUrl(url: any) {
+	function getEmbedUrl(url: string) {
 		const videoId = url.split("v=")[1] || url.split("/").pop();
 		return `https://www.youtube.com/embed/${videoId}`;
 	}
@@ -169,7 +240,7 @@ export function ProjectModal({ handleModal, blok }: { handleModal: any; blok: an
 	const handlePreviousSlide = () =>
 		currentSlide > 1 ? setCurrentSlide(currentSlide - 1) : setCurrentSlide(combinedArray.length);
 
-	const handleMouseArrow = (event: any) => {
+	const handleMouseArrow = (event: MouseEvent) => {
 		event.clientX > window.innerWidth / 2 ? setWindowSide("right") : setWindowSide("left");
 
 		if (cursor.current) {
