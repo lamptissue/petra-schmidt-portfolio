@@ -144,51 +144,11 @@ export function ProjectModal({ handleModal, blok }: { handleModal: () => void; b
 
 	const cursor = useRef<HTMLDivElement>(null);
 
-	// const combinedArray: any = [];
-	// if (blok.modalDetail) {
-	// 	blok.modalDetail.forEach((item: any) => {
-	// 		if (item.component === "projectModalImage") {
-	// 			combinedArray.push({
-	// 				type: "image",
-	// 				id: item.image.id,
-	// 				filename: item.image.filename,
-	// 				alt: item.image.alt,
-	// 			});
-	// 		} else if (item.component === "projectModalText") {
-	// 			combinedArray.push({
-	// 				text: item.text,
-	// 				type: "text",
-	// 			});
-	// 		} else if (item.component === "multiasset") {
-	// 			item.image.forEach((img: any) => {
-	// 				combinedArray.push({
-	// 					type: "image",
-	// 					id: img.id,
-	// 					filename: img.filename,
-	// 				});
-	// 			});
-	// 		} else if (item.component === "project_modal_video") {
-	// 			const embedUrl = getEmbedUrl(item.video);
-	// 			combinedArray.push({ type: "video", videoUrl: embedUrl });
-	// 		}
-	// 	});
-	// }
-
-	// const hasRichText = blok?.rich_text?.content?.some((node: any) =>
-	// 	node?.content?.some((inner: any) => inner?.text?.trim() !== "")
-	// );
-
-	// if (hasRichText) {
-	// 	combinedArray.push({ type: "richText" });
-	// }
-
 	useEffect(() => {
 		const mql = window.matchMedia("(max-width: 768px)");
 
-		// set once from the current query list
 		setIsNarrowScreen(mql.matches);
 
-		// listen only for events
 		const handler = (e: MediaQueryListEvent) => {
 			setIsNarrowScreen(e.matches);
 		};
@@ -217,7 +177,6 @@ export function ProjectModal({ handleModal, blok }: { handleModal: () => void; b
 			}
 		});
 
-		// detect if there is any content in rich_text
 		const hasRichText =
 			!!blok?.rich_text && typeof blok.rich_text === "object" && JSON.stringify(blok.rich_text).length > 20; // cheap check to avoid empty nodes
 

@@ -32,10 +32,19 @@ export function ArrowUp() {
 
 export function Arrow() {
 	return (
-		<svg xmlns='http://www.w3.org/2000/svg' width='90' height='40' fill='none' viewBox='0 0 82 18'>
-			<path fill='#fff' d='M4 10h76c2 0 2-3 0-3H4c-2 0-2 3 0 3Z' />
-			<path fill='#fff' d='m3 10 6 6h3v-2L6 8 5 7H3v3Z' />
-			<path fill='#fff' d='M9 0 3 6v3h2l6-6h1V0H9Z' />
+		<svg xmlns='http://www.w3.org/2000/svg' width='102' height='18' fill='none' viewBox='0 0 102 18'>
+			<path
+				d='M3.6 9.94h84.03c3.88 0 7.8.17 11.67 0h.17c1.93 0 1.93-3 0-3H15.44c-3.88 0-7.8-.17-11.67 0H3.6c-1.93 0-1.93 3 0 3Z'
+				fill='#fff'
+			/>
+			<path
+				d='m2.54 9.5 6.04 6.04.86.86c.56.56 1.57.6 2.12 0s.59-1.53 0-2.12L5.52 8.24l-.86-.86c-.56-.56-1.57-.6-2.12 0s-.59 1.53 0 2.12Z'
+				fill='#fff'
+			/>
+			<path
+				d='M9.43.42 3.4 6.46l-.86.86c-.56.56-.6 1.57 0 2.12s1.53.59 2.12 0L10.7 3.4l.86-.86c.56-.56.6-1.57 0-2.12s-1.53-.59-2.12 0Z'
+				fill='#fff'
+			/>
 		</svg>
 	);
 }
