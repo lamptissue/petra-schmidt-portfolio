@@ -5,17 +5,17 @@ import { Instagram, LinkedIn, Cross } from "../Icons";
 type SocialLink = { url?: string };
 type EmailField = { email?: string };
 
-type ContactBlok = {
-	phone?: string;
-	about?: string;
-	email?: EmailField;
-	instagram?: SocialLink;
-	linkedin?: SocialLink;
-	_editable?: string;
-};
+// type ContactBlok = {
+// 	phone?: string;
+// 	about?: string;
+// 	email?: EmailField;
+// 	instagram?: SocialLink;
+// 	linkedin?: SocialLink;
+// 	_editable?: string;
+// };
 
 type Props = {
-	blok: ContactBlok | null;
+	blok: any;
 	isContactOpen: boolean;
 	handleContact: () => void;
 };
@@ -27,7 +27,7 @@ const Contact = ({ blok, isContactOpen, handleContact }: Props) => {
 	formattedNumber = formattedNumber?.replace(/\(0\)/, "");
 
 	return (
-		<div className={`contact__container ${isContactOpen ? "contact__open" : ""}`} {...storyblokEditable(blok || {})}>
+		<div className={`contact__container ${isContactOpen ? "contact__open" : ""}`} {...storyblokEditable(blok)}>
 			<div className='contact__wrapper'>
 				<button onClick={handleContact} className='contact__cross' aria-label='close'>
 					<Cross />

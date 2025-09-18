@@ -81,6 +81,7 @@ export default function Home({ data }: HomeProps) {
 	const handleContact = () => setIsContactOpen((prevState) => !prevState);
 
 	const rawBody = liveStory?.content?.body ?? [];
+
 	const body: BodyBlok[] = Array.isArray(rawBody) ? (rawBody as BodyBlok[]) : [];
 
 	const landingBlok = body.find((b): b is LandingPageBlok => b.component === "landingPage") ?? null;
