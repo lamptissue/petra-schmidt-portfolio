@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
-import type React from "react";
-import { useStoryblokState, type ISbStoryData } from "@storyblok/react";
+import { useStoryblokState } from "@storyblok/react";
 
 import Contact from "@/components/Contact";
 import Header from "@/components/Header";
@@ -12,28 +11,14 @@ import ScrollToTop from "@/components/ScrollToTop";
 
 import { useBodyOverflow } from "@/components/hooks/useBodyOverflow";
 
-type BaseBlok = { _uid: string; component: string } & Record<string, unknown>;
-type LandingPageBlok = BaseBlok & { component: "landingPage"; text?: string; title?: string };
-type ContactBlok = BaseBlok & { component: "contact"; phone?: string };
-type ProjectBlok = BaseBlok & {
-	component: "project";
-	projectTitle: string;
-	year?: number;
-	backgroundImage?: { filename: string; alt?: string };
-};
-type BodyBlok = LandingPageBlok | ContactBlok | ProjectBlok;
-type StoryContent = { body?: BodyBlok[] };
-
-type HomeProps = { data: ISbStoryData<StoryContent> };
-
-export default function Home({ data }: HomeProps) {
+export default function Home({ data }: { data: any }) {
 	const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 	const [isContactOpen, setIsContactOpen] = useState<boolean>(false);
 	const [activeItem, setActiveItem] = useState<string>("");
 	const [isLargeHeader, setIsLargeHeader] = useState<boolean>(true);
 	const [showScrollButton, setShowScrollButton] = useState<boolean>(false);
 
-	const liveStory = useStoryblokState<StoryContent>(data);
+	const liveStory = useStoryblokState<any>(data);
 
 	const refScrollUp = useRef<HTMLDivElement | null>(null);
 
@@ -80,16 +65,13 @@ export default function Home({ data }: HomeProps) {
 
 	const handleContact = () => setIsContactOpen((prevState) => !prevState);
 
-	const rawBody = liveStory?.content?.body ?? [];
+	const landingBlok = liveStory?.content?.body.find((item: any) => item.component === "landingPage");
 
-	const body: BodyBlok[] = Array.isArray(rawBody) ? (rawBody as BodyBlok[]) : [];
+	const contactBlok = liveStory?.content?.body.find((item: any) => item.component === "contact");
 
-	const landingBlok = body.find((b): b is LandingPageBlok => b.component === "landingPage") ?? null;
-	const contactBlok = body.find((b): b is ContactBlok => b.component === "contact") ?? null;
-
-	const projectBlok: ProjectBlok[] = body
-		.filter((b): b is ProjectBlok => b.component === "project")
-		.sort((a, b) => (b.year ?? 0) - (a.year ?? 0));
+	const projectBlok = liveStory?.content?.body
+		.filter((item: any) => item.component === "project")
+		.sort((a: any, b: any) => (b.year ?? 0) - (a.year ?? 0));
 
 	return (
 		<>
@@ -102,13 +84,14 @@ export default function Home({ data }: HomeProps) {
 				activeItem={activeItem}
 				handleContact={handleContact}
 			/>
+
 			<Contact blok={contactBlok} isContactOpen={isContactOpen} handleContact={handleContact} />
 
 			<main onScroll={(e) => handlePageScroll(e)}>
 				<div ref={refScrollUp}></div>
-				{landingBlok && <LandingPage blok={landingBlok} />}{" "}
-				{projectBlok?.map((item) => {
-					return <Project key={item._uid} blok={item as any} setActiveItem={setActiveItem} />;
+				<LandingPage blok={landingBlok} />
+				{projectBlok?.map((item: any) => {
+					return <Project key={item._uid} blok={item} setActiveItem={setActiveItem} />;
 				})}
 				<ScrollToTop showScrollButton={showScrollButton} scrollUp={handleScrollUp} />
 			</main>
