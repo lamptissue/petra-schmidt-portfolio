@@ -1,13 +1,7 @@
 import { storyblokEditable } from "@storyblok/react";
 import "./styles.scss";
 
-type LandingPageBlok = {
-	text?: string;
-	title?: string;
-	_editable?: string;
-};
-
-export default function LandingPage({ blok }: { blok: LandingPageBlok }) {
+export default function LandingPage({ blok }: { blok: any }) {
 	return (
 		<section {...storyblokEditable(blok)} className='home-background'>
 			<div className='introduction-paragraph'>

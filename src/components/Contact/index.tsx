@@ -1,18 +1,6 @@
 import { storyblokEditable } from "@storyblok/react";
-import "./styles.scss";
 import { Instagram, LinkedIn, Cross } from "../Icons";
-
-type SocialLink = { url?: string };
-type EmailField = { email?: string };
-
-// type ContactBlok = {
-// 	phone?: string;
-// 	about?: string;
-// 	email?: EmailField;
-// 	instagram?: SocialLink;
-// 	linkedin?: SocialLink;
-// 	_editable?: string;
-// };
+import "./styles.scss";
 
 type Props = {
 	blok: any;
