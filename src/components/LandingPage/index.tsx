@@ -7,9 +7,9 @@ type LandingPageBlok = {
 	_editable?: string;
 };
 
-export default function LandingPage({ blok }: { blok: LandingPageBlok | null }) {
+export default function LandingPage({ blok }: { blok: LandingPageBlok }) {
 	return (
-		<section {...storyblokEditable(blok || {})} className='home-background'>
+		<section {...storyblokEditable(blok)} className='home-background'>
 			<div className='introduction-paragraph'>
 				<h2 className='text-h6'>{blok?.text}</h2>
 			</div>

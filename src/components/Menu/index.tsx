@@ -6,15 +6,15 @@ import Image from "next/image";
 
 import "./styles.scss";
 
-type MenuProject = {
-	_uid: string;
-	projectTitle: string;
-	year?: number;
-	backgroundImage?: { filename: string; alt?: string };
-};
+// type MenuProject = {
+// 	_uid: string;
+// 	projectTitle: string;
+// 	year?: number;
+// 	backgroundImage?: { filename: string; alt?: string };
+// };
 
 type Props = {
-	data: MenuProject[];
+	data: any;
 	isMenuOpen: boolean;
 	handleMenu: () => void;
 	handleContact: () => void;
@@ -37,25 +37,11 @@ export default function Menu({ data, isMenuOpen, handleMenu, handleContact, acti
 		}
 	};
 
-	// const groupedProjects = data?.reduce((acc: any, project: any) => {
-	// 	const { year } = project;
-	// 	if (!acc[year]) {
-	// 		acc[year] = [];
-	// 	}
-	// 	acc[year].push({
-	// 		projectTitle: project.projectTitle,
-	// 		image: project.backgroundImage.filename,
-	// 		id: project._uid,
-	// 	});
-	// 	return acc;
-	// }, {});
-
 	const groupedProjects = useMemo(() => {
 		if (!Array.isArray(data)) return {} as Grouped;
 		return data.reduce<Grouped>((acc, project) => {
 			const year = project.year ?? 0;
 			if (!acc[year]) acc[year] = [];
-			// Only add projects that have a background image
 			if (project.backgroundImage) {
 				acc[year].push({
 					projectTitle: project.projectTitle,
@@ -73,7 +59,7 @@ export default function Menu({ data, isMenuOpen, handleMenu, handleContact, acti
 
 	return (
 		<>
-			<div {...storyblokEditable({ body: data } as any)} className={`main-navigation ${isMenuOpen ? "open" : ""}`}>
+			<div {...storyblokEditable(data)} className={`main-navigation ${isMenuOpen ? "open" : ""}`}>
 				<div className='main-navigation__contact--container'>
 					<span className='main-navigation__contact' onClick={handleContact}>
 						Contact
@@ -107,7 +93,7 @@ export default function Menu({ data, isMenuOpen, handleMenu, handleContact, acti
 
 			{isMenuOpen && (
 				<div className='preview__container' onClick={handleMenu}>
-					{data.map((item) => {
+					{data.map((item: any) => {
 						if (!item.backgroundImage) return null;
 						const isPortrait = getDimensions(item.backgroundImage.filename);
 						return (
