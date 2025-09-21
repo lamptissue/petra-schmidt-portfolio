@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useMemo } from "react";
 import { useStoryblokState } from "@storyblok/react";
 
 import Contact from "@/components/Contact";
@@ -12,6 +12,22 @@ import ScrollToTop from "@/components/ScrollToTop";
 import { useBodyOverflow } from "@/components/hooks/useBodyOverflow";
 
 export default function Home({ data }: { data: any }) {
+	const landingPageColours = [
+		["0, 100%, 84%", "153, 68%, 73%", "48, 67%, 68%", "0, 62%, 64%"],
+		["200, 60%, 85%", "135, 50%, 80%", "300, 45%, 75%", "45, 70%, 80%"],
+		["18, 100%, 70%", "83, 63%, 64%", "210, 59%, 83%", "100, 39%, 68%"],
+		["81, 25%, 73%", "50, 56%, 81%", "284, 55%, 85%", "164, 35%, 64%"],
+		["49, 78%, 51%", "29, 89%, 64%", "45, 68%, 67%", "100, 39%, 68%"],
+	];
+
+	const bg = useMemo(() => landingPageColours[Math.floor(Math.random() * landingPageColours.length)], []);
+	const style: React.CSSProperties = {
+		["--background-color-1" as any]: bg[0],
+		["--background-color-2" as any]: bg[1],
+		["--background-color-3" as any]: bg[2],
+		["--background-color-4" as any]: bg[3],
+	};
+
 	const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 	const [isContactOpen, setIsContactOpen] = useState<boolean>(false);
 	const [activeItem, setActiveItem] = useState<string>("");
@@ -74,7 +90,7 @@ export default function Home({ data }: { data: any }) {
 		.sort((a: any, b: any) => (b.year ?? 0) - (a.year ?? 0));
 
 	return (
-		<>
+		<div style={style}>
 			<Header onMenuClick={handleMenu} isLargeHeader={isLargeHeader} />
 
 			<Menu
@@ -95,6 +111,6 @@ export default function Home({ data }: { data: any }) {
 				})}
 				<ScrollToTop showScrollButton={showScrollButton} scrollUp={handleScrollUp} />
 			</main>
-		</>
+		</div>
 	);
 }

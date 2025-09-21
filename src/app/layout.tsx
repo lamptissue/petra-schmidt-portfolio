@@ -1,7 +1,6 @@
 import { Poppins } from "next/font/google";
 
 import "./global.scss";
-import BgVars from "./Bgvars";
 
 const poppins = Poppins({
 	weight: ["300", "400", "500", "600"],
@@ -15,9 +14,7 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang='en'>
-			<body className={poppins.className}>
-				<BgVars>{children}</BgVars>
-			</body>
+			<body className={poppins.className}>{children}</body>
 		</html>
 	);
 }
