@@ -20,13 +20,22 @@ export default function Home({ data }: { data: any }) {
 		["49, 78%, 51%", "29, 89%, 64%", "45, 68%, 67%", "100, 39%, 68%"],
 	];
 
-	const bg = useMemo(() => landingPageColours[Math.floor(Math.random() * landingPageColours.length)], []);
-	const style: React.CSSProperties = {
-		["--background-color-1" as any]: bg[0],
-		["--background-color-2" as any]: bg[1],
-		["--background-color-3" as any]: bg[2],
-		["--background-color-4" as any]: bg[3],
-	};
+	useEffect(() => {
+		const next = landingPageColours[Math.floor(Math.random() * landingPageColours.length)];
+
+		const root = document.documentElement;
+		root.style.setProperty("--background-color-1", next[0]);
+		root.style.setProperty("--background-color-2", next[1]);
+		root.style.setProperty("--background-color-3", next[2]);
+		root.style.setProperty("--background-color-4", next[3]);
+
+		return () => {
+			root.style.removeProperty("--background-color-1");
+			root.style.removeProperty("--background-color-2");
+			root.style.removeProperty("--background-color-3");
+			root.style.removeProperty("--background-color-4");
+		};
+	}, []);
 
 	const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 	const [isContactOpen, setIsContactOpen] = useState<boolean>(false);
@@ -90,7 +99,7 @@ export default function Home({ data }: { data: any }) {
 		.sort((a: any, b: any) => (b.year ?? 0) - (a.year ?? 0));
 
 	return (
-		<div style={style}>
+		<>
 			<Header onMenuClick={handleMenu} isLargeHeader={isLargeHeader} />
 
 			<Menu
@@ -111,6 +120,6 @@ export default function Home({ data }: { data: any }) {
 				})}
 				<ScrollToTop showScrollButton={showScrollButton} scrollUp={handleScrollUp} />
 			</main>
-		</div>
+		</>
 	);
 }
