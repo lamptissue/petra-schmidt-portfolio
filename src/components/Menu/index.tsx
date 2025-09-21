@@ -6,13 +6,6 @@ import Image from "next/image";
 
 import "./styles.scss";
 
-// type MenuProject = {
-// 	_uid: string;
-// 	projectTitle: string;
-// 	year?: number;
-// 	backgroundImage?: { filename: string; alt?: string };
-// };
-
 type Props = {
 	data: any;
 	isMenuOpen: boolean;
