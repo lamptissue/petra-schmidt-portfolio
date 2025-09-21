@@ -7,8 +7,8 @@ export function useBlurBase(image?: string) {
 
 	const tinyUrl = useMemo(() => {
 		if (!image) return null;
-		const imageSrc = `${image}/m/`;
-		return `${imageSrc}16x0/filters:quality(20):format(webp)`;
+
+		return `${image}/m/fit-in/24x0/filters:quality(20):format(webp)`;
 	}, [image]);
 
 	useEffect(() => {
