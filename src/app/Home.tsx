@@ -36,7 +36,6 @@ export default function Home({ data }: { data: any }) {
 	}, [isMenuOpen, activeItem]);
 
 	const handlePageScroll = (e: React.UIEvent<HTMLElement>) => {
-		// Throttle scroll handler to run at most every 50ms
 		const now = Date.now();
 		if (now - lastScrollTime.current < 50) return;
 		lastScrollTime.current = now;
