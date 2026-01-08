@@ -21,6 +21,7 @@ export default function Home({ data }: { data: any }) {
 	const liveStory = useStoryblokState<any>(data);
 
 	const refScrollUp = useRef<HTMLDivElement | null>(null);
+	const lastScrollTime = useRef<number>(0);
 
 	const handleScrollUp = () => {
 		refScrollUp.current?.scrollIntoView({ behavior: "smooth" });
@@ -35,6 +36,11 @@ export default function Home({ data }: { data: any }) {
 	}, [isMenuOpen, activeItem]);
 
 	const handlePageScroll = (e: React.UIEvent<HTMLElement>) => {
+		// Throttle scroll handler to run at most every 50ms
+		const now = Date.now();
+		if (now - lastScrollTime.current < 50) return;
+		lastScrollTime.current = now;
+
 		const top = e.currentTarget.scrollTop;
 
 		if (top <= window.innerHeight - 200) {
@@ -75,7 +81,7 @@ export default function Home({ data }: { data: any }) {
 
 	return (
 		<>
-			<Header onMenuClick={handleMenu} isLargeHeader={isLargeHeader} />
+			<Header onMenuClick={handleMenu} isLargeHeader={isLargeHeader} isMenuOpen={isMenuOpen} />
 
 			<Menu
 				isMenuOpen={isMenuOpen}
@@ -90,8 +96,8 @@ export default function Home({ data }: { data: any }) {
 			<main onScroll={(e) => handlePageScroll(e)}>
 				<div ref={refScrollUp}></div>
 				<LandingPage blok={landingBlok} />
-				{projectBlok?.map((item: any) => {
-					return <Project key={item._uid} blok={item} setActiveItem={setActiveItem} />;
+				{projectBlok?.map((item: any, index: number) => {
+					return <Project key={item._uid} blok={item} setActiveItem={setActiveItem} isFirst={index === 0} />;
 				})}
 				<ScrollToTop showScrollButton={showScrollButton} scrollUp={handleScrollUp} />
 			</main>

@@ -29,12 +29,16 @@ const Contact = ({ blok, isContactOpen, handleContact }: Props) => {
 					{blok?.email?.email && <a href={`mailto:${blok.email.email}`}>{blok?.email.email}</a>}
 					<div className='socials__links'>
 						{blok?.instagram?.url && (
-							<a href={blok.instagram.url} target='_blank' rel='noopener noreferrer'>
+							<a
+								href={blok.instagram.url}
+								aria-label='Link to Instagram page'
+								target='_blank'
+								rel='noopener noreferrer'>
 								<Instagram />
 							</a>
 						)}
 						{blok?.linkedin?.url && (
-							<a href={blok.linkedin.url} target='_blank' rel='noopener noreferrer'>
+							<a href={blok.linkedin.url} target='_blank' aria-label='Link to LinkedIn page' rel='noopener noreferrer'>
 								<LinkedIn />
 							</a>
 						)}

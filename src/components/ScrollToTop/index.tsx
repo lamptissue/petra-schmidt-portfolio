@@ -8,7 +8,10 @@ type Props = {
 
 export default function ScrollToTop({ showScrollButton, scrollUp }: Props) {
 	return (
-		<button onClick={scrollUp} className={`scroll__icon ${showScrollButton ? "show" : ""}`}>
+		<button
+			onClick={scrollUp}
+			aria-label='scroll to the top of the page'
+			className={`scroll__icon ${showScrollButton ? "show" : ""}`}>
 			<ArrowUp />
 		</button>
 	);

@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 
-const TINY_PIXEL = "data:image/gif;base64,R0lGODlhAQABAAAAACw=";
+const TINY_PIXEL = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
 
 export function useBlurBase(image?: string) {
 	const [blur, setBlur] = useState<string>(TINY_PIXEL);

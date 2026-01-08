@@ -54,9 +54,12 @@ export default function Menu({ data, isMenuOpen, handleMenu, handleContact, acti
 		<>
 			<div {...storyblokEditable(data)} className={`main-navigation ${isMenuOpen ? "open" : ""}`}>
 				<div className='main-navigation__contact--container'>
-					<span className='main-navigation__contact' onClick={handleContact}>
+					<button
+						className='main-navigation__contact'
+						onClick={handleContact}
+						aria-label='Open contact information'>
 						Contact
-					</span>
+					</button>
 				</div>
 				<div className='main-navigation__nav--wrapper'>
 					<div className='main-navigation__nav'>
@@ -70,9 +73,19 @@ export default function Menu({ data, isMenuOpen, handleMenu, handleContact, acti
 										{projects.map((item) => (
 											<li
 												key={item.id}
+												tabIndex={0}
+												role='button'
 												onMouseEnter={() => setPreviewImage(item.projectTitle)}
 												onMouseLeave={() => setPreviewImage("")}
-												onClick={() => handleClick(item.projectTitle)}>
+												onFocus={() => setPreviewImage(item.projectTitle)}
+												onBlur={() => setPreviewImage("")}
+												onClick={() => handleClick(item.projectTitle)}
+												onKeyDown={(e) => {
+													if (e.key === "Enter" || e.key === " ") {
+														e.preventDefault();
+														handleClick(item.projectTitle);
+													}
+												}}>
 												<span className={activeItem === item.projectTitle ? "active" : ""}>{item.projectTitle}</span>
 											</li>
 										))}

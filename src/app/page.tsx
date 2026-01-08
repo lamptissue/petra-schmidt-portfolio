@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import { cache } from "react";
 import { getStoryblokApi } from "@/lib/storyblok";
 
+export const revalidate = 60;
+
 export async function generateMetadata(): Promise<Metadata> {
 	const { data } = await fetchData();
 	const story = data.story;

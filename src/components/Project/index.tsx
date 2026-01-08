@@ -34,9 +34,10 @@ type ProjectBlok = {
 type ProjectProps = {
 	blok: ProjectBlok;
 	setActiveItem: (slug: string) => void;
+	isFirst?: boolean;
 };
 
-export default function Project({ blok, setActiveItem }: ProjectProps) {
+export default function Project({ blok, setActiveItem, isFirst = false }: ProjectProps) {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	const ref = useRef<HTMLElement | null>(null);
@@ -107,6 +108,7 @@ export default function Project({ blok, setActiveItem }: ProjectProps) {
 						sizes={`(max-width: 768px) ${isPortrait ? "45vw" : "100vw"}, ${isPortrait ? "45vw" : "100vw"}`}
 						placeholder='blur'
 						blurDataURL={blurImage}
+						priority={isFirst}
 					/>
 				</div>
 			</section>
@@ -126,21 +128,6 @@ export function ProjectModal({ handleModal, blok }: { handleModal: () => void; b
 	const [hideArrowCursor, setHideArrowCursor] = useState<boolean>(false);
 	const [windowSide, setWindowSide] = useState("");
 	const [isNarrowScreen, setIsNarrowScreen] = useState(false);
-
-	useEffect(() => {
-		const mediaWatcher = window.matchMedia("(max-width: 768px)");
-
-		const updateIsNarrowScreen = (e: any) => {
-			setIsNarrowScreen(e.matches);
-		};
-
-		mediaWatcher.addEventListener("change", updateIsNarrowScreen);
-
-		updateIsNarrowScreen(mediaWatcher);
-		return function cleanup() {
-			mediaWatcher.removeEventListener("change", updateIsNarrowScreen);
-		};
-	});
 
 	const cursor = useRef<HTMLDivElement>(null);
 
@@ -215,25 +202,43 @@ export function ProjectModal({ handleModal, blok }: { handleModal: () => void; b
 		};
 	}, []);
 
+	// Handle ESC key and arrow key navigation
+	useEffect(() => {
+		const handleKeyDown = (e: KeyboardEvent) => {
+			if (e.key === "Escape") {
+				handleModal();
+			} else if (e.key === "ArrowLeft") {
+				handlePreviousSlide();
+			} else if (e.key === "ArrowRight") {
+				handleNextSlide();
+			}
+		};
+
+		document.addEventListener("keydown", handleKeyDown);
+		return () => {
+			document.removeEventListener("keydown", handleKeyDown);
+		};
+	}, [handleModal, handlePreviousSlide, handleNextSlide]);
+
 	return (
-		<div className='project-modal__container'>
-			<div
+		<div className='project-modal__container' role='dialog' aria-modal='true' aria-label={blok.projectTitle}>
+			<button
 				className='project-modal__cross'
-				aria-label='close'
+				aria-label='Close modal'
 				onClick={handleModal}
 				onMouseEnter={() => setHideArrowCursor(true)}
 				onMouseLeave={() => setHideArrowCursor(false)}>
 				<Cross />
-			</div>
+			</button>
 			<div className='project-modal__wrapper'>
 				<Sidebar blok={blok} combinedArray={combinedArray} currentSlide={currentSlide} />
 				{!isNarrowScreen && (
 					<>
-						<div
+						<button
 							className='left-arrow arrow__container'
 							onClick={handlePreviousSlide}
-							aria-label='Previous slide'></div>
-						<div className='right-arrow arrow__container' onClick={handleNextSlide} aria-label='Next slide'></div>
+							aria-label='Previous slide'></button>
+						<button className='right-arrow arrow__container' onClick={handleNextSlide} aria-label='Next slide'></button>
 					</>
 				)}
 				{combinedArray.length > 0 && (
@@ -246,6 +251,7 @@ export function ProjectModal({ handleModal, blok }: { handleModal: () => void; b
 									style={{
 										objectFit: "contain",
 									}}
+									sizes="(max-width: 768px) 100vw, 80vw"
 									alt={currentItem.alt || ""}
 									placeholder='blur'
 									blurDataURL={blurImage}
@@ -264,17 +270,17 @@ export function ProjectModal({ handleModal, blok }: { handleModal: () => void; b
 
 				{isNarrowScreen && (
 					<>
-						<div onClick={handlePreviousSlide} className='chevron-container left-arrow '>
+						<button onClick={handlePreviousSlide} className='chevron-container left-arrow' aria-label='Previous slide'>
 							<div className='chevron'>
 								<Chevron />
 							</div>
-						</div>
+						</button>
 
-						<div onClick={handleNextSlide} className='chevron-container right-arrow'>
+						<button onClick={handleNextSlide} className='chevron-container right-arrow' aria-label='Next slide'>
 							<div className='chevron'>
 								<Chevron />
 							</div>
-						</div>
+						</button>
 					</>
 				)}
 				{!hideArrowCursor && !isNarrowScreen && (
